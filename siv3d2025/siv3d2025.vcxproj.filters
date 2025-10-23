@@ -136,6 +136,24 @@
     <Filter Include="Resource Files\engine\font\min">
       <UniqueIdentifier>{1b103960-f11a-4515-b4f1-f59333ce00d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{1946102c-1822-4e33-93ee-a61a1ae94cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene">
+      <UniqueIdentifier>{8c2cba64-a173-4c04-bbbc-a5ab94ff9a57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Title">
+      <UniqueIdentifier>{a13734c8-16c1-4e32-9cb6-1f2338536494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage">
+      <UniqueIdentifier>{e62659ed-f132-4300-8db8-7b4fcc89a0fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Context">
+      <UniqueIdentifier>{156839a5-e0f5-4fc3-b395-bd84b77b85b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage\StageA">
+      <UniqueIdentifier>{ca21106a-7f56-49ae-a8a1-79cea6926d6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -143,6 +161,24 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Source Files\Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Source Files\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGroup.cpp">
+      <Filter>Source Files\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBaseContext.cpp">
+      <Filter>Source Files\Game\Scene\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="StageA.cpp">
+      <Filter>Source Files\Game\Scene\Stage\StageA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -808,6 +844,24 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Source Files\Game\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Source Files\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGroup.h">
+      <Filter>Source Files\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBaseContext.h">
+      <Filter>Source Files\Game\Scene\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="StageA.h">
+      <Filter>Source Files\Game\Scene\Stage\StageA</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
