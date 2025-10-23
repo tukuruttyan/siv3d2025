@@ -6,7 +6,7 @@ namespace GameCore
 	class SceneBase
 	{
 	public:
-		SceneBase(const SceneBaseContext& context);
+		SceneBase(SceneBaseContext context);
 		virtual ~SceneBase() = default;
 		virtual void OnEnter() = 0;
 		virtual void Update () = 0;
@@ -15,12 +15,12 @@ namespace GameCore
 	protected:
 		//NOTE: 以下サンドボックスパターン
 		template<typename T>
-		void ChangeScene()
+		void OnChangeScene()
 		{
 			m_context.OnChangeScene(typeid(T));
 		}
 
 	private:
-		const SceneBaseContext& m_context;
+		const SceneBaseContext m_context;
 	};
 }

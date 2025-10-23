@@ -4,9 +4,9 @@
 namespace GameCore
 {
 	Game::Game()
-		: m_sceneGroup([this](const std::type_index& changeSceneType) { ChangeScene(changeSceneType); })
+		: m_sceneGroup([this](const std::type_index& changeSceneType) { OnChangeScene(changeSceneType); })
 	{
-		ChangeScene(typeid(TitleScene));
+		OnChangeScene(typeid(TitleScene));
 	}
 
 	void Game::RunAsync()
@@ -17,13 +17,17 @@ namespace GameCore
 		}
 	}
 
-	void Game::ChangeScene(const std::type_index& typeIndex)
+	void Game::OnChangeScene(const std::type_index& typeIndex)
 	{
 		if (m_currentScene)
 		{
 			m_currentScene->OnExit();
 		}
 		m_currentScene = m_sceneGroup.Catch(typeIndex);
+		if (!m_currentScene)
+		{
+			throw std::runtime_error("Scene not found: typeIndex is invalid or unregistered.");
+		}
 		if (m_currentScene)
 		{
 			m_currentScene->OnEnter();

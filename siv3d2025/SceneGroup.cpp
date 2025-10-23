@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 #include "SceneGroup.h"
 #include "TitleScene.h"
+#include "StageA.h"
 
 namespace GameCore
 {
-	SceneGroup::SceneGroup(const std::function<void(const std::type_index&)>& onChangeScene)
+	SceneGroup::SceneGroup(std::function<void(const std::type_index&)> onChangeScene)
 	{
-		const SceneBaseContext sceneBaseContext(onChangeScene);
-
-		AddScene(std::make_shared<TitleScene>(sceneBaseContext));
+		AddScene(std::make_shared<TitleScene>(SceneBaseContext(onChangeScene)));
+		AddScene(std::make_shared<StageA	>(SceneBaseContext(onChangeScene)));
 	}
 
 	std::shared_ptr<SceneBase> SceneGroup::Catch(const std::type_index& typeIndex)

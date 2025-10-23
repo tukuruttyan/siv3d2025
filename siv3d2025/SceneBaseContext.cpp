@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "SceneBaseContext.h"
 
-GameCore::SceneBaseContext::SceneBaseContext(std::function<void(const std::type_index&)> m_onChangeScene)
-	: m_onChangeScene(std::move(m_onChangeScene))
+GameCore::SceneBaseContext::SceneBaseContext(std::function<void(const std::type_index&)> onChangeScene)
+	: m_onChangeScene(std::move(onChangeScene))
 {
 }
 

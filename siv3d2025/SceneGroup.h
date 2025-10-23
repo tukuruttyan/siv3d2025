@@ -9,7 +9,7 @@ namespace GameCore
 	class SceneGroup final
 	{
 	public:
-		SceneGroup(const std::function<void(const std::type_index&)>& onChangeScene);
+		SceneGroup(std::function<void(const std::type_index&)> onChangeScene);
 
 		std::shared_ptr<SceneBase> Catch(const std::type_index& typeIndex);
 

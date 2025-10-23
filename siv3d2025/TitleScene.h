@@ -14,8 +14,6 @@ namespace GameCore
 		void Update () override;
 		void OnExit () override;
 
-		s3d::Texture m_texture;
-		s3d::Texture m_emoji;
 		s3d::Font    m_font;
 		int32        m_count = 0;
 		bool         m_checked = false;
