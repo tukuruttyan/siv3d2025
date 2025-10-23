@@ -12,7 +12,7 @@ namespace GameCore
 		void RunAsync();
 
 	private:
-		void ChangeScene(const std::type_index& typeIndex);
+		void OnChangeScene(const std::type_index& typeIndex);
 
 		SceneGroup m_sceneGroup;
 		std::shared_ptr<SceneBase> m_currentScene = nullptr;

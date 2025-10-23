@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SceneBase.h"
 
-GameCore::SceneBase::SceneBase(const SceneBaseContext& context)
+GameCore::SceneBase::SceneBase(SceneBaseContext context)
 		: m_context(context)
 {
 	
