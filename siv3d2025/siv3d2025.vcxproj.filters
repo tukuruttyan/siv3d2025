@@ -151,8 +151,26 @@
     <Filter Include="Source Files\Game\Scene\Context">
       <UniqueIdentifier>{156839a5-e0f5-4fc3-b395-bd84b77b85b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\Scene\Stage\StageA">
+    <Filter Include="Source Files\Game\Scene\StageSelect">
+      <UniqueIdentifier>{a165f213-8ae1-42ec-8dec-3d8b643b15ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\StageSelect\Player">
+      <UniqueIdentifier>{f4c66094-b9ee-4592-966d-2b09208a88e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage\StageScene">
       <UniqueIdentifier>{ca21106a-7f56-49ae-a8a1-79cea6926d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashFactory">
+      <UniqueIdentifier>{dadf4ad8-52f3-4b30-87bf-33e08394d51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashEnemy">
+      <UniqueIdentifier>{0a3fac12-27c1-4673-9b6e-c6a1ff3234fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashEnemy\SpawnCooldown">
+      <UniqueIdentifier>{f9387872-4060-428c-afbc-451dbaaf84e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage\StageScene\Context">
+      <UniqueIdentifier>{3228ea15-4b48-4d9a-86b2-02fc53a47909}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -177,8 +195,26 @@
     <ClCompile Include="SceneBaseContext.cpp">
       <Filter>Source Files\Game\Scene\Context</Filter>
     </ClCompile>
-    <ClCompile Include="StageA.cpp">
-      <Filter>Source Files\Game\Scene\Stage\StageA</Filter>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelect.cpp">
+      <Filter>Source Files\Game\Scene\StageSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashFactory.cpp">
+      <Filter>Source Files\Game\TrashFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelectPlayer.cpp">
+      <Filter>Source Files\Game\Scene\StageSelect\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashEnemy.cpp">
+      <Filter>Source Files\Game\TrashEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnCooldown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSceneContext.cpp">
+      <Filter>Source Files\Game\Scene\Stage\StageScene\Context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -860,8 +896,26 @@
     <ClInclude Include="SceneBaseContext.h">
       <Filter>Source Files\Game\Scene\Context</Filter>
     </ClInclude>
-    <ClInclude Include="StageA.h">
-      <Filter>Source Files\Game\Scene\Stage\StageA</Filter>
+    <ClInclude Include="StageScene.h">
+      <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelect.h">
+      <Filter>Source Files\Game\Scene\StageSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashFactory.h">
+      <Filter>Source Files\Game\TrashFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelectPlayer.h">
+      <Filter>Source Files\Game\Scene\StageSelect\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashEnemy.h">
+      <Filter>Source Files\Game\TrashEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnCooldown.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSceneContext.h">
+      <Filter>Source Files\Game\Scene\Stage\StageScene\Context</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
