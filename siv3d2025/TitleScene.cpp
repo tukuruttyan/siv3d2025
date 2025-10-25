@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "TitleScene.h"
-#include "StageA.h"
+#include "StageSelect.h"
 
 GameCore::TitleScene::TitleScene(SceneBaseContext context)
 	: SceneBase{ context }
@@ -19,7 +19,7 @@ void GameCore::TitleScene::Update()
 {
 	if (SimpleGUI::Button(U"GameStart", Vec2{ 520, 370 }, 120, (m_checked == false)))
 	{
-		OnChangeScene<StageA>();
+		OnChangeScene<StageSelect>();
 	}
 }
 
