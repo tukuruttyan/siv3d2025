@@ -1,0 +1,108 @@
+﻿#pragma once
+#include "CreatureBasicParam.h"
+#include <Siv3D.hpp>
+
+namespace GameCore
+{
+	template<typename IAttackableT>
+	class CreatureBase
+	{
+	public:
+		explicit CreatureBase(CreatureBasicParam basicParam, s3d::Vec2 position);
+		virtual ~CreatureBase() = default;
+
+	private:
+		CreatureBasicParam m_basicParam;
+		s3d::Vec2 m_position;
+		float m_attackDelayDuring_secs = 0.0f;
+		float m_attackCooldownDuring_secs = 0.0f;
+		CreatureState m_state = CreatureState::Moving;
+
+	protected:
+		//NOTE: 以下サンドボックスパターン
+		s3d::RectF HitBoxColliderRect() const { return { m_position, m_basicParam.GetColliderSize() }; }
+		IAttackableT* CatchInAttackAreaTarget(const std::vector<IAttackableT*>& attackables) const;
+		void DrawDebug() const;
+		const s3d::Vec2& GetPosition() const { return m_position; }
+		const CreatureBasicParam& GetBasicParam() const { return m_basicParam; }
+		const CreatureState& GetState() const { return m_state; }
+		void UpdateMoveState(const std::vector<IAttackableT*>& attackables);
+		void UpdateAttackingState(const std::vector<IAttackableT*>& attackables);
+		void UpdateAttackCooldownState(const std::vector<IAttackableT*>& attackables);
+	};
+
+	template<typename IAttackableT>
+	inline CreatureBase<IAttackableT>::CreatureBase(CreatureBasicParam basicParam, s3d::Vec2 position)
+		: m_basicParam(basicParam), m_position(position) {
+	}
+
+	template<typename IAttackableT>
+	inline void CreatureBase<IAttackableT>::UpdateMoveState(const std::vector<IAttackableT*>& attackables)
+	{
+		m_position += s3d::Vec2::Down() * m_basicParam.GetMoveSpeed() * s3d::Scene::DeltaTime();
+
+		if (auto* target = CatchInAttackAreaTarget(attackables))
+		{
+			target->TakeOnAttack(m_basicParam.GetAttackPower());
+			m_state = CreatureState::UpdateAttackingState;
+		}
+	}
+
+	template<typename IAttackableT>
+	inline void CreatureBase<IAttackableT>::UpdateAttackingState(const std::vector<IAttackableT*>& attackables)
+	{
+		m_attackDelayDuring_secs += s3d::Scene::DeltaTime();
+
+		if (m_attackDelayDuring_secs < m_basicParam.GetAttackDelay_secs())
+			return;
+
+		if (auto* target = CatchInAttackAreaTarget(attackables))
+		{
+			target->TakeOnAttack(m_basicParam.GetAttackPower());
+			m_attackDelayDuring_secs = 0.0f;
+			m_state = CreatureState::UpdateAttackCooldownState;
+		}
+	}
+
+	template<typename IAttackableT>
+	inline void CreatureBase<IAttackableT>::UpdateAttackCooldownState(const std::vector<IAttackableT*>& attackables)
+	{
+		m_attackCooldownDuring_secs += s3d::Scene::DeltaTime();
+
+		if (m_attackCooldownDuring_secs < m_basicParam.GetAttackCooldown_secs())
+			return;
+
+		m_attackCooldownDuring_secs = 0.0f;
+
+		if (auto* target = CatchInAttackAreaTarget(attackables))
+		{
+			m_state = CreatureState::UpdateAttackingState;
+		}
+		else
+		{
+			m_state = CreatureState::Moving;
+		}
+	}
+
+	template<typename IAttackableT>
+	inline IAttackableT* CreatureBase<IAttackableT>::CatchInAttackAreaTarget(const std::vector<IAttackableT*>& attackables) const
+	{
+		const s3d::RectF attackArea{ m_position, s3d::Vec2{ m_basicParam.GetAttackRange(), m_basicParam.GetAttackRange() } };
+
+		for (auto* attackable : attackables)
+		{
+			if (attackArea.intersects(attackable->ColliderRect()))
+			{
+				return attackable;
+			}
+		}
+		return nullptr;
+	}
+	template<typename IAttackableT>
+	inline void CreatureBase<IAttackableT>::DrawDebug() const
+	{
+		HitBoxColliderRect().drawFrame(2.0, 2.0, Palette::Green);
+		const s3d::RectF attackArea{ m_position, s3d::Vec2{ m_basicParam.GetAttackRange(), m_basicParam.GetAttackRange() } };
+		attackArea.drawFrame(2.0, 2.0, Palette::Red);
+	}
+}
