@@ -19,12 +19,13 @@ namespace GameCore
 		void Update () override;
 		void OnExit () override;
 
-		const s3d::Texture m_backGround{ U"example/windmill.png" };
 		std::optional<StageSceneContext> m_context;
 		s3d::Camera2D m_camera;
 
 		SeaDeepest seaDeepest;
 		std::vector<DeepSeaFish> m_deepSeaFishes;
 		std::vector<TrashEnemy > m_trashEnemies;
+
+		Vec2 m_playerPos;
 	};
 }
