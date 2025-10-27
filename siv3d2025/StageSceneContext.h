@@ -18,6 +18,6 @@ namespace GameCore
 	private:
 		std::shared_ptr<const TrashFactory> m_trashFactory;
 		const float m_sceneHeight;
-		const double m_scrollSpeed = 200.0;
+		const double m_scrollSpeed = 300.0;
 	};
 }
