@@ -27,21 +27,7 @@ namespace GameCore
 		{
 			const auto t1 = m_camera.createTransformer();
 
-			const double dt = Scene::DeltaTime();
-			const double speed = m_context->getScrollSpeed();
-
-			// 連続移動（キー）は時間でスケール
-			double dy_continuous = (KeyDown.pressed() - KeyUp.pressed()) * speed * dt;
-
-			// ホイールはイベント量。dtは掛けない
-			double dy_wheel = Mouse::Wheel() * (speed * 0.15);
-
-			m_playerPos += Vec2(0.0, dy_continuous + dy_wheel);
-
-			// 範囲制限
-			m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
-
-			m_camera.setTargetCenter(m_playerPos);
+			UpdateScroll();
 
 			Rect{
 				Point{
@@ -56,7 +42,7 @@ namespace GameCore
 				Arg::top = Palette::Lightseagreen,
 				Arg::bottom = Palette::Darkseagreen
 			);
-			
+
 			m_context .value().getTrashFactory().Update([this](TrashEnemy enemy) { m_trashEnemies.push_back(enemy); });
 			m_context .value().getTrashFactory().Draw();
 			seaDeepest.Update([this](DeepSeaFish fish) { m_deepSeaFishes.push_back(fish); });
@@ -85,5 +71,24 @@ namespace GameCore
 
 	void StageScene::OnExit()
 	{
+	}
+
+	void StageScene::UpdateScroll()
+	{
+		const double dt = Scene::DeltaTime();
+		const double speed = m_context->getScrollSpeed();
+
+		// 連続移動（キー）は時間でスケール
+		double dy_continuous = (KeyDown.pressed() - KeyUp.pressed()) * speed * dt;
+
+		// ホイールはイベント量。dtは掛けない
+		double dy_wheel = Mouse::Wheel() * (speed * 0.15);
+
+		m_playerPos += Vec2(0.0, dy_continuous + dy_wheel);
+
+		// 範囲制限
+		m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
+
+		m_camera.setTargetCenter(m_playerPos);
 	}
 }

@@ -18,6 +18,8 @@ namespace GameCore
 		void OnEnter() override;
 		void Update () override;
 		void OnExit () override;
+		void UpdateScroll();
+
 
 		std::optional<StageSceneContext> m_context;
 		s3d::Camera2D m_camera;
