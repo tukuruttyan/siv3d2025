@@ -172,6 +172,30 @@
     <Filter Include="Source Files\Game\Scene\Stage\StageScene\Context">
       <UniqueIdentifier>{3228ea15-4b48-4d9a-86b2-02fc53a47909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\CreatureBasicParam">
+      <UniqueIdentifier>{bec0d467-1786-4278-bf40-40a542e261d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\DeepseaFish">
+      <UniqueIdentifier>{580fe5eb-867f-42c7-a9a6-2bd3cb88c3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashEnemy\Params">
+      <UniqueIdentifier>{967a8852-7800-475d-b480-0cdcbfeff4c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SeaDeepeset">
+      <UniqueIdentifier>{bee31bc5-edfa-43ba-b960-620657a84e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\ITakableSeaFishAttack">
+      <UniqueIdentifier>{e110356f-9321-415b-b351-0f2e9f15613f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\ITakableTrashEnemyAttack">
+      <UniqueIdentifier>{196a44cd-615f-4b0f-8e0d-00670ea9a33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\CreatureBase">
+      <UniqueIdentifier>{13349ec8-0109-49e6-a403-7f5c928b261b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\SpriteAnimation">
+      <UniqueIdentifier>{3aa7cab1-3c62-4529-a8ed-47b101d9ee7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -210,11 +234,32 @@
     <ClCompile Include="TrashEnemy.cpp">
       <Filter>Source Files\Game\TrashEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="SpawnCooldown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StageSceneContext.cpp">
       <Filter>Source Files\Game\Scene\Stage\StageScene\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnCooldown.cpp">
+      <Filter>Source Files\Game\TrashEnemy\SpawnCooldown</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureBasicParam.cpp">
+      <Filter>Source Files\Game\CreatureBasicParam</Filter>
+    </ClCompile>
+    <ClCompile Include="DeepSeaFish.cpp">
+      <Filter>Source Files\Game\DeepseaFish</Filter>
+    </ClCompile>
+    <ClCompile Include="SeaDeepest.cpp">
+      <Filter>Source Files\Game\SeaDeepeset</Filter>
+    </ClCompile>
+    <ClCompile Include="ITakableSeaFishAttack.cpp">
+      <Filter>Source Files\Game\ITakableSeaFishAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="ITakableTrashEnemyAttack.cpp">
+      <Filter>Source Files\Game\ITakableTrashEnemyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureBase.cpp">
+      <Filter>Source Files\Game\CreatureBase</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteAnimation.cpp">
+      <Filter>Source Files\Game\SpriteAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -911,11 +956,35 @@
     <ClInclude Include="TrashEnemy.h">
       <Filter>Source Files\Game\TrashEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="SpawnCooldown.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StageSceneContext.h">
       <Filter>Source Files\Game\Scene\Stage\StageScene\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnCooldown.h">
+      <Filter>Source Files\Game\TrashEnemy\SpawnCooldown</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureBasicParam.h">
+      <Filter>Source Files\Game\CreatureBasicParam</Filter>
+    </ClInclude>
+    <ClInclude Include="DeepSeaFish.h">
+      <Filter>Source Files\Game\DeepseaFish</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashEnemyParams.h">
+      <Filter>Source Files\Game\TrashEnemy\Params</Filter>
+    </ClInclude>
+    <ClInclude Include="SeaDeepest.h">
+      <Filter>Source Files\Game\SeaDeepeset</Filter>
+    </ClInclude>
+    <ClInclude Include="ITakableSeaFishAttack.h">
+      <Filter>Source Files\Game\ITakableSeaFishAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="ITakableTrashEnemyAttack.h">
+      <Filter>Source Files\Game\ITakableTrashEnemyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureBase.h">
+      <Filter>Source Files\Game\CreatureBase</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteAnimation.h">
+      <Filter>Source Files\Game\SpriteAnimation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

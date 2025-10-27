@@ -1,12 +1,11 @@
 ﻿#include "stdafx.h"
-#include "TrashEnemy.h"
-#include <exception>
+#include "DeepSeaFish.h"
 
-GameCore::TrashEnemy::TrashEnemy(CreatureBasicParam basicParam, s3d::Vec2 position)
+GameCore::DeepSeaFish::DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position)
 	: CreatureBase(basicParam, position) {
 }
 
-void GameCore::TrashEnemy::Update(const std::vector<ITakableTrashEnemyAttack*>& attackables)
+void GameCore::DeepSeaFish::Update(const std::vector<ITakableSeaFishAttack*>& attackables)
 {
 	switch (GetState())
 	{
@@ -24,12 +23,12 @@ void GameCore::TrashEnemy::Update(const std::vector<ITakableTrashEnemyAttack*>& 
 	}
 }
 
-void GameCore::TrashEnemy::Draw() const
+void GameCore::DeepSeaFish::Draw() const
 {
 	GetBasicParam().GetMovingAnimation().Draw(GetPosition());
 	DrawDebug();
 }
 
-void GameCore::TrashEnemy::TakeOnAttack(int attackPower)
+void GameCore::DeepSeaFish::TakeOnAttack(int attackPower)
 {
 }

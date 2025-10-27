@@ -5,11 +5,11 @@
 
 namespace GameCore
 {
-	class TrashEnemy final : public CreatureBase<ITakableTrashEnemyAttack>, public ITakableSeaFishAttack
+	class DeepSeaFish final : public CreatureBase<ITakableSeaFishAttack>, public ITakableTrashEnemyAttack
 	{
 	public:
-		explicit TrashEnemy(CreatureBasicParam basicParam, s3d::Vec2 position);
-		void Update(const std::vector<ITakableTrashEnemyAttack*>& attackables);
+		explicit DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position);
+		void Update(const std::vector<ITakableSeaFishAttack*>& attackables);
 		void Draw() const;
 
 	private:

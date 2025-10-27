@@ -115,12 +115,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CreatureBase.cpp" />
+    <ClCompile Include="DeepSeaFish.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ITakableSeaFishAttack.cpp" />
+    <ClCompile Include="ITakableTrashEnemyAttack.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneBaseContext.cpp" />
     <ClCompile Include="SceneGroup.cpp" />
+    <ClCompile Include="SeaDeepest.cpp" />
     <ClCompile Include="SpawnCooldown.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="StageSceneContext.cpp" />
     <ClCompile Include="StageSelect.cpp" />
@@ -131,6 +137,7 @@
     </ClCompile>
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrashEnemy.cpp" />
+    <ClCompile Include="CreatureBasicParam.cpp" />
     <ClCompile Include="TrashFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -337,11 +344,17 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CreatureBase.h" />
+    <ClInclude Include="DeepSeaFish.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ITakableSeaFishAttack.h" />
+    <ClInclude Include="ITakableTrashEnemyAttack.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneBaseContext.h" />
     <ClInclude Include="SceneGroup.h" />
+    <ClInclude Include="SeaDeepest.h" />
     <ClInclude Include="SpawnCooldown.h" />
+    <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="StageScene.h" />
     <ClInclude Include="StageSceneContext.h" />
     <ClInclude Include="StageSelect.h" />
@@ -349,6 +362,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrashEnemy.h" />
+    <ClInclude Include="CreatureBasicParam.h" />
+    <ClInclude Include="TrashEnemyParams.h" />
     <ClInclude Include="TrashFactory.h" />
   </ItemGroup>
   <ItemGroup>
