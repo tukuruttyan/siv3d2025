@@ -8,7 +8,7 @@ namespace GameCore
 	public:
 		explicit TrashFactory(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>> spawnEnemies, s3d::Vec2 position);
 
-		void Update(std::function<void(TrashEnemy)> addSceneTrashEnemy);
+		void Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy);
 		void Draw();
 
 	private:

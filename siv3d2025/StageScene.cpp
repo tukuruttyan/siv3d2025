@@ -31,9 +31,24 @@ namespace GameCore
 
 
 
-		m_context .value().getTrashFactory().Update([this](TrashEnemy enemy) { m_trashEnemies.push_back(enemy); });
+		m_context.value().getTrashFactory().Update(
+			[this](const TrashEnemy& enemy) { m_trashEnemies.push_back(enemy); },
+			[this](TrashEnemy& trashEnemy) {
+				std::erase_if(m_trashEnemies, [&trashEnemy](const TrashEnemy& e) {
+					return &e == &trashEnemy;
+				});
+			}
+		);
 		m_context .value().getTrashFactory().Draw();
-		seaDeepest.Update([this](DeepSeaFish fish) { m_deepSeaFishes.push_back(fish); });
+
+		seaDeepest.Update(
+			[this](const DeepSeaFish& fish) { m_deepSeaFishes.push_back(fish); },
+			[this](DeepSeaFish& fish) {
+				std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
+					return &e == &fish;
+				});
+			}
+		);
 		seaDeepest.Draw();
 		for (auto& fish : m_deepSeaFishes)
 		{

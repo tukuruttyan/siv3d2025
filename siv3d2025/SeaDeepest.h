@@ -6,11 +6,11 @@ namespace GameCore
 	class SeaDeepest final
 	{
 	public:
-		void Update(std::function<void(DeepSeaFish)> addSceneDeepSea);
+		void Update(const std::function<void(DeepSeaFish)>& addSceneDeepSeaFish, const std::function<void(DeepSeaFish&)>& removeSceneDeepSeaFish);
 		void Draw() const;
 
 	private:
 		s3d::Texture m_texture{ U"example/windmill.png" };
-		s3d::Vec2 m_position{ 0, 0 };
+		s3d::Vec2 m_position{ -100, 0 };
 	};
 }

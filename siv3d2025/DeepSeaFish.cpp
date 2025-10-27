@@ -1,8 +1,10 @@
 ﻿#include "stdafx.h"
 #include "DeepSeaFish.h"
 
-GameCore::DeepSeaFish::DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position)
-	: CreatureBase(basicParam, position) {
+GameCore::DeepSeaFish::DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position, const std::function<void(DeepSeaFish&)> removeSceneFish)
+	: CreatureBase(basicParam, position),
+	  m_removeSceneFish(removeSceneFish)
+{
 }
 
 void GameCore::DeepSeaFish::Update(const std::vector<ITakableSeaFishAttack*>& attackables)
@@ -25,10 +27,15 @@ void GameCore::DeepSeaFish::Update(const std::vector<ITakableSeaFishAttack*>& at
 
 void GameCore::DeepSeaFish::Draw()
 {
-	GetBasicParam().GetMovingAnimation().Draw(GetPosition());
+	BasicParam().GetMovingAnimation().Draw(GetPosition());
 	DrawDebug();
 }
 
-void GameCore::DeepSeaFish::TakeOnAttack(int attackPower)
+void GameCore::DeepSeaFish::TakeOnAttack(int takeAttackPower)
 {
+	OnDamage(takeAttackPower);
+	if (CheckOnDeath())
+	{
+		m_removeSceneFish(*this);
+	}
 }

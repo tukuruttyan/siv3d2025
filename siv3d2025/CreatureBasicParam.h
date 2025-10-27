@@ -13,7 +13,7 @@ namespace GameCore
 	struct CreatureBasicParam final
 	{
 	public:
-		CreatureBasicParam(float weight				  ,  
+		CreatureBasicParam(float weight				  ,
 						   float attackRange		  ,
 						   float attackDelay_secs	  ,
 						   float attackCooldown_secs  ,
@@ -42,18 +42,20 @@ namespace GameCore
 		[[nodiscard]] SpriteAnimation& GetMovingAnimation    () noexcept { return m_movingAnimation;	}
 		[[nodiscard]] SpriteAnimation& GetAttackingAnimation () noexcept { return m_attackingAnimation; }
 
+		CreatureBasicParam WithOnDamage(int damage) const;
+
 	private:
-		const float m_weight			  = 10.0f;
-		const float m_attackRange		  = 10.0f;
-		const float m_attackDelay_secs	  = 10.0f;
-		const float m_attackCooldown_secs = 10.0f;
-		const int   m_attackPower		  = 10	 ;
-		const int   m_attackTargetNumber  = 10	 ;
-		const int   m_health			  = 10	 ;
-		const int   m_defensePower		  = 10	 ;
-		const float m_moveSpeed			  = 10.0f;
-		const int   m_spawnCost			  = 10	 ;
-		const s3d::Vec2 m_colliderSize    = { 100, 100 };
+		float m_weight				= 10.0f;
+		float m_attackRange			= 10.0f;
+		float m_attackDelay_secs	= 10.0f;
+		float m_attackCooldown_secs = 10.0f;
+		int   m_attackPower			= 10;
+		int   m_attackTargetNumber  = 10;
+		int   m_health				= 10;
+		int   m_defensePower		= 10;
+		float m_moveSpeed			= 10.0f;
+		int   m_spawnCost			= 10;
+		s3d::Vec2 m_colliderSize    = { 100, 100 };
 
 		SpriteAnimation m_movingAnimation;
 		SpriteAnimation m_attackingAnimation;

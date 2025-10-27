@@ -12,6 +12,7 @@ namespace GameCore
 		virtual ~CreatureBase() = default;
 
 	private:
+		static const int MIN_HEALTH = 0;
 		CreatureBasicParam m_basicParam;
 		s3d::Vec2 m_position;
 		float m_attackDelayDuring_secs = 0.0f;
@@ -26,11 +27,13 @@ namespace GameCore
 		IAttackableT* CatchInAttackAreaTarget(const std::vector<IAttackableT*>& attackables) const;
 		void DrawDebug() const;
 		const s3d::Vec2& GetPosition() const { return m_position; }
-		CreatureBasicParam& GetBasicParam() { return m_basicParam; }
+		CreatureBasicParam& BasicParam() { return m_basicParam; }
 		const CreatureState& GetState() const { return m_state; }
 		void UpdateMoveState(const std::vector<IAttackableT*>& attackables);
 		void UpdateAttackingState(const std::vector<IAttackableT*>& attackables);
 		void UpdateAttackCooldownState(const std::vector<IAttackableT*>& attackables);
+		void OnDamage(int takeAttackPower);
+		bool CheckOnDeath();
 	};
 
 	template<typename IAttackableT>
@@ -84,6 +87,18 @@ namespace GameCore
 		{
 			m_state = CreatureState::Moving;
 		}
+	}
+
+	template<typename IAttackableT>
+	inline void CreatureBase<IAttackableT>::OnDamage(const int takeAttackPower)
+	{
+		m_basicParam = m_basicParam.WithOnDamage(takeAttackPower);
+	}
+
+	template<typename IAttackableT>
+	inline bool CreatureBase<IAttackableT>::CheckOnDeath()
+	{
+		return MIN_HEALTH >= BasicParam().GetHealth();
 	}
 
 	template<typename IAttackableT>
