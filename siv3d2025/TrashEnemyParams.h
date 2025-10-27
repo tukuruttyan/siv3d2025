@@ -9,5 +9,5 @@ namespace GameCore::EnemyParams
         return param; \
     }
 
-	DEFINE_TRASH_ENEMY_FUNC(TRASH_BAG, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, s3d::Vec2{ 100, 100 }, SpriteAnimation{ U"example/windmill.png", 1, 1, 10.0f }, SpriteAnimation{ U"example/windmill.png", 1, 1, 10.0f });
+	DEFINE_TRASH_ENEMY_FUNC(TRASH_BAG, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, s3d::Vec2{ 100, 100 }, SpriteAnimation{ U"Akikan.png", 3, 1, 1.0f}, SpriteAnimation{ U"Akikan.png", 3, 1, 1.0f});
 }

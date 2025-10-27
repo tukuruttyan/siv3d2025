@@ -1,26 +1,35 @@
 ﻿#include "stdafx.h"
 #include "SpriteAnimation.h"
 
-GameCore::SpriteAnimation::SpriteAnimation(const FilePath& path, int cols, int rows, float totalTime_secs)
-	: texture(path), columns(cols), rows(rows),
-	totalFrames(cols* rows), totalTime_secs(totalTime_secs) {
+GameCore::SpriteAnimation::SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs)
+	: texture(path),
+	  columns(cols),
+	  rows(rows),
+	  totalFrames(cols* rows),
+	  totalTime_secs(totalTime_secs)
+{
+	if (not texture)
+	{
+		Print << path << U" の読み込みに失敗しました";
+	}
 }
 
-void GameCore::SpriteAnimation::Update()
+void GameCore::SpriteAnimation::Draw(const Vec2& pos)
 {
 	time += Scene::DeltaTime();
 	if (time > totalTime_secs)
 	{
 		time -= totalTime_secs;
 	}
-}
 
-void GameCore::SpriteAnimation::Draw(const Vec2& pos) const
-{
-	int frame = static_cast<int>((time / totalTime_secs) * totalFrames) % totalFrames;
-	int w = texture.width() / columns;
-	int h = texture.height() / rows;
-	int x = (frame % columns) * w;
-	int y = (frame / columns) * h;
-	texture(x, y, w, h).drawAt(pos);
+	const int frame = static_cast<int>((time / totalTime_secs) * totalFrames) % totalFrames;
+	const int col = frame % columns;
+	const int row = frame / columns;
+
+	const double u = static_cast<double>(col) / columns;
+	const double v = static_cast<double>(row) / rows;
+	const double uSize = 1.0 / columns;
+	const double vSize = 1.0 / rows;
+
+	texture.uv(u, v, uSize, vSize).draw(pos);
 }
