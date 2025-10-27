@@ -1,16 +1,18 @@
 ﻿namespace GameCore
 {
-	struct SpriteAnimation final
+	class SpriteAnimation final
 	{
-		explicit SpriteAnimation(const FilePath& path, int cols, int rows, float totalTime_secs);
-		void Update();
-		void Draw(const Vec2& pos) const;
+	public:
+		SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs);
+
+		void Draw(const Vec2& pos);
 
 	private:
 		Texture texture;
-		int columns, rows;
+		int columns;
+		int rows;
 		int totalFrames;
-		float totalTime_secs;
+		double totalTime_secs;
 		double time = 0.0;
 	};
 }

@@ -5,7 +5,7 @@ namespace GameCore
 	{
 	public:
 		virtual ~ITakableTrashEnemyAttack() = default;
-		virtual void TakeOnAttack(int attackPower) = 0;
+		virtual void TakeOnAttack(int takeAttackPower) = 0;
 		virtual s3d::RectF ColliderRect() = 0;
 	};
 }

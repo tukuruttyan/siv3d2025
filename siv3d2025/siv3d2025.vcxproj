@@ -141,6 +141,7 @@
     <ClCompile Include="TrashFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Akikan.png" />
     <Image Include="App\engine\texture\box-shadow\128.png" />
     <Image Include="App\engine\texture\box-shadow\16.png" />
     <Image Include="App\engine\texture\box-shadow\256.png" />

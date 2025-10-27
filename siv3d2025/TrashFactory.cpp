@@ -8,7 +8,7 @@ GameCore::TrashFactory::TrashFactory(std::vector<std::pair<SpawnCooldown, const 
 {
 }
 
-void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTrashEnemy)
+void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy)
 {
 	for (auto& [cooldown, summonEnemyBasicParam] : m_summonCreatureParam)
 	{
@@ -19,7 +19,7 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 
 		if (didCount)
 		{
-			addSceneTrashEnemy(TrashEnemy(summonEnemyBasicParam, m_position));
+			addSceneTrashEnemy(TrashEnemy(summonEnemyBasicParam, m_position, removeSceneTrashEnemy));
 		}
 	}
 }

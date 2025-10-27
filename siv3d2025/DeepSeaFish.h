@@ -8,12 +8,15 @@ namespace GameCore
 	class DeepSeaFish final : public CreatureBase<ITakableSeaFishAttack>, public ITakableTrashEnemyAttack
 	{
 	public:
-		explicit DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position);
+		explicit DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position, const std::function<void(DeepSeaFish&)> removeSceneFish);
 		void Update(const std::vector<ITakableSeaFishAttack*>& attackables);
-		void Draw() const;
+		void Draw();
 
 	private:
+		s3d::Vec2 MoveDirection() const override { return s3d::Vec2::Up(); }
 		s3d::RectF ColliderRect() override { return HitBoxColliderRect(); }
 		void TakeOnAttack(int attackPower) override;
+
+		std::function<void(DeepSeaFish&)> m_removeSceneFish;
 	};
 }
