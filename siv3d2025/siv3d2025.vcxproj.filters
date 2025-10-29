@@ -219,9 +219,6 @@
     <ClCompile Include="SceneBaseContext.cpp">
       <Filter>Source Files\Game\Scene\Context</Filter>
     </ClCompile>
-    <ClCompile Include="StageScene.cpp">
-      <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
-    </ClCompile>
     <ClCompile Include="StageSelect.cpp">
       <Filter>Source Files\Game\Scene\StageSelect</Filter>
     </ClCompile>
@@ -260,6 +257,12 @@
     </ClCompile>
     <ClCompile Include="SpriteAnimation.cpp">
       <Filter>Source Files\Game\SpriteAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="KirimiButton.cpp">
+      <Filter>Source Files\Game\Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -985,6 +988,9 @@
     </ClInclude>
     <ClInclude Include="SpriteAnimation.h">
       <Filter>Source Files\Game\SpriteAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="KirimiButton.h">
+      <Filter>Source Files\Game\Scene\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

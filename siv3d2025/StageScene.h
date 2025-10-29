@@ -6,6 +6,8 @@
 #include "TrashEnemy.h"
 #include <optional>
 
+#include "KirimiButton.h"
+
 namespace GameCore
 {
 	class StageScene : public SceneBase
@@ -19,6 +21,7 @@ namespace GameCore
 		void Update () override;
 		void OnExit () override;
 		void UpdateScroll();
+		void DrawMiniMap(Float2 pos);
 
 
 		std::optional<StageSceneContext> m_context;
@@ -29,5 +32,6 @@ namespace GameCore
 		std::vector<TrashEnemy > m_trashEnemies;
 
 		Vec2 m_playerPos;
+		std::vector<KirimiButton> m_kirimiButtons;
 	};
 }

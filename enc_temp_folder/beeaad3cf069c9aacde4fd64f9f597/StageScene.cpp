@@ -87,7 +87,7 @@ namespace GameCore
 
 		for (const auto& button : m_kirimiButtons)
 		{
-			button.draw(615);
+			button.draw(600);
 		}
 
 	}

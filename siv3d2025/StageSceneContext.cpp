@@ -24,6 +24,11 @@ namespace GameCore
 		return m_scrollSpeed;
 	}
 
+	const std::array<int, 8>& StageSceneContext::getCosts() const
+	{
+		return m_costs;
+	}
+
 	StageSceneContext& StageSceneContext::operator=(const StageSceneContext& other)
 	{
 		new (this) StageSceneContext(other.m_trashFactory, other.m_sceneHeight);
