@@ -13,6 +13,8 @@ namespace GameCore
 		TrashFactory& getTrashFactory() const;
 		float  getSceneHeight() const;
 		double getScrollSpeed() const;
+		double getStartResources() const;
+		double getResourcesPerSecond() const;
 		const std::array<int, 8>& getCosts() const;
 		StageSceneContext& operator=(const StageSceneContext& other);
 
@@ -21,5 +23,7 @@ namespace GameCore
 		const float m_sceneHeight;
 		const double m_scrollSpeed = 300.0;
 		std::array<int, 8> m_costs{ 100, 15, 70, 35, 200, 500, 100, 55 };
+		const double m_startResources = 1000;
+		const double m_resourcesPerSecond = 5;
 	};
 }

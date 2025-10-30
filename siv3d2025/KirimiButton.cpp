@@ -3,10 +3,16 @@
 
 using namespace s3d;
 
-KirimiButton::KirimiButton(const Point& pos, int cost, String icon)
-	: m_rect{ pos, 100 }
-	, m_cost{ cost }
-	, m_icon { icon }
+
+KirimiButton::KirimiButton(const Rect& rect, const ColorF& borderColor, const ColorF& normalColor,
+	const ColorF& activeColor, const ColorF& disableColor, int cost, String icon) :
+	m_rect(rect),
+	m_normalColor(normalColor),
+	m_activeColor(activeColor),
+	m_disableColor(disableColor),
+	m_borderColor(borderColor),
+	m_cost(cost),
+	m_icon(icon)
 {
 }
 
@@ -20,46 +26,26 @@ void KirimiButton::setSelected(bool selected)
 	m_selected = selected;
 }
 
-bool KirimiButton::pressed() const
-{
-	const bool ret = m_justPressed;
-	m_justPressed = false;
-	return ret;
-}
-
-void KirimiButton::update()
+void KirimiButton::update() const
 {
 	m_mouseOver = m_rect.mouseOver();
-	m_justPressed = false;
-
-	if (m_enabled)
-	{
-		if (m_rect.leftClicked())
-		{
-			m_selected = !m_selected;
-			m_justPressed = true;
-		}
-	}
 }
 
-void KirimiButton::draw(float resource = 0) const
+void KirimiButton::draw(double resource = 0) const
 {
 	const bool disabled = !m_enabled;
 
 	// 背景色
-	ColorF fill = disabled ? ColorF{ 0.75 } : (m_selected ? ColorF{ 0.80, 0.88, 1.0 } : ColorF{ 0.95 });
-	if (m_mouseOver && !disabled)
-	{
-		fill = fill.lerp(ColorF{ 1.0 }, 0.12);
-	}
-
-	// 枠色
-	const ColorF frame = disabled ? ColorF{ 0.5 } : (m_selected ? ColorF{ Palette::Dodgerblue } : ColorF{ 0.3 });
+	ColorF fill = m_normalColor;
+	if (disabled) fill = m_disableColor;
+	else if (m_selected) fill = m_activeColor;
+	else if (m_mouseOver) fill = m_disableColor;
 
 	const RoundRect rr{ m_rect, 20 };
+
 	rr.draw(fill);
 
-	// 下から ratio の割合で青色の背景を重ねる
+	// 下から ratio の割合で背景を重ねる
 	double nextCostRatio = std::fmod(resource, m_cost) / m_cost;
 	{
 		const double h = rr.h * nextCostRatio;
@@ -68,23 +54,23 @@ void KirimiButton::draw(float resource = 0) const
 		const auto clipped = Geometry2D::And(rr.asPolygon(), bottomRect.asPolygon());
 		for (const auto& poly : clipped)
 		{
-			poly.draw(ColorF{ 0.75, 0.85, 1.0 }); // 青系
+			poly.draw(ColorF{ 1, 0.2 });
 		}
 	}
 
 	// 枠は最前面に描く
-	rr.drawFrame(3.0, 0.0, frame);
+	rr.drawFrame(0, 10, m_borderColor);
 
 
 
-	m_fontValue(Format(m_cost)).draw(28, Arg::bottomCenter = Vec2{ rr.x + rr.w / 2, rr.y + rr.h }, ColorF{ 0 });
+	m_fontValue(Format(m_cost)).draw(48, Arg::bottomCenter = Vec2{ rr.x + rr.w / 2, rr.y + rr.h }, m_borderColor);
 
 	int instanceCounts = static_cast<int>(resource / m_cost);
 	String countsText = U"x" + Format(instanceCounts);
-	m_fontValue(countsText).draw(20, Arg::topRight = Vec2 { rr.x + rr.w - 10, rr.y + 3 }, ColorF{0});
+	m_fontValue(countsText).draw(32, Arg::topRight = Vec2 { rr.x + rr.w - 10, rr.y + 3 }, m_borderColor);
 
 
-	m_fontValue(Format(m_icon)).draw(50, Arg::center= Vec2{ rr.x + rr.w / 2, rr.y + rr.h / 2 }, ColorF{ 0 });
+	m_fontValue(Format(m_icon)).draw(80, Arg::center= Vec2{ rr.x + rr.w / 2, rr.y + rr.h / 2 }, ColorF{ 0 });
 
 
 	// ホバー時の影

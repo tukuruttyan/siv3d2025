@@ -264,6 +264,9 @@
     <ClCompile Include="StageScene.cpp">
       <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
     </ClCompile>
+    <ClCompile Include="StageUserInterface.cpp">
+      <Filter>Source Files\Game\Scene\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -990,6 +993,9 @@
       <Filter>Source Files\Game\SpriteAnimation</Filter>
     </ClInclude>
     <ClInclude Include="KirimiButton.h">
+      <Filter>Source Files\Game\Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageUserInterface.h">
       <Filter>Source Files\Game\Scene\Stage</Filter>
     </ClInclude>
   </ItemGroup>

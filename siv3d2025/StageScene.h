@@ -7,6 +7,7 @@
 #include <optional>
 
 #include "KirimiButton.h"
+#include "StageUI.h"
 
 namespace GameCore
 {
@@ -21,7 +22,6 @@ namespace GameCore
 		void Update () override;
 		void OnExit () override;
 		void UpdateScroll();
-		void DrawMiniMap(Float2 pos);
 
 
 		std::optional<StageSceneContext> m_context;
@@ -30,8 +30,9 @@ namespace GameCore
 		SeaDeepest seaDeepest;
 		std::vector<DeepSeaFish> m_deepSeaFishes;
 		std::vector<TrashEnemy > m_trashEnemies;
+		StageUI m_stageUI = StageUI{};
 
-		Vec2 m_playerPos;
-		std::vector<KirimiButton> m_kirimiButtons;
+		Vec2 m_playerPos = {0, 0};
+		double m_resource = 0;
 	};
 }

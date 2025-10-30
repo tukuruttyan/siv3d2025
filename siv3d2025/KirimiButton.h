@@ -11,10 +11,10 @@
 class KirimiButton
 {
 	public:
-		KirimiButton(const Point& pos, int cost, String icon);
+		KirimiButton(const Rect& rect, const ColorF& borderColor, const ColorF& normalColor, const ColorF& activeColor, const ColorF& disableColor, int cost, String icon);
 
-		void update();
-		void draw(float resource) const;
+		void update() const;
+		void draw(double resource) const;
 
 		void setPosition(const Point& pos);
 		void setCost(int cost);
@@ -28,17 +28,19 @@ class KirimiButton
 		void setEnabled(bool enabled);
 		void setSelected(bool selected);
 
-		[[nodiscard]] bool pressed() const;
-
 	private:
 		Rect m_rect{ 0, 0, 80, 80 };
 		int m_cost = 100;
 		String m_icon = U"へ";
 		bool m_enabled = true;
 		bool m_selected = false;
-		mutable bool m_justPressed = false;
 		mutable bool m_mouseOver = false;
 
 		Font m_fontLabel{ 14 };
 		Font m_fontValue{ 18 };
+
+		const ColorF& m_normalColor;
+		const ColorF& m_activeColor;
+		const ColorF& m_disableColor;
+		const ColorF& m_borderColor;
 };
