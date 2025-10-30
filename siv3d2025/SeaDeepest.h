@@ -6,6 +6,7 @@ namespace GameCore
 	class SeaDeepest final
 	{
 	public:
+		SeaDeepest(Vec2 position);
 		void Update(const std::function<void(DeepSeaFish)>& addSceneDeepSeaFish, const std::function<void(DeepSeaFish&)>& removeSceneDeepSeaFish);
 		void Draw() const;
 

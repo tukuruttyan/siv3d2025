@@ -2,9 +2,9 @@
 #include "TrashFactory.h"
 #include "SpawnCooldown.h"
 
-GameCore::TrashFactory::TrashFactory(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>> spawnEnemies, Vec2 position)
+GameCore::TrashFactory::TrashFactory(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>> spawnEnemies, int health)
 	: m_summonCreatureParam(spawnEnemies),
-	m_position(position)
+	  m_health(health)
 {
 }
 
@@ -27,4 +27,9 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 void GameCore::TrashFactory::Draw()
 {
 	m_texture.draw(m_position);
+}
+
+void GameCore::TrashFactory::TakeOnAttack(int attackPower)
+{
+
 }

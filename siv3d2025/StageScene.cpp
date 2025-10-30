@@ -12,6 +12,7 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 300, -sceneContext.getSceneHeight() });
 	}
 
 	void StageScene::OnEnter()
@@ -65,17 +66,17 @@ namespace GameCore
 				});
 			}
 			);
-			m_context.value().getTrashFactory().Draw();
 
-			seaDeepest.Update(
+			m_seaDeepest->Update(
 				[this](const DeepSeaFish& fish) { m_deepSeaFishes.push_back(fish); },
 				[this](DeepSeaFish& fish) {
-						std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
-							return &e == &fish;
-						});
+					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
+						return &e == &fish;
+					});
 				}
 			);
-			seaDeepest.Draw();
+			m_context.value().getTrashFactory().Draw();
+			m_seaDeepest->Draw();
 			for (auto& fish : m_deepSeaFishes)
 			{
 				const auto deepSeaFishAttackables = m_trashEnemies

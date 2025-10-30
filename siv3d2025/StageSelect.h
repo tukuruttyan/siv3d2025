@@ -14,18 +14,18 @@ namespace GameCore
 
 	private:
 		void OnEnter() override;
-		void Update()  override;
-		void OnExit()  override;
+		void Update () override;
+		void OnExit () override;
 
 		std::function<void(StageSceneContext)> m_onChangeStageScene;
 		const s3d::Texture m_backGround{ U"example/windmill.png" };
 		StageSelectPlayer m_player;
 
 		std::vector<std::pair<s3d::Vec2, StageSceneContext>> m_positionScenePairs{
-			{ {100, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, s3d::Vec2{0, -800 }), -800.0f  } },
-			{ {300, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, s3d::Vec2{0, -600 }), -600.0f  } },
-			{ {500, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, s3d::Vec2{0, -900 }), -900.0f  } },
-			{ {700, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, s3d::Vec2{0, -1000}), -1000.0f } }
+			{ {100, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, 40), -500.0f} },
+			{ {300, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, 40), -500.0f} },
+			{ {500, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, 40), -500.0f} },
+			{ {700, 300}, {std::make_shared<TrashFactory>(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>>{std::make_pair(SpawnCooldown(2.0f), EnemyParams::TRASH_BAG())}, 40), -500.0f} }
 		};
 
 		size_t m_currentIndex = 0;
