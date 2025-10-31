@@ -12,6 +12,8 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)));
+		m_resource = m_context->getStartResources();
 		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 300, -sceneContext.getSceneHeight() });
 	}
 
@@ -24,25 +26,12 @@ namespace GameCore
 
 	void StageScene::Update()
 	{
+		m_resource += Scene::DeltaTime() * m_context->getResourcesPerSecond();
 		m_camera.update();
 		{
 			const auto t1 = m_camera.createTransformer();
 
-			const double dt = Scene::DeltaTime();
-			const double speed = m_context->getScrollSpeed();
-
-			// 連続移動（キー）は時間でスケール
-			double dy_continuous = (KeyDown.pressed() - KeyUp.pressed()) * speed * dt;
-
-			// ホイールはイベント量。dtは掛けない
-			double dy_wheel = Mouse::Wheel() * (speed * 0.15);
-
-			m_playerPos += Vec2(0.0, dy_continuous + dy_wheel);
-
-			// 範囲制限
-			m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
-
-			m_camera.setTargetCenter(m_playerPos);
+			UpdateScroll();
 
 			Rect{
 				Point{
@@ -57,7 +46,7 @@ namespace GameCore
 				Arg::top = Palette::Lightseagreen,
 				Arg::bottom = Palette::Darkseagreen
 			);
-			
+
 			m_context.value().getTrashFactory().Update(
 			[this](const TrashEnemy& enemy) { m_trashEnemies.push_back(enemy); },
 			[this](TrashEnemy& trashEnemy) {
@@ -101,9 +90,29 @@ namespace GameCore
 			}
 		}
 
+		m_stageUI.update(Scene::DeltaTime(), m_resource, m_canvasOpen);
 	}
 
 	void StageScene::OnExit()
 	{
+	}
+
+	void StageScene::UpdateScroll()
+	{
+		const double dt = Scene::DeltaTime();
+		const double speed = m_context->getScrollSpeed();
+
+		// 連続移動（キー）は時間でスケール
+		double dy_continuous = (KeyDown.pressed() - KeyUp.pressed()) * speed * dt;
+
+		// ホイールはイベント量。dtは掛けない
+		double dy_wheel = Mouse::Wheel() * (speed * 0.15);
+
+		m_playerPos += Vec2(0.0, dy_continuous + dy_wheel);
+
+		// 範囲制限
+		m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
+
+		m_camera.setTargetCenter(m_playerPos);
 	}
 }

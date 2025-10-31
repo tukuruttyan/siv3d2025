@@ -4,5 +4,12 @@
 void Main()
 {
 	GameCore::Game game;
+
+	Scene::SetResizeMode(ResizeMode::Keep);
+	Window::SetStyle(WindowStyle::Sizable);
+	Window::Resize(640, 360);
+	Scene::Resize(1920, 1080	);
+	Window::SetTitle(U"深海ギョ戦記");
+
 	game.RunAsync();
 }
