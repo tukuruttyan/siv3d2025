@@ -22,7 +22,7 @@ namespace GameCore
 		std::optional<StageSceneContext> m_context;
 		s3d::Camera2D m_camera;
 
-		SeaDeepest seaDeepest;
+		std::unique_ptr<SeaDeepest> m_seaDeepest = nullptr;
 		std::vector<DeepSeaFish> m_deepSeaFishes;
 		std::vector<TrashEnemy > m_trashEnemies;
 

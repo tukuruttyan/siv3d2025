@@ -12,6 +12,7 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 300, -sceneContext.getSceneHeight() });
 	}
 
 	void StageScene::OnEnter()
@@ -65,31 +66,35 @@ namespace GameCore
 				});
 			}
 			);
-			m_context.value().getTrashFactory().Draw();
 
-			seaDeepest.Update(
+			m_seaDeepest->Update(
 				[this](const DeepSeaFish& fish) { m_deepSeaFishes.push_back(fish); },
 				[this](DeepSeaFish& fish) {
-						std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
-							return &e == &fish;
-						});
+					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
+						return &e == &fish;
+					});
 				}
 			);
-			seaDeepest.Draw();
+			m_context.value().getTrashFactory().Draw();
+			m_seaDeepest->Draw();
 			for (auto& fish : m_deepSeaFishes)
 			{
-				const auto deepSeaFishAttackables = m_trashEnemies
+				auto deepSeaFishAttackables = m_trashEnemies
 					| std::views::transform([](TrashEnemy& fish) -> ITakableSeaFishAttack* { return &fish; })
 					| std::ranges::to<std::vector<ITakableSeaFishAttack*>>();
+
+				deepSeaFishAttackables.push_back(&m_context.value().getTrashFactory());
 
 				fish.Update(deepSeaFishAttackables);
 				fish.Draw();
 			}
 			for (auto& trashEnemy : m_trashEnemies)
 			{
-				const auto trashEnemyAttackables = m_deepSeaFishes
+				auto trashEnemyAttackables = m_deepSeaFishes
 					| std::views::transform([](DeepSeaFish& fish) -> ITakableTrashEnemyAttack* { return &fish; })
 					| std::ranges::to<std::vector<ITakableTrashEnemyAttack*>>();
+
+				trashEnemyAttackables.push_back(m_seaDeepest.get());
 
 				trashEnemy.Update(trashEnemyAttackables);
 				trashEnemy.Draw();
