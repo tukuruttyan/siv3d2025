@@ -16,25 +16,14 @@ KirimiButton::KirimiButton(const Rect& rect, const ColorF& borderColor, const Co
 {
 }
 
-void KirimiButton::setEnabled(bool enabled)
-{
-	m_enabled = enabled;
-}
-
 void KirimiButton::setSelected(bool selected)
 {
 	m_selected = selected;
 }
 
-void KirimiButton::update() const
+void KirimiButton::draw(bool enabled, double resource = 0) const
 {
-	const RoundRect rr{ m_rect, 20 };
-	m_mouseOver = rr.mouseOver();
-}
-
-void KirimiButton::draw(double resource = 0) const
-{
-	const bool disabled = !m_enabled;
+	const bool disabled = !enabled;
 
 	// 背景色
 	ColorF fill = m_normalColor;

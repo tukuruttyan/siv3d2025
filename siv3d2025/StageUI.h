@@ -57,4 +57,5 @@ private:
 	const ColorF m_canvasFadeInColor{ Palette::Slategray, 0 };
 
 	mutable double m_canvasWidth = 0;
+	mutable int m_selectedKirimiIdx = 0;
 };

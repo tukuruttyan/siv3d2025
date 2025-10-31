@@ -23,11 +23,6 @@ void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 		canvasOpen = !canvasOpen;
 	}
 
-	for (const auto& button : m_kirimiButtons)
-	{
-		button.update();
-	}
-
 	updateLeftSide(deltaTime, resources, canvasOpen);
 	updateRightSide();
 }
@@ -37,9 +32,13 @@ void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpe
 	Transformer2D t(Mat3x2::Translate(80, 100), TransformCursor::Yes);
 	updateKimeraCanvas(deltaTime, canvasOpen);
 	updateKirimiPalette(resources);
-	for (const auto& button : m_kirimiButtons)
+	for (const auto&& [i, button] : Indexed(m_kirimiButtons))
 	{
-		button.draw(resources);
+		if (button.rect().leftClicked())
+		{
+			m_selectedKirimiIdx = i;
+		}
+		button.draw(i == m_selectedKirimiIdx, resources);
 	}
 }
 void StageUI::updateKirimiPalette(double resources) const
@@ -173,7 +172,7 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 		};
 		m_kirimiButtons.push_back(KirimiButton{ Rect{ baseOffset + pos, buttonSize }, m_subColor, m_mainColor, m_accentColor, m_baseColor, costs[i], buttonIcons[i]});
 	}
-	m_kirimiButtons[0].setSelected(true);
+	m_selectedKirimiIdx = 0;
 }
 
 void StageUI::drawKimeraCanvas(Size size) const

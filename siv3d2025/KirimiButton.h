@@ -13,26 +13,19 @@ class KirimiButton
 	public:
 		KirimiButton(const Rect& rect, const ColorF& borderColor, const ColorF& normalColor, const ColorF& activeColor, const ColorF& disableColor, int cost, String icon);
 
-		void update() const;
-		void draw(double resource) const;
-
-		void setPosition(const Point& pos);
-		void setCost(int cost);
+		void draw(bool enabled, double resource) const;
 
 		[[nodiscard]] int cost() const { return m_cost; }
-		[[nodiscard]] bool enabled() const { return m_enabled; }
 		[[nodiscard]] bool selected() const { return m_selected; }
 		[[nodiscard]] bool mouseOver() const { return m_mouseOver; }
 		[[nodiscard]] const Rect& rect() const { return m_rect; }
 
-		void setEnabled(bool enabled);
 		void setSelected(bool selected);
 
 	private:
 		Rect m_rect{ 0, 0, 80, 80 };
 		int m_cost = 100;
 		String m_icon = U"へ";
-		bool m_enabled = true;
 		bool m_selected = false;
 		mutable bool m_mouseOver = false;
 
