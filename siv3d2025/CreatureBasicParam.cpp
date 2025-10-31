@@ -17,3 +17,25 @@ GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange
 	, m_attackingAnimation (m_attackingAnimation)
 {
 }
+
+GameCore::CreatureBasicParam GameCore::CreatureBasicParam::WithOnDamage(int damage) const
+{
+	const int effectiveDamage = Max(0, damage - m_defensePower);
+	const int newHealth = Max(0, m_health - effectiveDamage);
+
+	return CreatureBasicParam(
+		m_weight,
+		m_attackRange,
+		m_attackDelay_secs,
+		m_attackCooldown_secs,
+		m_attackPower,
+		m_attackTargetNumber,
+		newHealth,
+		m_defensePower,
+		m_moveSpeed,
+		m_spawnCost,
+		m_colliderSize,
+		m_movingAnimation,
+		m_attackingAnimation
+	);
+}
