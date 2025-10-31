@@ -12,6 +12,8 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)));
+		m_resource = m_context->getStartResources();
 	}
 
 	void StageScene::OnEnter()
@@ -20,10 +22,6 @@ namespace GameCore
 		m_playerPos = Scene::Center();
 		m_camera = Camera2D(m_playerPos, 1, CameraControl::None_);
 
-		auto costs = m_context->getCosts();
-		m_stageUI.Reset();
-		m_stageUI.SetCosts(costs);
-		m_resource = m_context->getStartResources();
 	}
 
 	void StageScene::Update()
@@ -75,8 +73,7 @@ namespace GameCore
 		Circle{ 690, 110, 100 }.draw(ColorF{ 0.8 });
 
 
-		m_stageUI.update(Scene::DeltaTime());
-		m_stageUI.draw(Scene::DeltaTime(), m_resource, 0);
+		m_stageUI.update(Scene::DeltaTime(), m_resource, m_canvasOpen);
 	}
 
 	void StageScene::OnExit()

@@ -30,9 +30,10 @@ namespace GameCore
 		SeaDeepest seaDeepest;
 		std::vector<DeepSeaFish> m_deepSeaFishes;
 		std::vector<TrashEnemy > m_trashEnemies;
-		StageUI m_stageUI = StageUI{};
+		StageUI m_stageUI = StageUI { };
 
 		Vec2 m_playerPos = {0, 0};
 		double m_resource = 0;
+		bool m_canvasOpen = false;
 	};
 }

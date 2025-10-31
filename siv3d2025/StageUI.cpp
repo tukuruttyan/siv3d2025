@@ -6,6 +6,87 @@ StageUI::StageUI()
 	precomputeGeometry();
 }
 
+void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context)
+{
+	m_context = context;
+
+	m_kirimiButtons.clear();
+
+	const auto costs = m_context->getCosts();
+	generateKirimiButtons(costs);
+}
+
+void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
+{
+	if (MouseR.down()) // 右クリックが押されている間
+	{
+		canvasOpen = !canvasOpen;
+	}
+
+	for (const auto& button : m_kirimiButtons)
+	{
+		button.update();
+	}
+
+	updateLeftSide(deltaTime, resources, canvasOpen);
+	updateRightSide();
+}
+
+void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const
+{
+	Transformer2D t(Mat3x2::Translate(80, 100), TransformCursor::Yes);
+	updateKimeraCanvas(deltaTime, canvasOpen);
+	updateKirimiPalette(resources);
+	for (const auto& button : m_kirimiButtons)
+	{
+		button.draw(resources);
+	}
+}
+void StageUI::updateKirimiPalette(double resources) const
+{
+	drawKirimiPalette(resources);
+}
+
+void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
+{
+	const auto ratio = canvasOpen ? 1 : 0;
+	m_canvasWidth = Math::Lerp(m_canvasWidth, ratio * 1000, deltaTime * 10);
+	const auto width = static_cast<int>(m_canvasWidth);
+
+	Transformer2D t(Mat3x2::Translate({ 300, 25 }), TransformCursor::Yes);
+	drawKimeraCanvas({width, 800});
+	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
+	drawCanvasHandle(canvasOpen, 800);
+
+	if (m_kimeraHandleUnion.leftClicked())
+	{
+		canvasOpen = !canvasOpen;
+	}
+}
+
+void StageUI::updateRightSide() const
+{
+	Transformer2D t(Mat3x2::Translate(Scene::Width() - 480, 30), TransformCursor::Yes);
+	updateChart();
+	updateMinimap();
+}
+
+
+void StageUI::updateChart() const
+{
+	const int size = 200;
+	Transformer2D t(Mat3x2::Translate({ size, size }), TransformCursor::Yes);
+
+	drawChart(size);
+}
+
+void StageUI::updateMinimap() const
+{
+	Transformer2D baseT(Mat3x2::Translate({ 100, 430 }), TransformCursor::Yes);
+	drawMinimap();
+}
+
+
 void StageUI::precomputeGeometry()
 {
 	// ====== Minimap constants (must match drawMinimap) ======
@@ -73,14 +154,9 @@ void StageUI::precomputeGeometry()
 	}
 }
 
-void StageUI::Reset()
-{
-	m_kirimiButtons.clear();
-}
 
-void StageUI::SetCosts(std::array<int, 8> costs)
+void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 {
-	m_kirimiButtons.clear();
 	const std::array<String, 8> buttonIcons{ U"い", U"ろ", U"は", U"に", U"ほ", U"へ", U"と", U"ち" };
 
 	const int buttonSize = 125;
@@ -100,44 +176,62 @@ void StageUI::SetCosts(std::array<int, 8> costs)
 	m_kirimiButtons[0].setSelected(true);
 }
 
-void StageUI::update(double deltaTime) const
+void StageUI::drawKimeraCanvas(Size size) const
 {
-	for (const auto& button : m_kirimiButtons)
+	// Canvas
+	size.x += 50;
+	Rect { 0, 0, size }.draw(m_canvasColor);
+	const int fadeLength = 20;
+	Rect { 0, 0, size.x, fadeLength }.draw(Arg::top(m_canvasFadeOutColor), Arg::bottom(m_canvasFadeInColor));
+	Rect { 0, size.y - fadeLength, size.x, fadeLength }.draw(Arg::top(m_canvasFadeInColor), Arg::bottom(m_canvasFadeOutColor));
+}
+
+void StageUI::drawCanvasHandle(bool canvasOpen, int height) const
+{
+	// Handle
+	m_kimeraHandleUnion.draw(m_baseColor);
+	m_kimeraHandleUnion.drawFrame(15, m_subColor);
+
+	// Handle Arrows
+	Transformer2D tArrow(Mat3x2::Translate({ 60, height/2 }), TransformCursor::Yes);
+
+	Line { 0, 120, 0, 300 }.draw(LineStyle::RoundCap, 10, m_shadowColor);
+	Line { 0, -120, 0, -300 }.draw(LineStyle::RoundCap, 10, m_shadowColor);
+
+
+	Line { -15, 60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_mainColor);
+	Line { -15, -60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_mainColor);
+	Line { -15, 0, 15, 60 }.draw(LineStyle::RoundCap, 10, m_mainColor);
+	Line { -15, 0, 15, -60 }.draw(LineStyle::RoundCap, 10, m_mainColor);
+
+	if (canvasOpen)
 	{
-		button.update();
+		Line { -15, 0, 15, 60 }.draw(LineStyle::RoundCap, 10, m_accentColor);
+		Line { -15, 0, 15, -60 }.draw(LineStyle::RoundCap, 10, m_accentColor);
+	}else
+	{
+		Line { -15, 60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_accentColor);
+		Line { -15, -60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_accentColor);
 	}
 }
 
-void StageUI::draw(double deltaTime, double resource, double scroll) const
+void StageUI::drawKirimiPalette(double resources) const
 {
-	drawLeftSide(deltaTime, resource, scroll);
-	drawRightSide(deltaTime, resource, scroll);
+	RoundRect{ 0, 0, 350, 900, 50 }.draw(m_baseColor).drawFrame(0, 15, m_subColor);
+
+	RoundRect{ 30, 800, 290, 75, 20 }.draw(m_baseColor).drawFrame(0, 10, m_subColor);
+
+	const auto txt =
+
+	m_resourceLabel(U"{:0>9}"_fmt(static_cast<int>(resources))).drawAt(50, { 174, 835 }, m_subColor);
 }
 
-void StageUI::drawLeftSide(double deltaTime, double resource, double scroll) const
-{
-	Transformer2D t(Mat3x2::Translate(80, 100));
-	drawKimeraCanvas();
-	drawKirimiPalette(resource);
-	for (const auto& button : m_kirimiButtons)
-	{
-		button.draw(resource);
-	}
-}
 
-void StageUI::drawRightSide(double deltaTime, double resource, double scroll) const
+void StageUI::drawChart(int size) const
 {
-	Transformer2D t(Mat3x2::Translate(Scene::Width() - 480, 30));
-	drawChart(scroll);
-	drawMinimap(scroll);
-}
-
-void StageUI::drawChart(double scroll) const
-{
-	const int size = 200;
 	const int outFrameSize = 15;
 	const int inFrameSize = 40;
-	Transformer2D t(Mat3x2::Translate({ size, size }));
+
 	Circle frameRect{ size };
 	Circle contentRect{ size - inFrameSize };
 
@@ -157,11 +251,8 @@ void StageUI::drawChart(double scroll) const
 	contentRect.drawFrame(30, 0, ColorF{ 0, 0.0 }, m_shadowColor);
 }
 
-void StageUI::drawMinimap(double scrollRatio) const
+void StageUI::drawMinimap() const
 {
-	// Layout and style constants
-	Transformer2D baseT(Mat3x2::Translate({ 100, 430 }));
-
 	// Validate
 	const Size mainSize{ 180, 480 };
 	const int mainCornerR = 30;
@@ -191,7 +282,7 @@ void StageUI::drawMinimap(double scrollRatio) const
 	// shadows
 	m_minimapShadowCutout.draw(m_shadowColor);
 
-	Transformer2D mainT(Mat3x2::Translate({ frameSize + mainSize.x / 2, frameSize + mainSize.y / 2 }));
+	Transformer2D mainT(Mat3x2::Translate({ frameSize + mainSize.x / 2, frameSize + mainSize.y / 2 }), TransformCursor::Yes);
 	// deco
 	const int scrollYSize = 120;
 	const auto greenLineY = mainSize.y / 2 - 20;
@@ -206,8 +297,8 @@ void StageUI::drawMinimap(double scrollRatio) const
 	Circle{ 8, redLineY - 70, 5 }.drawFrame(5, Palette::Red);
 	Circle{ 15, redLineY - 90, 7 }.drawFrame(5, Palette::Red);
 
- // Precomputed marine decoration
- m_minimapMarineClip.drawFrame(5, Palette::Green);
+	 // Precomputed marine decoration
+	 m_minimapMarineClip.drawFrame(5, Palette::Green);
 
 	// fades
 	Circle fadeCornerRect{ mainCornerR };
@@ -225,53 +316,9 @@ void StageUI::drawMinimap(double scrollRatio) const
 	// scroll
 	const int margin = 15;
 	Point decoSize{ mainSize.x - margin, 120 };
-	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (0.5 - 1)}));
+	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (0.5 - 1)}), TransformCursor::Yes);
 	RoundRect{ -decoSize / 2, decoSize, mainCornerR - 4 }.drawFrame(5, m_accentColor);
 	Line{ { -10, 0 }, { 10, 0 } }.draw(5, m_accentColor);
 	Line{ { 0, -10 }, { 0, 10 } }.draw(5, m_accentColor);
 }
-
-void StageUI::drawKirimiPalette(double resource) const
-{
-	RoundRect{ 0, 0, 350, 900, 50 }.draw(m_baseColor).drawFrame(0, 15, m_subColor);
-
-	RoundRect{ 30, 800, 290, 75, 20 }.draw(m_baseColor).drawFrame(0, 10, m_subColor);
-
-	m_resourceLabel(U"{:0>9}"_fmt(static_cast<int>(resource))).drawAt(50, { 174, 835 }, m_subColor);
-}
-
-void StageUI::drawKimeraCanvas() const
-{
-	// Canvas
-	Transformer2D tStart(Mat3x2::Translate({ 300, 25 }));
-	const double rate = 1;
-	const int height = 850;
-	int movementWidth = static_cast<int>(1000 * rate);
-	Rect { 0, 0, movementWidth + 50, height }.draw(m_canvasColor);
-	const int fadeLength = 20;
-	Rect { 0, 0, movementWidth + 50, fadeLength }.draw(Arg::top(m_canvasFadeOutColor), Arg::bottom(m_canvasFadeInColor));
-	Rect { 0, height - fadeLength, movementWidth + 50, fadeLength }.draw(Arg::top(m_canvasFadeInColor), Arg::bottom(m_canvasFadeOutColor));
-
-	// Handle
-	Transformer2D tHandle(Mat3x2::Translate({ movementWidth + 33, 0 }));
-
-	// Precomputed handle contour
-	m_kimeraHandleUnion.draw(m_baseColor);
-	m_kimeraHandleUnion.drawFrame(15, m_subColor);
-
-	// Handle Arrows
-	Transformer2D tArrow(Mat3x2::Translate({ 60, height/2 }));
-
-	Line { 0, 120, 0, 300 }.draw(LineStyle::RoundCap, 10, m_shadowColor);
-	Line { 0, -120, 0, -300 }.draw(LineStyle::RoundCap, 10, m_shadowColor);
-
-	Line { -15, 60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_mainColor);
-	Line { -15, -60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_mainColor);
-	Line { -15, 0, 15, 60 }.draw(LineStyle::RoundCap, 10, m_mainColor);
-	Line { -15, 0, 15, -60 }.draw(LineStyle::RoundCap, 10, m_mainColor);
-
-	Line { -15, 60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_accentColor);
-	Line { -15, -60, 15, 0 }.draw(LineStyle::RoundCap, 10, m_accentColor);
-}
-
 

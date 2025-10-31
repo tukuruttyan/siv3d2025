@@ -28,7 +28,8 @@ void KirimiButton::setSelected(bool selected)
 
 void KirimiButton::update() const
 {
-	m_mouseOver = m_rect.mouseOver();
+	const RoundRect rr{ m_rect, 20 };
+	m_mouseOver = rr.mouseOver();
 }
 
 void KirimiButton::draw(double resource = 0) const

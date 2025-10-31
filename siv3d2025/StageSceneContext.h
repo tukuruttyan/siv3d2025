@@ -17,7 +17,6 @@ namespace GameCore
 		double getResourcesPerSecond() const;
 		const std::array<int, 8>& getCosts() const;
 		StageSceneContext& operator=(const StageSceneContext& other);
-
 	private:
 		std::shared_ptr<const TrashFactory> m_trashFactory;
 		const float m_sceneHeight;
