@@ -21,6 +21,7 @@ void KirimiButton::setSelected(bool selected)
 	m_selected = selected;
 }
 
+// TODO: これ引数enable→selected
 void KirimiButton::draw(bool enabled, double resource = 0) const
 {
 	const bool disabled = !enabled;
@@ -28,7 +29,7 @@ void KirimiButton::draw(bool enabled, double resource = 0) const
 	// 背景色
 	ColorF fill = m_normalColor;
 	if (disabled) fill = m_disableColor;
-	else if (m_selected) fill = m_activeColor;
+	else if (m_selected) fill = m_activeColor; // selected中でもhover表示はうっすらでいいから出したい
 	else if (m_mouseOver) fill = m_disableColor;
 
 	const RoundRect rr{ m_rect, 20 };
@@ -64,6 +65,7 @@ void KirimiButton::draw(bool enabled, double resource = 0) const
 
 
 	// ホバー時の影
+	// TODO: 判定バグってる、治すこと(StageSceneUI参照
 	if (m_mouseOver && !disabled)
 	{
 		rr.drawShadow(Vec2{ 0, 2 }, 8, 1.0, ColorF{ 0, 0, 0, 0.15 });
