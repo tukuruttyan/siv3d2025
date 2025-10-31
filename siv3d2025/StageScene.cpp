@@ -79,18 +79,22 @@ namespace GameCore
 			m_seaDeepest->Draw();
 			for (auto& fish : m_deepSeaFishes)
 			{
-				const auto deepSeaFishAttackables = m_trashEnemies
+				auto deepSeaFishAttackables = m_trashEnemies
 					| std::views::transform([](TrashEnemy& fish) -> ITakableSeaFishAttack* { return &fish; })
 					| std::ranges::to<std::vector<ITakableSeaFishAttack*>>();
+
+				deepSeaFishAttackables.push_back(&m_context.value().getTrashFactory());
 
 				fish.Update(deepSeaFishAttackables);
 				fish.Draw();
 			}
 			for (auto& trashEnemy : m_trashEnemies)
 			{
-				const auto trashEnemyAttackables = m_deepSeaFishes
+				auto trashEnemyAttackables = m_deepSeaFishes
 					| std::views::transform([](DeepSeaFish& fish) -> ITakableTrashEnemyAttack* { return &fish; })
 					| std::ranges::to<std::vector<ITakableTrashEnemyAttack*>>();
+
+				trashEnemyAttackables.push_back(m_seaDeepest.get());
 
 				trashEnemy.Update(trashEnemyAttackables);
 				trashEnemy.Draw();

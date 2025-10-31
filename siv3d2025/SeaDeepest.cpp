@@ -19,3 +19,8 @@ void GameCore::SeaDeepest::Draw() const
 {
 	m_texture.resized(300, 300).draw(m_position);
 }
+
+void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)
+{
+	m_health -= takeAttackPower;
+}
