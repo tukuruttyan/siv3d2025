@@ -24,8 +24,9 @@ private:
 	void updateKirimiPalette(double resources) const;
 	void updateKimeraCanvas(double deltaTime, bool& canvasOpen) const;
 
-	struct CanvasButtons
+	struct CanvasRects
 	{
+		Rect canvasRect;
 		Array<Circle> propButtons;
 		RoundRect spawnButton;
 	};
@@ -33,7 +34,7 @@ private:
 	void drawChart(int size) const;
 	void drawMinimap() const;
 	void drawKirimiPalette(double resources) const;
-	CanvasButtons drawKimeraCanvas(Size size) const;
+	CanvasRects drawKimeraCanvas(Size size) const;
 	void drawKirimiGhost() const;
 	void drawDeepFish() const;
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;

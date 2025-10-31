@@ -49,30 +49,40 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	const auto width = static_cast<int>(m_canvasWidth);
 
 	Transformer2D t(Mat3x2::Translate({ 300, 25 }), TransformCursor::Yes);
-	const auto buttons = drawKimeraCanvas({width, 850});
+	const auto rects = drawKimeraCanvas({width, 850});
 
-	if (buttons.spawnButton.leftClicked())
+	auto anyInput = false;
+	if (rects.spawnButton.leftClicked())
 	{
 		Print << U"siv3";
+		anyInput = true;
 	}
-	if (buttons.propButtons[0].leftPressed())
+	if (rects.propButtons[0].leftPressed())
 	{
 		m_kirimiSize += deltaTime * 100;
+		anyInput = true;
 	}
-	if (buttons.propButtons[1].leftPressed())
+	if (rects.propButtons[1].leftPressed())
 	{
 		m_kirimiSize -= deltaTime * 100;
+		anyInput = true;
 	}
 	m_kirimiSize = Clamp(m_kirimiSize, 10.0, 250.0);
-	if (buttons.propButtons[2].leftPressed())
+	if (rects.propButtons[2].leftPressed())
 	{
 		m_kirimiRotate += deltaTime;
+		anyInput = true;
 	}
-	if (buttons.propButtons[3].leftPressed())
+	if (rects.propButtons[3].leftPressed())
 	{
 		m_kirimiRotate -= deltaTime;
+		anyInput = true;
 	}
 	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
+	if (!anyInput && rects.canvasRect.leftClicked())
+	{
+		Print << U"ca";
+	}
 
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
 	drawCanvasHandle(canvasOpen, 800);
@@ -193,12 +203,13 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 	m_selectedKirimiIdx = 0;
 }
 
-StageUI::CanvasButtons StageUI::drawKimeraCanvas(Size size) const
+StageUI::CanvasRects StageUI::drawKimeraCanvas(Size size) const
 {
-	auto result = StageUI::CanvasButtons{};
+	auto result = StageUI::CanvasRects{};
 	// Canvas
 	size.x += 50;
 	Rect rr{ size };
+	result.canvasRect = rr;
 	rr.draw(m_canvasColor);
 	const int fadeLength = 20;
 	Rect { 0, 0, size.x, fadeLength }.draw(Arg::top(m_canvasFadeOutColor), Arg::bottom(m_canvasFadeInColor));
@@ -221,7 +232,7 @@ StageUI::CanvasButtons StageUI::drawKimeraCanvas(Size size) const
 
 	for (auto& x : xList)
 	{
-		const auto r =Circle{ { x, 760 }, 36 }.draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_mainColor);
+		const auto r =Circle{ { x, 65 }, 36 }.draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_mainColor);
 		result.propButtons << r;
 	}
 	result.spawnButton = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-propShadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
@@ -229,7 +240,7 @@ StageUI::CanvasButtons StageUI::drawKimeraCanvas(Size size) const
 	const std::array<std::u32string, 4> iconList = { U"\U000F0415", U"\U000F0374", U"\U000F0467", U"\U000F0465" };
 	for (auto&& [i, x] : Indexed(xList))
 	{
-		const auto pos = Vec2{x, 760 } - propShadowOffset;
+		const auto pos = Vec2{x, 65 } - propShadowOffset;
 		m_propLabel(iconList[i]).drawAt(pos);
 	}
 
