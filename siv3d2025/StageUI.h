@@ -24,10 +24,16 @@ private:
 	void updateKirimiPalette(double resources) const;
 	void updateKimeraCanvas(double deltaTime, bool& canvasOpen) const;
 
+	struct CanvasButtons
+	{
+		Array<Circle> propButtons;
+		RoundRect spawnButton;
+	};
+
 	void drawChart(int size) const;
 	void drawMinimap() const;
 	void drawKirimiPalette(double resources) const;
-	void drawKimeraCanvas(Size size) const;
+	CanvasButtons drawKimeraCanvas(Size size) const;
 	void drawKirimiGhost() const;
 	void drawDeepFish() const;
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;
@@ -64,5 +70,5 @@ private:
 	mutable double m_canvasWidth = 0;
 	mutable int m_selectedKirimiIdx = 0;
 	mutable double m_kirimiRotate = 0;
-	mutable Size m_kirimiSize = { 1, 1 };
+	mutable double m_kirimiSize = 100;
 };

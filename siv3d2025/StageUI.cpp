@@ -18,11 +18,6 @@ void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context)
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 {
-	if (MouseR.down()) // 右クリックが押されている間
-	{
-		canvasOpen = !canvasOpen;
-	}
-
 	updateLeftSide(deltaTime, resources, canvasOpen);
 	updateRightSide();
 }
@@ -54,11 +49,34 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	const auto width = static_cast<int>(m_canvasWidth);
 
 	Transformer2D t(Mat3x2::Translate({ 300, 25 }), TransformCursor::Yes);
-	drawKimeraCanvas({width, 850});
+	const auto buttons = drawKimeraCanvas({width, 850});
+
+	if (buttons.spawnButton.leftClicked())
+	{
+		Print << U"siv3";
+	}
+	if (buttons.propButtons[0].leftPressed())
+	{
+		m_kirimiSize += deltaTime * 100;
+	}
+	if (buttons.propButtons[1].leftPressed())
+	{
+		m_kirimiSize -= deltaTime * 100;
+	}
+	m_kirimiSize = Clamp(m_kirimiSize, 10.0, 250.0);
+	if (buttons.propButtons[2].leftPressed())
+	{
+		m_kirimiRotate += deltaTime;
+	}
+	if (buttons.propButtons[3].leftPressed())
+	{
+		m_kirimiRotate -= deltaTime;
+	}
+	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
+
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
 	drawCanvasHandle(canvasOpen, 800);
-
-	if (m_kimeraHandleUnion.leftClicked())
+	if (MouseR.down() || m_kimeraHandleUnion.leftClicked())
 	{
 		canvasOpen = !canvasOpen;
 	}
@@ -175,8 +193,9 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 	m_selectedKirimiIdx = 0;
 }
 
-void StageUI::drawKimeraCanvas(Size size) const
+StageUI::CanvasButtons StageUI::drawKimeraCanvas(Size size) const
 {
+	auto result = StageUI::CanvasButtons{};
 	// Canvas
 	size.x += 50;
 	Rect rr{ size };
@@ -202,9 +221,10 @@ void StageUI::drawKimeraCanvas(Size size) const
 
 	for (auto& x : xList)
 	{
-		Circle{ { x, 760 }, 36 }.draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_mainColor);
+		const auto r =Circle{ { x, 760 }, 36 }.draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_mainColor);
+		result.propButtons << r;
 	}
-	RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-propShadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
+	result.spawnButton = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-propShadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
 
 	const std::array<std::u32string, 4> iconList = { U"\U000F0415", U"\U000F0374", U"\U000F0467", U"\U000F0465" };
 	for (auto&& [i, x] : Indexed(xList))
@@ -216,11 +236,12 @@ void StageUI::drawKimeraCanvas(Size size) const
 	const auto textPos = Vec2{ 820, 755 } - propShadowOffset;
 	m_spawnLabel(U"ショウカン").drawAt(textPos);
 
+	return  result;
 }
 
 void StageUI::drawKirimiGhost() const
 {
-	const auto size = 100 * m_kirimiSize;
+	const auto size = Size { (int32)m_kirimiSize, (int32)m_kirimiSize };
 	Rect { Cursor::Pos() - size/2, size }.rotated(m_kirimiRotate).draw({Palette::Green, 0.5});
 }
 
