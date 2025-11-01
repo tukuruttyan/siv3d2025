@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "SpriteAnimation.h"
-
 namespace GameCore
 {
 	enum CreatureState
@@ -37,7 +35,23 @@ namespace GameCore
 		[[nodiscard]] int			   GetSpawnCost			 () const noexcept { return m_spawnCost;		  }
 		[[nodiscard]] s3d::Vec2		   GetColliderSize		 () const noexcept { return m_colliderSize;		  }
 
-		CreatureBasicParam WithOnDamage(int damage) const;
+		CreatureBasicParam WithOnDamage(int damage) const; 
+		CreatureBasicParam operator+(const CreatureBasicParam& other) const
+		{
+			return CreatureBasicParam{
+				m_weight + other.m_weight,
+				m_attackRange + other.m_attackRange,
+				m_attackDelay_secs - other.m_attackDelay_secs,
+				m_attackCooldown_secs - other.m_attackCooldown_secs,
+				m_attackPower + other.m_attackPower,
+				m_attackTargetNumber + other.m_attackTargetNumber,
+				m_health + other.m_health,
+				m_defensePower + other.m_defensePower,
+				m_moveSpeed + other.m_moveSpeed,
+				m_spawnCost + other.m_spawnCost,
+				m_colliderSize + other.m_colliderSize
+			};
+		}
 
 	private:
 		float m_weight				= 10.0f;
@@ -50,6 +64,6 @@ namespace GameCore
 		int   m_defensePower		= 10;
 		float m_moveSpeed			= 10.0f;
 		int   m_spawnCost			= 10;
-		s3d::Vec2 m_colliderSize    = { 100, 100 };
+		Vec2 m_colliderSize    = { 100, 100 };
 	};
 }

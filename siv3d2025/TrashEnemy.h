@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "TrashEnemyAnimation.h"
 #include "ITakableTrashEnemyAttack.h"
 #include "ITakableSeaFishAttack.h"
 #include "CreatureBase.h"
@@ -8,7 +9,7 @@ namespace GameCore
 	class TrashEnemy final : public CreatureBase<ITakableTrashEnemyAttack>, public ITakableSeaFishAttack
 	{
 	public:
-		explicit TrashEnemy(CreatureBasicParam basicParam, s3d::Vec2 position, const std::function<void(TrashEnemy&)> removeScene);
+		explicit TrashEnemy(CreatureBasicParam basicParam, TrashEnemyAnimation trashEnemyAnimation, s3d::Vec2 position, const std::function<void(TrashEnemy&)> removeScene);
 		void Update(const std::vector<ITakableTrashEnemyAttack*>& attackables);
 		void Draw();
 
@@ -17,6 +18,7 @@ namespace GameCore
 		s3d::RectF ColliderRect() override { return HitBoxColliderRect(); }
 		void TakeOnAttack(int takeAttackPower) override;
 
+		TrashEnemyAnimation m_animation;
 		std::function<void(TrashEnemy&)> m_removeSceneTrashEnemy;
 	};
 }

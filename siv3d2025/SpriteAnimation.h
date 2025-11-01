@@ -1,12 +1,14 @@
-﻿namespace GameCore
+﻿#pragma once
+namespace GameCore
 {
 	class SpriteAnimation final
 	{
 	public:
-		SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs);
+		explicit SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs);
 
 		void Draw(const Vec2& pos);
 		void Draw(const Vec2& pos, const SizeF& size);
+		void Draw(const Vec2& pos, const SizeF& size, double angle);
 
 	private:
 		Texture texture;

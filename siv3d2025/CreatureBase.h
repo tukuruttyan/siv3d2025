@@ -27,7 +27,7 @@ namespace GameCore
 		std::vector<IAttackableT*> CatchInAttackAreaTarget(const std::vector<IAttackableT*>& attackables) const;
 		void DrawDebug() const;
 		const s3d::Vec2& GetPosition() const { return m_position; }
-		CreatureBasicParam& BasicParam() { return m_basicParam; }
+		const CreatureBasicParam& BasicParam() const { return m_basicParam; }
 		const CreatureState& GetState() const { return m_state; }
 		void UpdateMoveState(const std::vector<IAttackableT*>& attackables);
 		void UpdateAttackingState(const std::vector<IAttackableT*>& attackables);
@@ -110,7 +110,7 @@ namespace GameCore
 		{
 			attackAreaY = RectF{
 				m_position.x - 10000.0,
-				m_position.y + m_basicParam.GetSpriteSize().y,
+				m_position.y,
 				20000.0,
 				attackRangeY
 			};
@@ -170,7 +170,7 @@ namespace GameCore
 		{
 			attackAreaY = RectF{
 				m_position.x - 10000.0,
-				m_position.y + m_basicParam.GetSpriteSize().y,
+				m_position.y,
 				20000.0,
 				attackRangeY
 			};

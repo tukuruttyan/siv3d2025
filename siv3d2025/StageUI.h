@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "CreatureBasicParam.h"
+#include "SpriteAnimation.h"
 
 #include "KirimiButton.h"
 #include "StageSceneContext.h"
@@ -8,10 +9,11 @@
 
 struct CanvasKirimi
 {
-	int kirimiIndex;
+	GameCore::CreatureBasicParam m_param;
 	double rotate;
 	double size;
 	Point position;
+	GameCore::SpriteAnimation m_animation;
 };
 
 class StageUI
@@ -31,7 +33,7 @@ public:
 private:
 	// Precompute static geometry (polygons) once and reuse at draw time
 	void precomputeGeometry();
-	void generateKirimiButtons(const std::array<GameCore::CreatureBasicParam, 8>& costs);
+	void generateKirimiButtons(const std::array<std::pair<const GameCore::SpriteAnimation, const GameCore::CreatureBasicParam>, 8>& kirimiInventory);
 
 	void updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const;
 	void updateRightSide() const;

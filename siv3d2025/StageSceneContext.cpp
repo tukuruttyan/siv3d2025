@@ -34,7 +34,7 @@ namespace GameCore
 		return m_resourcesPerSecond;
 	}
 
-	const std::array<CreatureBasicParam, 8>& StageSceneContext::getKirimiInventory() const
+	const std::array<std::pair<const SpriteAnimation, const CreatureBasicParam>, 8>& StageSceneContext::getKirimiInventory() const
 	{
 		return m_kirimiInventory;
 	}
