@@ -51,6 +51,7 @@ private:
 	void drawKirimiGhost() const;
 	void drawDeepFish() const;
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;
+	const RoundRect& drawGame() const;
 
 	// Scene context
 	GameCore::StageSceneContext* m_context = nullptr;
@@ -68,6 +69,7 @@ private:
 	Font m_propLabel{ 32, Typeface::Icon_MaterialDesign };
 	Font m_spawnLabel{ 56 };
 	Font m_resourceLabel{ 18 };
+	Font m_gameLabel{ 50 };
 
 	// UI Colors
 	const ColorF m_baseColor { Palette::Dimgray };
@@ -81,6 +83,7 @@ private:
 
 	const Point m_shadowOffset{ 40, 33 };
 
+	mutable double m_gameScroll = 0;
 	mutable double m_canvasWidth = 0;
 	mutable int m_selectedKirimiIdx = 0;
 	mutable double m_kirimiRotate = 0;

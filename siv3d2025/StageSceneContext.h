@@ -5,11 +5,20 @@
 
 namespace GameCore
 {
+	enum GameState
+	{
+		Playing,
+		GameClear,
+		GameOver
+	};
+
 	struct StageSceneContext final
 	{
 	public:
 		StageSceneContext(std::shared_ptr<const TrashFactory> trashFactory, float sceneHeight);
 		void Update();
+		void GameOver();
+		void GameClear();
 
 		TrashFactory& getTrashFactory() const;
 		void MinusResource(double minus)
@@ -18,6 +27,7 @@ namespace GameCore
 		}
 		float  getSceneHeight() const;
 		double getScrollSpeed() const;
+		GameState State() const { return  m_gameState; }
 		double Resource() const { return m_resource; }
 		const std::array<std::pair<const SpriteAnimation, const CreatureBasicParam>, 8>& getKirimiInventory() const;
 		StageSceneContext& operator=(const StageSceneContext& other);
@@ -39,5 +49,6 @@ namespace GameCore
 		double m_startResources = 1000.0f;
 		const double m_resourcesPerSecond = 5;
 		double m_resource = 1000.0f;
+		GameState m_gameState = Playing;
 	};
 }

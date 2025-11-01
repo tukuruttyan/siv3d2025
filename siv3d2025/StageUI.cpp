@@ -19,8 +19,20 @@ void StageUI::Init(GameCore::StageSceneContext* context, std::function<void(Arra
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 {
+	const auto ratio = m_context->State() == GameCore::Playing ? 0 : 1;
+	m_gameScroll = Math::Lerp(m_gameScroll, ratio, deltaTime * 8);
+
+	Transformer2D t {Mat3x2::Translate(0, m_gameScroll * Scene::Height()), TransformCursor::Yes};
 	updateLeftSide(deltaTime, resources, canvasOpen);
 	updateRightSide();
+
+	Transformer2D gt {Mat3x2::Translate(0, -Scene::Height())};
+	const auto backButton = drawGame();
+
+	if (backButton.leftClicked())
+	{
+		// TODO: タイトルへ戻る
+	}
 }
 
 void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const
@@ -426,3 +438,13 @@ void StageUI::drawMinimap() const
 	Line{ { 0, -10 }, { 0, 10 } }.draw(5, m_accentColor);
 }
 
+const RoundRect& StageUI::drawGame() const
+{
+	const auto labelTxt = m_context->State() == GameCore::GameClear ? U"ゲームクリア‼" : U"ゲームオーバー...";
+	m_gameLabel(labelTxt).drawAt(Scene::Center());
+	const auto& result = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-m_shadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
+	const auto textPos = Vec2{ 820, 755 } - m_shadowOffset;
+	m_spawnLabel(U"戻る").drawAt(textPos);
+
+	return result;
+}
