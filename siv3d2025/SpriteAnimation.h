@@ -9,6 +9,7 @@ namespace GameCore
 		void Draw(const Vec2& pos);
 		void Draw(const Vec2& pos, const SizeF& size);
 		void Draw(const Vec2& pos, const SizeF& size, double angle);
+		void Draw(const Vec2& pos, const SizeF& size, double angle, ColorF color);
 
 	private:
 		Texture texture;

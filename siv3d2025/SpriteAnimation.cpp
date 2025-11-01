@@ -56,6 +56,11 @@ void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size)
 
 void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size, double angle)
 {
+	Draw(pos, size, angle,Palette::White);
+}
+
+void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size, double angle, ColorF color)
+{
 	time += Scene::DeltaTime();
 	if (time > totalTime_secs)
 	{
@@ -74,5 +79,6 @@ void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size, double 
 	texture.uv(u, v, uSize, vSize)
 		.resized(size)
 		.rotated(angle)
-		.draw(pos);
+		.draw(pos, color);
 }
+
