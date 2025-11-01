@@ -14,7 +14,7 @@ namespace GameCore
 		m_context = sceneContext;
 		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)));
 		m_resource = m_context->getStartResources();
-		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 300, -sceneContext.getSceneHeight() });
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
 	}
 
 	void StageScene::OnEnter()

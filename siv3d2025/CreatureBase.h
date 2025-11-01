@@ -101,13 +101,30 @@ namespace GameCore
 	inline std::vector<IAttackableT*> CreatureBase<IAttackableT>::CatchInAttackAreaTarget(const std::vector<IAttackableT*>& attackables) const
 	{
 		const double attackRangeY = m_basicParam.GetAttackRange();
-		const s3d::RectF attackAreaY
+		s3d::RectF attackAreaY = { m_position.x - 10000.0,
+								   m_position.y,
+								   20000.0,
+								   attackRangeY };
+
+		if (attackRangeY > 0.0f)
 		{
-			m_position.x - 10000.0,
-			m_position.y,
-			20000.0,
-			attackRangeY
-		};
+			attackAreaY = RectF{
+				m_position.x - 10000.0,
+				m_position.y + m_basicParam.GetSpriteSize().y,
+				20000.0,
+				attackRangeY
+			};
+		}
+		else
+		{
+			attackAreaY = RectF{
+				m_position.x - 10000.0,
+				m_position.y + attackRangeY,
+				20000.0,
+				-attackRangeY
+			};
+		}
+
 
 		std::vector<IAttackableT*> candidates;
 
@@ -142,7 +159,31 @@ namespace GameCore
 	inline void CreatureBase<IAttackableT>::DrawDebug() const
 	{
 		HitBoxColliderRect().drawFrame(2.0, 2.0, Palette::Green);
-		const s3d::RectF attackArea{ m_position, s3d::Vec2{ m_basicParam.GetAttackRange(), m_basicParam.GetAttackRange() } };
-		attackArea.drawFrame(2.0, 2.0, Palette::Red);
+
+		const float attackRangeY = m_basicParam.GetAttackRange();
+		s3d::RectF attackAreaY = { m_position.x - 10000.0,
+								   m_position.y,
+								   20000.0,
+								   attackRangeY };
+
+		if (attackRangeY > 0.0f)
+		{
+			attackAreaY = RectF{
+				m_position.x - 10000.0,
+				m_position.y + m_basicParam.GetSpriteSize().y,
+				20000.0,
+				attackRangeY
+			};
+		}
+		else
+		{
+			attackAreaY = RectF{
+				m_position.x - 10000.0,
+				m_position.y + attackRangeY,
+				20000.0,
+				-attackRangeY
+			};
+		}
+		attackAreaY.drawFrame(2.0f, 2.0f, Palette::Red);
 	}
 }
