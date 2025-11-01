@@ -14,6 +14,16 @@ namespace GameCore
 		m_resource += Scene::DeltaTime() * m_resourcesPerSecond;
 	}
 
+	void StageSceneContext::GameOver()
+	{
+		m_gameState = GameCore::GameOver;
+	}
+
+	void StageSceneContext::GameClear()
+	{
+		m_gameState = GameCore::GameClear;
+	}
+
 	TrashFactory& StageSceneContext::getTrashFactory() const
 	{
 		return const_cast<TrashFactory&>(*m_trashFactory);
