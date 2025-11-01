@@ -5,13 +5,13 @@ using namespace s3d;
 
 
 KirimiButton::KirimiButton(const Rect& rect, const ColorF& borderColor, const ColorF& normalColor,
-	const ColorF& activeColor, const ColorF& disableColor, int cost, String icon) :
+	const ColorF& activeColor, const ColorF& disableColor, GameCore::CreatureBasicParam param, String icon) :
 	m_rect(rect),
 	m_normalColor(normalColor),
 	m_activeColor(activeColor),
 	m_disableColor(disableColor),
 	m_borderColor(borderColor),
-	m_cost(cost),
+	m_param(param),
 	m_icon(icon)
 {
 }
@@ -37,7 +37,7 @@ void KirimiButton::draw(bool enabled, double resource = 0) const
 	rr.draw(fill);
 
 	// 下から ratio の割合で背景を重ねる
-	double nextCostRatio = std::fmod(resource, m_cost) / m_cost;
+	double nextCostRatio = std::fmod(resource, m_param.GetSpawnCost()) / m_param.GetSpawnCost();
 	{
 		const double h = rr.h * nextCostRatio;
 		const RectF bottomRect{ rr.x, rr.y + (rr.h - h), rr.w, h };
@@ -54,9 +54,9 @@ void KirimiButton::draw(bool enabled, double resource = 0) const
 
 
 
-	m_fontValue(Format(m_cost)).draw(48, Arg::bottomCenter = Vec2{ rr.x + rr.w / 2, rr.y + rr.h }, m_borderColor);
+	m_fontValue(Format(m_param.GetSpawnCost())).draw(48, Arg::bottomCenter = Vec2{ rr.x + rr.w / 2, rr.y + rr.h }, m_borderColor);
 
-	int instanceCounts = static_cast<int>(resource / m_cost);
+	int instanceCounts = static_cast<int>(resource / m_param.GetSpawnCost());
 	String countsText = U"x" + Format(instanceCounts);
 	m_fontValue(countsText).draw(32, Arg::topRight = Vec2 { rr.x + rr.w - 10, rr.y + 3 }, m_borderColor);
 

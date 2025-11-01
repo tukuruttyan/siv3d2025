@@ -1,5 +1,6 @@
 ﻿#include "StageUI.h"
 #include "KirimiButton.h"
+#include "CreatureBasicParam.h"
 
 StageUI::StageUI()
 {
@@ -12,8 +13,7 @@ void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context)
 
 	m_kirimiButtons.clear();
 
-	const auto costs = m_context->getCosts();
-	generateKirimiButtons(costs);
+	generateKirimiButtons(m_context->getKirimiInventory());
 }
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
@@ -81,7 +81,10 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
 	if (!anyInput && rects.canvasRect.leftClicked())
 	{
-		Print << U"ca";
+		
+		
+
+		Print << U"onClicked on drop kirimi event";
 	}
 
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
@@ -182,7 +185,7 @@ void StageUI::precomputeGeometry()
 }
 
 
-void StageUI::generateKirimiButtons(std::array<int, 8> costs)
+void StageUI::generateKirimiButtons(const std::array<GameCore::CreatureBasicParam, 8>& kirimiInventory)
 {
 	const std::array<String, 8> buttonIcons{ U"い", U"ろ", U"は", U"に", U"ほ", U"へ", U"と", U"ち" };
 
@@ -191,14 +194,14 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 	const int buttonDiff = buttonSize + buttonMargin;
 
 	const Point baseOffset{ 30, 60 };
-	for (int i = 0; i < costs.size(); i++)
+	for (int i = 0; i < kirimiInventory.size(); i++)
 	{
 		const auto xLane = static_cast<int>(i / 4);
 		const Point pos{
 			xLane * buttonDiff,
 			i % 4 * buttonDiff
 		};
-		m_kirimiButtons.push_back(KirimiButton{ Rect{ baseOffset + pos, buttonSize }, m_subColor, m_mainColor, m_accentColor, m_baseColor, costs[i], buttonIcons[i]});
+		m_kirimiButtons.push_back(KirimiButton{ Rect{ baseOffset + pos, buttonSize }, m_subColor, m_mainColor, m_accentColor, m_baseColor, kirimiInventory[i], buttonIcons[i]});
 	}
 	m_selectedKirimiIdx = 0;
 }

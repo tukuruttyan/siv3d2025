@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
+#include "CreatureBasicParam.h"
 
 #include "KirimiButton.h"
 #include "StageSceneContext.h"
@@ -14,7 +15,7 @@ public:
 private:
 	// Precompute static geometry (polygons) once and reuse at draw time
 	void precomputeGeometry();
-	void generateKirimiButtons(std::array<int, 8> costs);
+	void generateKirimiButtons(const std::array<GameCore::CreatureBasicParam, 8>& costs);
 
 	void updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const;
 	void updateRightSide() const;

@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CreatureBasicParam.h"
 
-GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange, float attackDelay_secs, float attackCooldown_secs, int attackPower, int attackTargetNumber, int health, int defensePower, float moveSpeed, int spawnCost, s3d::Vec2 colliderSize, Vec2 spriteSize, SpriteAnimation movingAnimation, SpriteAnimation attackingAnimation)
+GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange, float attackDelay_secs, float attackCooldown_secs, int attackPower, int attackTargetNumber, int health, int defensePower, float moveSpeed, int spawnCost, s3d::Vec2 colliderSize)
 	: m_weight			   (weight				)
 	, m_attackRange		   (attackRange			)
 	, m_attackDelay_secs   (attackDelay_secs	)
@@ -13,9 +13,6 @@ GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange
 	, m_moveSpeed		   (moveSpeed			)
 	, m_spawnCost          (spawnCost			)
 	, m_colliderSize       (colliderSize		)
-	, m_spriteSize		   (spriteSize			)
-	, m_movingAnimation	   (movingAnimation		)
-	, m_attackingAnimation (m_attackingAnimation)
 {
 }
 
@@ -35,9 +32,6 @@ GameCore::CreatureBasicParam GameCore::CreatureBasicParam::WithOnDamage(int dama
 		m_defensePower,
 		m_moveSpeed,
 		m_spawnCost,
-		m_colliderSize,
-		m_spriteSize,
-		m_movingAnimation,
-		m_attackingAnimation
+		m_colliderSize
 	);
 }

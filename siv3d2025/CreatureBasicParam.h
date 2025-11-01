@@ -23,10 +23,7 @@ namespace GameCore
 						   int   defensePower				 ,
 						   float moveSpeed					 ,
 						   int   spawnCost					 ,
-						   s3d::Vec2 colliderSize			 ,
-						   Vec2 spriteSize					 ,
-						   SpriteAnimation movingAnimation	 ,
-						   SpriteAnimation attackingAnimation);
+						   s3d::Vec2 colliderSize			 );
 
 		[[nodiscard]] float			   GetWeight			 () const noexcept { return m_weight;			  }
 		[[nodiscard]] float			   GetAttackRange		 () const noexcept { return m_attackRange;		  }
@@ -39,10 +36,6 @@ namespace GameCore
 		[[nodiscard]] float			   GetMoveSpeed			 () const noexcept { return m_moveSpeed;		  }
 		[[nodiscard]] int			   GetSpawnCost			 () const noexcept { return m_spawnCost;		  }
 		[[nodiscard]] s3d::Vec2		   GetColliderSize		 () const noexcept { return m_colliderSize;		  }
-		[[nodiscard]] s3d::Vec2		   GetSpriteSize		 () const noexcept { return m_spriteSize;		  }
-
-		[[nodiscard]] SpriteAnimation& GetMovingAnimation    () noexcept { return m_movingAnimation;	}
-		[[nodiscard]] SpriteAnimation& GetAttackingAnimation () noexcept { return m_attackingAnimation; }
 
 		CreatureBasicParam WithOnDamage(int damage) const;
 
@@ -58,9 +51,5 @@ namespace GameCore
 		float m_moveSpeed			= 10.0f;
 		int   m_spawnCost			= 10;
 		s3d::Vec2 m_colliderSize    = { 100, 100 };
-		Vec2 m_spriteSize = {0, 0};
-
-		SpriteAnimation m_movingAnimation;
-		SpriteAnimation m_attackingAnimation;
 	};
 }
