@@ -9,12 +9,16 @@ namespace GameCore
 	{
 	public:
 		StageSceneContext(std::shared_ptr<const TrashFactory> trashFactory, float sceneHeight);
+		void Update();
 
 		TrashFactory& getTrashFactory() const;
+		void MinusResource(double minus)
+		{
+			m_resource -= minus;
+		}
 		float  getSceneHeight() const;
 		double getScrollSpeed() const;
-		double getStartResources() const;
-		double getResourcesPerSecond() const;
+		double Resource() const { return m_resource; }
 		const std::array<std::pair<const SpriteAnimation, const CreatureBasicParam>, 8>& getKirimiInventory() const;
 		StageSceneContext& operator=(const StageSceneContext& other);
 	private:
@@ -32,7 +36,8 @@ namespace GameCore
 			std::make_pair(SpriteAnimation{U"Reduroko3.png", 3, 1, 1.0f}, CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, Vec2{100, 100}}),
 		};
 
-		const double m_startResources = 1000;
+		double m_startResources = 1000.0f;
 		const double m_resourcesPerSecond = 5;
+		double m_resource = 1000.0f;
 	};
 }

@@ -9,6 +9,11 @@ namespace GameCore
 	{
 	}
 
+	void StageSceneContext::Update()
+	{
+		m_resource += Scene::DeltaTime() * m_resourcesPerSecond;
+	}
+
 	TrashFactory& StageSceneContext::getTrashFactory() const
 	{
 		return const_cast<TrashFactory&>(*m_trashFactory);
@@ -22,16 +27,6 @@ namespace GameCore
 	double StageSceneContext::getScrollSpeed() const
 	{
 		return m_scrollSpeed;
-	}
-
-	double StageSceneContext::getStartResources() const
-	{
-		return m_startResources;
-	}
-
-	double StageSceneContext::getResourcesPerSecond() const
-	{
-		return m_resourcesPerSecond;
 	}
 
 	const std::array<std::pair<const SpriteAnimation, const CreatureBasicParam>, 8>& StageSceneContext::getKirimiInventory() const

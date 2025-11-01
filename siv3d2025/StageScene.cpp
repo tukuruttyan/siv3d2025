@@ -12,8 +12,7 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
-		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)), [this](auto fishProps) { OnSpawn(fishProps); });
-		m_resource = m_context->getStartResources();
+		m_stageUI.Init(&m_context.value(), [this](auto fishProps) { OnSpawn(fishProps); });
 		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
 	}
 
@@ -26,7 +25,8 @@ namespace GameCore
 
 	void StageScene::Update()
 	{
-		m_resource += Scene::DeltaTime() * m_context->getResourcesPerSecond();
+		m_context->Update();
+
 		m_camera.update();
 		{
 			const auto t1 = m_camera.createTransformer();
@@ -90,7 +90,7 @@ namespace GameCore
 			}
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_resource, m_canvasOpen);
+		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen);
 	}
 
 	void StageScene::OnExit()

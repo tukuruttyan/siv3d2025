@@ -24,5 +24,9 @@ void GameCore::TrashFactory::Draw()
 
 void GameCore::TrashFactory::TakeOnAttack(int attackPower)
 {
-
+	m_health -= attackPower;
+	if (m_health <= 0)
+	{
+		Print << U"stage clear";
+	}
 }
