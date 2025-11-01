@@ -22,7 +22,7 @@ namespace GameCore
 		void Update () override;
 		void OnExit () override;
 		void UpdateScroll();
-
+		void OnSpawn(Array<CanvasKirimi> fishProps);
 
 		std::optional<StageSceneContext> m_context;
 		s3d::Camera2D m_camera;
