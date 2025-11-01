@@ -12,7 +12,7 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
-		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)));
+		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)), [this](auto fishProps){ OnSpawn(fishProps); });
 		m_resource = m_context->getStartResources();
 		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
 	}
@@ -114,5 +114,10 @@ namespace GameCore
 		m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
 
 		m_camera.setTargetCenter(m_playerPos);
+	}
+
+	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
+	{
+		Print << U"お魚さんうぇい";
 	}
 }
