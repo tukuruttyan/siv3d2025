@@ -23,4 +23,9 @@ void GameCore::SeaDeepest::Draw() const
 void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)
 {
 	m_health -= takeAttackPower;
+
+	if (m_health <= 0)
+	{
+		Print << U"Game over";
+	}
 }

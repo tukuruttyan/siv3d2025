@@ -27,7 +27,7 @@ class StageUI
 
 public:
 	StageUI();
-	void Init(std::shared_ptr<GameCore::StageSceneContext> context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
+	void Init(GameCore::StageSceneContext* context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
 	void update(double deltaTime, double resources, bool& canvasOpen) const;
 
 private:
@@ -53,7 +53,7 @@ private:
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;
 
 	// Scene context
-	std::shared_ptr<GameCore::StageSceneContext> m_context;
+	GameCore::StageSceneContext* m_context = nullptr;
 
 	// Cached UI elements
 	Polygon m_minimapFrameCutout;   // frameRect - mainRect

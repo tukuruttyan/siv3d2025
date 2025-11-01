@@ -33,7 +33,6 @@ namespace GameCore
 		StageUI m_stageUI = StageUI { };
 
 		Vec2 m_playerPos = {0, 0};
-		double m_resource = 0;
 		bool m_canvasOpen = false;
 	};
 }

@@ -6,7 +6,7 @@ StageUI::StageUI()
 	precomputeGeometry();
 }
 
-void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned)
+void StageUI::Init(GameCore::StageSceneContext* context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned)
 {
 	m_context = context;
 
@@ -84,11 +84,21 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 		m_kirimiRotate -= deltaTime;
 		anyInput = true;
 	}
-	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
-	if (!anyInput && rects.canvasRect.leftClicked())
+	double summonKirimiMultiplier = 1.0 + (m_canvasKirimiArray.size()) * 0.1;
+	int summonKirimiNeedResource = static_cast<int>(summonKirimiMultiplier); // 小数点以下切り捨て
+
+	if (!anyInput && rects.canvasRect.leftClicked() && m_context->Resource() >= summonKirimiNeedResource)
 	{
-		m_canvasKirimiArray << CanvasKirimi{m_context->getKirimiInventory()[m_selectedKirimiIdx].second, m_kirimiRotate, m_kirimiSize, Cursor::Pos() - Size {(int32)m_kirimiSize, (int32)m_kirimiSize} / 2, m_context->getKirimiInventory()[m_selectedKirimiIdx].first};
+		m_context->MinusResource(summonKirimiMultiplier);
+		m_canvasKirimiArray << CanvasKirimi{
+			m_context->getKirimiInventory()[m_selectedKirimiIdx].second,
+			m_kirimiRotate,
+			m_kirimiSize,
+			Cursor::Pos() - Size{(int32)m_kirimiSize, (int32)m_kirimiSize} / 2,
+			m_context->getKirimiInventory()[m_selectedKirimiIdx].first
+		};
 	}
+
 
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
 	drawCanvasHandle(canvasOpen, 800);
