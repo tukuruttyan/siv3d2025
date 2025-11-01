@@ -6,11 +6,13 @@ StageUI::StageUI()
 	precomputeGeometry();
 }
 
-void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context)
+void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned)
 {
 	m_context = context;
 
 	m_kirimiButtons.clear();
+
+	m_onSpawned = onSpawned;
 
 	const auto costs = m_context->getCosts();
 	generateKirimiButtons(costs);
@@ -25,6 +27,7 @@ void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const
 {
 	Transformer2D t(Mat3x2::Translate(80, 100), TransformCursor::Yes);
+	drawKirimiPaletteShadow();
 	updateKimeraCanvas(deltaTime, canvasOpen);
 	updateKirimiPalette(resources);
 	for (const auto&& [i, button] : Indexed(m_kirimiButtons))
@@ -54,8 +57,12 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	auto anyInput = false;
 	if (rects.spawnButton.leftClicked())
 	{
-		Print << U"siv3";
+		m_onSpawned(m_canvasKirimiArray);
+		m_canvasKirimiArray.clear();
+
+		canvasOpen = false;
 		anyInput = true;
+
 	}
 	if (rects.propButtons[0].leftPressed())
 	{
@@ -81,7 +88,7 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
 	if (!anyInput && rects.canvasRect.leftClicked())
 	{
-		Print << U"ca";
+		m_canvasKirimiArray << CanvasKirimi{ m_selectedKirimiIdx, m_kirimiRotate, m_kirimiSize, Cursor::Pos() - Size { (int32)m_kirimiSize, (int32)m_kirimiSize} / 2 };
 	}
 
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
@@ -258,11 +265,16 @@ void StageUI::drawKirimiGhost() const
 
 void StageUI::drawDeepFish() const
 {
+	for (auto kirimi : m_canvasKirimiArray)
+	{
+		Rect{ kirimi.position,  {(int32)kirimi.size, (int32)kirimi.size} }.rotated(kirimi.rotate).draw(Palette::Green);
+	}
 }
 
 void StageUI::drawCanvasHandle(bool canvasOpen, int height) const
 {
 	// Handle
+	m_kimeraHandleUnion.movedBy(m_shadowOffset).draw(m_shadowColor);
 	m_kimeraHandleUnion.draw(m_baseColor);
 	m_kimeraHandleUnion.drawFrame(15, m_subColor);
 
@@ -289,9 +301,15 @@ void StageUI::drawCanvasHandle(bool canvasOpen, int height) const
 	}
 }
 
+
+void StageUI::drawKirimiPaletteShadow() const
+{
+	RoundRect { 0, 0, 350, 900, 50 }.moveBy(m_shadowOffset).draw(m_shadowColor);
+}
+
 void StageUI::drawKirimiPalette(double resources) const
 {
-	RoundRect{ 0, 0, 350, 900, 50 }.draw(m_baseColor).drawFrame(0, 15, m_subColor);
+	RoundRect { 0, 0, 350, 900, 50 }.draw(m_baseColor).drawFrame(0, 15, m_subColor);
 
 	RoundRect{ 30, 800, 290, 75, 20 }.draw(m_baseColor).drawFrame(0, 10, m_subColor);
 
@@ -309,6 +327,7 @@ void StageUI::drawChart(int size) const
 	Circle frameRect{ size };
 	Circle contentRect{ size - inFrameSize };
 
+	frameRect.movedBy(m_shadowOffset).draw(m_shadowColor);
 	frameRect.draw(m_baseColor);
 	frameRect.drawFrame(0, outFrameSize, m_subColor);
 	contentRect.draw(m_mainColor);
