@@ -19,7 +19,7 @@ void StageUI::Init(GameCore::StageSceneContext* context, std::function<void(Arra
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 {
-	const auto ratio = m_context->State() == GameCore::Playing ? 0 : 1;
+	const auto ratio = m_context->State() == GameCore::Playing ? 1 : 0;
 	m_gameScroll = Math::Lerp(m_gameScroll, ratio, deltaTime * 8);
 
 	Transformer2D t {Mat3x2::Translate(0, m_gameScroll * Scene::Height()), TransformCursor::Yes};
