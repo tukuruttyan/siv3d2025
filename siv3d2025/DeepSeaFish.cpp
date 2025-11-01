@@ -27,7 +27,7 @@ void GameCore::DeepSeaFish::Update(const std::vector<ITakableSeaFishAttack*>& at
 
 void GameCore::DeepSeaFish::Draw()
 {
-	BasicParam().GetMovingAnimation().Draw(GetPosition());
+	BasicParam().GetMovingAnimation().Draw(GetPosition(), BasicParam().GetSpriteSize());
 	DrawDebug();
 }
 

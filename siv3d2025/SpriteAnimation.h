@@ -6,6 +6,7 @@
 		SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs);
 
 		void Draw(const Vec2& pos);
+		void Draw(const Vec2& pos, const SizeF& size);
 
 	private:
 		Texture texture;
