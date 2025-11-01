@@ -120,6 +120,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ITakableSeaFishAttack.cpp" />
     <ClCompile Include="ITakableTrashEnemyAttack.cpp" />
+    <ClCompile Include="Kirimi.cpp" />
     <ClCompile Include="KirimiButton.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneBase.cpp" />
@@ -140,6 +141,9 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TrashEnemy.cpp" />
     <ClCompile Include="CreatureBasicParam.cpp" />
+    <ClCompile Include="TrashEnemyAnimation.cpp" />
+    <ClCompile Include="OnSpawnTrashEnemy.cpp" />
+    <ClCompile Include="TrashEnemyParams.cpp" />
     <ClCompile Include="TrashFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +356,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="ITakableSeaFishAttack.h" />
     <ClInclude Include="ITakableTrashEnemyAttack.h" />
+    <ClInclude Include="Kirimi.h" />
     <ClInclude Include="KirimiButton.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneBaseContext.h" />
@@ -368,7 +373,9 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TrashEnemy.h" />
     <ClInclude Include="CreatureBasicParam.h" />
+    <ClInclude Include="TrashEnemyAnimation.h" />
     <ClInclude Include="TrashEnemyParams.h" />
+    <ClInclude Include="OnSpawnTrashEnemy.h" />
     <ClInclude Include="TrashFactory.h" />
   </ItemGroup>
   <ItemGroup>

@@ -196,6 +196,21 @@
     <Filter Include="Source Files\Game\SpriteAnimation">
       <UniqueIdentifier>{3aa7cab1-3c62-4529-a8ed-47b101d9ee7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage\StageScene\UI">
+      <UniqueIdentifier>{b9a7cd7d-a9be-40d4-9e42-f3aa19a7a9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Scene\Stage\StageScene\UI\NewFilter1">
+      <UniqueIdentifier>{ec10802c-ad74-49d2-92de-cff42db45250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashEnemy\Animation">
+      <UniqueIdentifier>{1c724b80-95e0-4c8f-b14d-31d5e953da22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\TrashEnemy\SpawnParam">
+      <UniqueIdentifier>{7765079b-7f02-4f12-86ac-81691ac494c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\DeepseaFish\Kirimi">
+      <UniqueIdentifier>{aad5beb0-cad0-46bc-b138-f0bc2e7002f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -264,8 +279,20 @@
     <ClCompile Include="StageScene.cpp">
       <Filter>Source Files\Game\Scene\Stage\StageScene</Filter>
     </ClCompile>
-    <ClCompile Include="StageUserInterface.cpp">
-      <Filter>Source Files\Game\Scene\Stage</Filter>
+    <ClCompile Include="StageUI.cpp">
+      <Filter>Source Files\Game\Scene\Stage\StageScene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashEnemyAnimation.cpp">
+      <Filter>Source Files\Game\TrashEnemy\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="OnSpawnTrashEnemy.cpp">
+      <Filter>Source Files\Game\TrashEnemy\SpawnParam</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashEnemyParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirimi.cpp">
+      <Filter>Source Files\Game\DeepseaFish\Kirimi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -998,8 +1025,17 @@
     <ClInclude Include="KirimiButton.h">
       <Filter>Source Files\Game\Scene\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="StageUserInterface.h">
-      <Filter>Source Files\Game\Scene\Stage</Filter>
+    <ClInclude Include="StageUI.h">
+      <Filter>Source Files\Game\Scene\Stage\StageScene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashEnemyAnimation.h">
+      <Filter>Source Files\Game\TrashEnemy\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="OnSpawnTrashEnemy.h">
+      <Filter>Source Files\Game\TrashEnemy\SpawnParam</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirimi.h">
+      <Filter>Source Files\Game\DeepseaFish\Kirimi</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

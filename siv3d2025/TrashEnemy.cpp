@@ -2,8 +2,9 @@
 #include "TrashEnemy.h"
 #include <exception>
 
-GameCore::TrashEnemy::TrashEnemy(CreatureBasicParam basicParam, s3d::Vec2 position, const std::function<void(TrashEnemy&)> removeSceneTrashEnemy)
+GameCore::TrashEnemy::TrashEnemy(CreatureBasicParam basicParam, TrashEnemyAnimation animation, s3d::Vec2 position, const std::function<void(TrashEnemy&)> removeSceneTrashEnemy)
 	: CreatureBase(basicParam, position),
+	  m_animation(animation),
 	  m_removeSceneTrashEnemy(removeSceneTrashEnemy)
 {
 }
@@ -28,7 +29,7 @@ void GameCore::TrashEnemy::Update(const std::vector<ITakableTrashEnemyAttack*>& 
 
 void GameCore::TrashEnemy::Draw()
 {
-	BasicParam().GetMovingAnimation().Draw(GetPosition(), BasicParam().GetSpriteSize());
+	m_animation.DrawMove(GetPosition());
 	DrawDebug();
 }
 

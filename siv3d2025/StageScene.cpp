@@ -12,14 +12,14 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
-		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)), [this](auto fishProps){ OnSpawn(fishProps); });
+		m_stageUI.Init(std::make_shared<StageSceneContext>(std::move(*m_context)), [this](auto fishProps) { OnSpawn(fishProps); });
 		m_resource = m_context->getStartResources();
 		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
 	}
 
 	void StageScene::OnEnter()
 	{
-		Scene::SetBackground( Palette::Gray);
+		Scene::SetBackground(Palette::Gray);
 		m_playerPos = Scene::Center();
 		m_camera = Camera2D(m_playerPos, 1, CameraControl::None_);
 	}
@@ -111,7 +111,7 @@ namespace GameCore
 		m_playerPos += Vec2(0.0, dy_continuous + dy_wheel);
 
 		// 範囲制限
-		m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height()*0.05, static_cast<int>(-m_context->getSceneHeight()));
+		m_playerPos.y = Math::Clamp(m_playerPos.y, Scene::Height() * 0.05, static_cast<int>(-m_context->getSceneHeight()));
 
 		m_camera.setTargetCenter(m_playerPos);
 	}
@@ -119,5 +119,27 @@ namespace GameCore
 	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
 	{
 		Print << U"お魚さんうぇい";
+
+		std::vector<Kirimi> kirimis;
+		std::ranges::transform(fishProps, std::back_inserter(kirimis),
+			[](const auto& fishProp)
+			{
+				return Kirimi{ fishProp.m_param, fishProp.rotate, fishProp.size, fishProp.position , fishProp.m_animation};
+			});
+
+
+		m_deepSeaFishes.push_back(
+			DeepSeaFish(
+				kirimis,
+				Vec2(static_cast<float>(s3d::Random(0, Scene::Width() - 90)), -m_context->getSceneHeight()),
+				[this](DeepSeaFish& fish)
+				{
+					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& erase)
+					{
+						return &erase == &fish;
+					});
+				}
+			)
+		);
 	}
 }

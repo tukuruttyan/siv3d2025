@@ -2,8 +2,8 @@
 #include "TrashFactory.h"
 #include "SpawnCooldown.h"
 
-GameCore::TrashFactory::TrashFactory(std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>> spawnEnemies, int health)
-	: m_summonCreatureParam(spawnEnemies),
+GameCore::TrashFactory::TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies, int health)
+	: onSummonCreatures(spawnEnemies),
 	  m_health(health),
 	  m_position(Scene::Width() / 2, 0)
 {
@@ -11,17 +11,9 @@ GameCore::TrashFactory::TrashFactory(std::vector<std::pair<SpawnCooldown, const 
 
 void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy)
 {
-	for (auto& [cooldown, summonEnemyBasicParam] : m_summonCreatureParam)
+	for (auto& onSummonCreature : onSummonCreatures)
 	{
-		cooldown = cooldown.WithTick(s3d::Scene::DeltaTime());
-
-		bool didCount = false;
-		cooldown = cooldown.WithCheckCount(didCount);
-
-		if (didCount)
-		{
-			addSceneTrashEnemy(TrashEnemy(summonEnemyBasicParam, Vec2{ static_cast<float>(Random(0, Scene::Width() - 90)), m_position.y}, removeSceneTrashEnemy));
-		}
+		onSummonCreature.Tick(Vec2{ static_cast<float>(Random(0, Scene::Width() - 90)), m_position.y }, addSceneTrashEnemy, removeSceneTrashEnemy);
 	}
 }
 

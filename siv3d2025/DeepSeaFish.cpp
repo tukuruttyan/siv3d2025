@@ -1,8 +1,9 @@
 ﻿#include "stdafx.h"
 #include "DeepSeaFish.h"
 
-GameCore::DeepSeaFish::DeepSeaFish(CreatureBasicParam basicParam, s3d::Vec2 position, const std::function<void(DeepSeaFish&)> removeSceneFish)
-	: CreatureBase(basicParam, position),
+GameCore::DeepSeaFish::DeepSeaFish(const std::vector<Kirimi>& kirimis, s3d::Vec2 position, const std::function<void(DeepSeaFish&)> removeSceneFish)
+	: CreatureBase(CombineKirimiParam(kirimis), position),
+	  m_kirimis(kirimis),
 	  m_removeSceneFish(removeSceneFish)
 {
 }
@@ -27,8 +28,24 @@ void GameCore::DeepSeaFish::Update(const std::vector<ITakableSeaFishAttack*>& at
 
 void GameCore::DeepSeaFish::Draw()
 {
-	BasicParam().GetMovingAnimation().Draw(GetPosition(), BasicParam().GetSpriteSize());
+	for (auto& kirimi : m_kirimis)
+	{
+		kirimi.Draw(GetPosition());
+	}
+	/*BasicParam().GetMovingAnimation().Draw(GetPosition(), BasicParam().GetSpriteSize());*/
 	DrawDebug();
+}
+
+GameCore::CreatureBasicParam GameCore::DeepSeaFish::CombineKirimiParam(const std::vector<Kirimi>& kirimis)
+{
+	CreatureBasicParam result = kirimis.front().GetParam();
+
+	for (size_t i = 1; i < kirimis.size(); ++i)
+	{
+		result = result + kirimis[i].GetParam();
+	}
+
+	return result;
 }
 
 void GameCore::DeepSeaFish::TakeOnAttack(int takeAttackPower)

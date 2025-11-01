@@ -14,8 +14,7 @@ void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context, std::fu
 
 	m_onSpawned = onSpawned;
 
-	const auto costs = m_context->getCosts();
-	generateKirimiButtons(costs);
+	generateKirimiButtons(m_context->getKirimiInventory());
 }
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
@@ -37,7 +36,7 @@ void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpe
 		{
 			m_selectedKirimiIdx = i;
 		}
-		button.draw(i == m_selectedKirimiIdx, resources);
+		button.draw(m_context->getKirimiInventory()[i].first, i == m_selectedKirimiIdx, resources);
 	}
 }
 void StageUI::updateKirimiPalette(double resources) const
@@ -88,7 +87,7 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
 	if (!anyInput && rects.canvasRect.leftClicked())
 	{
-		m_canvasKirimiArray << CanvasKirimi{ m_selectedKirimiIdx, m_kirimiRotate, m_kirimiSize, Cursor::Pos() - Size { (int32)m_kirimiSize, (int32)m_kirimiSize} / 2 };
+		m_canvasKirimiArray << CanvasKirimi{m_context->getKirimiInventory()[m_selectedKirimiIdx].second, m_kirimiRotate, m_kirimiSize, Cursor::Pos() - Size {(int32)m_kirimiSize, (int32)m_kirimiSize} / 2, m_context->getKirimiInventory()[m_selectedKirimiIdx].first};
 	}
 
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
@@ -189,7 +188,7 @@ void StageUI::precomputeGeometry()
 }
 
 
-void StageUI::generateKirimiButtons(std::array<int, 8> costs)
+void StageUI::generateKirimiButtons(const std::array<std::pair<const GameCore::SpriteAnimation, const GameCore::CreatureBasicParam>, 8>& kirimiInventory)
 {
 	const std::array<String, 8> buttonIcons{ U"い", U"ろ", U"は", U"に", U"ほ", U"へ", U"と", U"ち" };
 
@@ -198,14 +197,14 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 	const int buttonDiff = buttonSize + buttonMargin;
 
 	const Point baseOffset{ 30, 60 };
-	for (int i = 0; i < costs.size(); i++)
+	for (int i = 0; i < kirimiInventory.size(); i++)
 	{
 		const auto xLane = static_cast<int>(i / 4);
 		const Point pos{
 			xLane * buttonDiff,
 			i % 4 * buttonDiff
 		};
-		m_kirimiButtons.push_back(KirimiButton{ Rect{ baseOffset + pos, buttonSize }, m_subColor, m_mainColor, m_accentColor, m_baseColor, costs[i], buttonIcons[i]});
+		m_kirimiButtons.push_back(KirimiButton{ Rect{ baseOffset + pos, buttonSize }, m_subColor, m_mainColor, m_accentColor, m_baseColor, kirimiInventory[i].second, buttonIcons[i]});
 	}
 	m_selectedKirimiIdx = 0;
 }
@@ -260,18 +259,19 @@ StageUI::CanvasRects StageUI::drawKimeraCanvas(Size size) const
 void StageUI::drawKirimiGhost() const
 {
 	const auto size = Size { (int32)m_kirimiSize, (int32)m_kirimiSize };
-	Rect { Cursor::Pos() - size/2, size }.rotated(m_kirimiRotate).draw({Palette::Green, 0.5});
+	auto animation = m_context->getKirimiInventory()[m_selectedKirimiIdx].first;
+	animation.Draw(Cursor::Pos() - size / 2, size, m_kirimiRotate);
 }
 
 void StageUI::drawDeepFish() const
 {
-	for (auto kirimi : m_canvasKirimiArray)
+	for (auto& kirimi : m_canvasKirimiArray)
 	{
-		Rect{ kirimi.position,  {(int32)kirimi.size, (int32)kirimi.size} }.rotated(kirimi.rotate).draw(Palette::Green);
+		kirimi.m_animation.Draw(kirimi.position, { (int32)kirimi.size, (int32)kirimi.size }, kirimi.rotate);
 	}
 }
 
-void StageUI::drawCanvasHandle(bool canvasOpen, int height) const
+void StageUI::drawCanvasHandle(const bool canvasOpen, const int height) const
 {
 	// Handle
 	m_kimeraHandleUnion.movedBy(m_shadowOffset).draw(m_shadowColor);
