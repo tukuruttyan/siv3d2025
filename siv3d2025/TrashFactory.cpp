@@ -19,7 +19,7 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 
 		if (didCount)
 		{
-			addSceneTrashEnemy(TrashEnemy(summonEnemyBasicParam, m_position, removeSceneTrashEnemy));
+			addSceneTrashEnemy(TrashEnemy(summonEnemyBasicParam, Vec2{ static_cast<float>(Random(0, 300)), m_position.y}, removeSceneTrashEnemy));
 		}
 	}
 }

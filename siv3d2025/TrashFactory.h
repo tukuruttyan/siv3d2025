@@ -16,7 +16,7 @@ namespace GameCore
 		s3d::RectF ColliderRect() override { return s3d::RectF(m_position, 100, 10); }
 
 		std::vector<std::pair<SpawnCooldown, const CreatureBasicParam>> m_summonCreatureParam;
-		s3d::Vec2 m_position{ 200, 0 };
+		s3d::Vec2 m_position{ 180, 000 };
 		const s3d::Texture m_texture{ U"example/windmill.png" };
 		int m_health = 10;
 	};

@@ -28,7 +28,7 @@ void GameCore::TrashEnemy::Update(const std::vector<ITakableTrashEnemyAttack*>& 
 
 void GameCore::TrashEnemy::Draw()
 {
-	BasicParam().GetMovingAnimation().Draw(GetPosition());
+	BasicParam().GetMovingAnimation().Draw(GetPosition(), BasicParam().GetSpriteSize());
 	DrawDebug();
 }
 

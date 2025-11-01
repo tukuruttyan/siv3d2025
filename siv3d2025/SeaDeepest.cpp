@@ -10,8 +10,8 @@ void GameCore::SeaDeepest::Update(const std::function<void(DeepSeaFish)>& addSce
 {
 	if (KeySpace.down())
 	{
-		const auto spawnFishPosition = Vec2{ static_cast<float>(s3d::Random(-300, 300)), m_position.y };
-		addSceneDeepSeaFish(DeepSeaFish{ CreatureBasicParam{0.5f, 200.0f, 0.2f, 0.2f, 2, 1, 3, 0, 30.0f, 0, { 100, 100}, SpriteAnimation{U"example/windmill.png", 1, 1, 10.0f}, SpriteAnimation{U"example/windmill.png", 1, 1, 10.0f}}, spawnFishPosition, removeSceneDeepSeaFish });
+		const auto spawnFishPosition = Vec2{ static_cast<float>(s3d::Random(0, 300)), m_position.y };
+		addSceneDeepSeaFish(DeepSeaFish{ CreatureBasicParam{0.5f, -200.0f, 0.2f, 0.2f, 2, 1, 3, 0, 30.0f, 0, {100, 100}, {100, 100}, SpriteAnimation{U"example/windmill.png", 1, 1, 10.0f}, SpriteAnimation{U"example/windmill.png", 1, 1, 10.0f}}, spawnFishPosition, removeSceneDeepSeaFish });
 	}
 }
 
