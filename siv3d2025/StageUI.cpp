@@ -18,11 +18,6 @@ void StageUI::Init(std::shared_ptr<GameCore::StageSceneContext> context)
 
 void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 {
-	if (MouseR.down()) // 右クリックが押されている間
-	{
-		canvasOpen = !canvasOpen;
-	}
-
 	updateLeftSide(deltaTime, resources, canvasOpen);
 	updateRightSide();
 }
@@ -34,6 +29,7 @@ void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpe
 	updateKirimiPalette(resources);
 	for (const auto&& [i, button] : Indexed(m_kirimiButtons))
 	{
+		// TODO: hoverも同じように処理。今判定おかしい。
 		if (button.rect().leftClicked())
 		{
 			m_selectedKirimiIdx = i;
@@ -53,11 +49,44 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	const auto width = static_cast<int>(m_canvasWidth);
 
 	Transformer2D t(Mat3x2::Translate({ 300, 25 }), TransformCursor::Yes);
-	drawKimeraCanvas({width, 800});
+	const auto rects = drawKimeraCanvas({width, 850});
+
+	auto anyInput = false;
+	if (rects.spawnButton.leftClicked())
+	{
+		Print << U"siv3";
+		anyInput = true;
+	}
+	if (rects.propButtons[0].leftPressed())
+	{
+		m_kirimiSize += deltaTime * 100;
+		anyInput = true;
+	}
+	if (rects.propButtons[1].leftPressed())
+	{
+		m_kirimiSize -= deltaTime * 100;
+		anyInput = true;
+	}
+	m_kirimiSize = Clamp(m_kirimiSize, 10.0, 250.0);
+	if (rects.propButtons[2].leftPressed())
+	{
+		m_kirimiRotate += deltaTime;
+		anyInput = true;
+	}
+	if (rects.propButtons[3].leftPressed())
+	{
+		m_kirimiRotate -= deltaTime;
+		anyInput = true;
+	}
+	m_kirimiRotate = std::fmod(m_kirimiRotate, 360);
+	if (!anyInput && rects.canvasRect.leftClicked())
+	{
+		Print << U"ca";
+	}
+
 	Transformer2D tHandle(Mat3x2::Translate({ width + 33, 0 }), TransformCursor::Yes);
 	drawCanvasHandle(canvasOpen, 800);
-
-	if (m_kimeraHandleUnion.leftClicked())
+	if (MouseR.down() || m_kimeraHandleUnion.leftClicked())
 	{
 		canvasOpen = !canvasOpen;
 	}
@@ -95,7 +124,6 @@ void StageUI::precomputeGeometry()
 	const int inFrameSize = 40;
 	const int frameRounded = 40;
 	const int frameSize = outFrameSize + inFrameSize;
-	const Point shadowOffset{ 40, 33 };
 
 	// Frame and main rectangles
 	const RoundRect mainRect{ frameSize, frameSize, mainSize , mainCornerR };
@@ -110,7 +138,7 @@ void StageUI::precomputeGeometry()
 
 	// Precompute: shadow cutout = (frameRect moved by shadowOffset) - frameRect
 	{
-		const auto shadowRect = frameRect.movedBy(shadowOffset);
+		const auto shadowRect = frameRect.movedBy(m_shadowOffset);
 		const auto cut = Geometry2D::Subtract(shadowRect.asPolygon(), frameRect.asPolygon());
 		m_minimapShadowCutout = cut.isEmpty() ? Polygon{} : cut[0];
 	}
@@ -175,14 +203,61 @@ void StageUI::generateKirimiButtons(std::array<int, 8> costs)
 	m_selectedKirimiIdx = 0;
 }
 
-void StageUI::drawKimeraCanvas(Size size) const
+StageUI::CanvasRects StageUI::drawKimeraCanvas(Size size) const
 {
+	auto result = StageUI::CanvasRects{};
 	// Canvas
 	size.x += 50;
-	Rect { 0, 0, size }.draw(m_canvasColor);
+	Rect rr{ size };
+	result.canvasRect = rr;
+	rr.draw(m_canvasColor);
 	const int fadeLength = 20;
 	Rect { 0, 0, size.x, fadeLength }.draw(Arg::top(m_canvasFadeOutColor), Arg::bottom(m_canvasFadeInColor));
 	Rect { 0, size.y - fadeLength, size.x, fadeLength }.draw(Arg::top(m_canvasFadeInColor), Arg::bottom(m_canvasFadeOutColor));
+
+	auto M = Graphics2D::GetLocalTransform();
+	const Vec2 absOffset{ M._31, M._32 };
+
+	rr.setPos((int32)absOffset.x, (int32)absOffset.y);
+
+	Transformer2D _reset{ Mat3x2::Identity(), Transformer2D::Target::SetLocal };
+
+	const ScopedViewport2D viewport{ rr };
+
+	drawDeepFish();
+	drawKirimiGhost();
+
+	const auto propShadowOffset = m_shadowOffset / 8;
+	const auto xList = { 130, 220, 310, 400 };
+
+	for (auto& x : xList)
+	{
+		const auto r =Circle{ { x, 65 }, 36 }.draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_mainColor);
+		result.propButtons << r;
+	}
+	result.spawnButton = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-propShadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
+
+	const std::array<std::u32string, 4> iconList = { U"\U000F0415", U"\U000F0374", U"\U000F0467", U"\U000F0465" };
+	for (auto&& [i, x] : Indexed(xList))
+	{
+		const auto pos = Vec2{x, 65 } - propShadowOffset;
+		m_propLabel(iconList[i]).drawAt(pos);
+	}
+
+	const auto textPos = Vec2{ 820, 755 } - propShadowOffset;
+	m_spawnLabel(U"ショウカン").drawAt(textPos);
+
+	return  result;
+}
+
+void StageUI::drawKirimiGhost() const
+{
+	const auto size = Size { (int32)m_kirimiSize, (int32)m_kirimiSize };
+	Rect { Cursor::Pos() - size/2, size }.rotated(m_kirimiRotate).draw({Palette::Green, 0.5});
+}
+
+void StageUI::drawDeepFish() const
+{
 }
 
 void StageUI::drawCanvasHandle(bool canvasOpen, int height) const
@@ -313,9 +388,10 @@ void StageUI::drawMinimap() const
 	Rect{ mainCenter.x, -mainCenter.y, mainCornerR, mainSize.y - mainCornerR * 2 }.draw(Arg::left(m_canvasFadeInColor), Arg::right(m_canvasFadeOutColor));
 
 	// scroll
+	const double ratio = 0.5;
 	const int margin = 15;
 	Point decoSize{ mainSize.x - margin, 120 };
-	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (0.5 - 1)}), TransformCursor::Yes);
+	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (0.5 - ratio)}), TransformCursor::Yes);
 	RoundRect{ -decoSize / 2, decoSize, mainCornerR - 4 }.drawFrame(5, m_accentColor);
 	Line{ { -10, 0 }, { 10, 0 } }.draw(5, m_accentColor);
 	Line{ { 0, -10 }, { 0, 10 } }.draw(5, m_accentColor);

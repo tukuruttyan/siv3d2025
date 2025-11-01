@@ -24,10 +24,19 @@ private:
 	void updateKirimiPalette(double resources) const;
 	void updateKimeraCanvas(double deltaTime, bool& canvasOpen) const;
 
+	struct CanvasRects
+	{
+		Rect canvasRect;
+		Array<Circle> propButtons;
+		RoundRect spawnButton;
+	};
+
 	void drawChart(int size) const;
 	void drawMinimap() const;
 	void drawKirimiPalette(double resources) const;
-	void drawKimeraCanvas(Size size) const;
+	CanvasRects drawKimeraCanvas(Size size) const;
+	void drawKirimiGhost() const;
+	void drawDeepFish() const;
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;
 
 	// Scene context
@@ -43,7 +52,8 @@ private:
 	Array<KirimiButton> m_kirimiButtons;
 
 	Font m_deepLabel{ 14 };
-	Font m_propLabel{ 18 };
+	Font m_propLabel{ 32, Typeface::Icon_MaterialDesign };
+	Font m_spawnLabel{ 56 };
 	Font m_resourceLabel{ 18 };
 
 	// UI Colors
@@ -56,6 +66,10 @@ private:
 	const ColorF m_canvasFadeOutColor{ Palette::Slategray, 0.2 };
 	const ColorF m_canvasFadeInColor{ Palette::Slategray, 0 };
 
+	const Point m_shadowOffset{ 40, 33 };
+
 	mutable double m_canvasWidth = 0;
 	mutable int m_selectedKirimiIdx = 0;
+	mutable double m_kirimiRotate = 0;
+	mutable double m_kirimiSize = 100;
 };
