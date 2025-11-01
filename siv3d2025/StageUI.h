@@ -4,11 +4,27 @@
 #include "KirimiButton.h"
 #include "StageSceneContext.h"
 
+
+struct CanvasKirimi
+{
+	int kirimiIndex;
+	double rotate;
+	double size;
+	Point position;
+};
+
 class StageUI
 {
+	struct CanvasRects
+	{
+		Rect canvasRect;
+		Array<Circle> propButtons;
+		RoundRect spawnButton;
+	};
+
 public:
 	StageUI();
-	void Init(std::shared_ptr<GameCore::StageSceneContext> context);
+	void Init(std::shared_ptr<GameCore::StageSceneContext> context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
 	void update(double deltaTime, double resources, bool& canvasOpen) const;
 
 private:
@@ -24,15 +40,9 @@ private:
 	void updateKirimiPalette(double resources) const;
 	void updateKimeraCanvas(double deltaTime, bool& canvasOpen) const;
 
-	struct CanvasRects
-	{
-		Rect canvasRect;
-		Array<Circle> propButtons;
-		RoundRect spawnButton;
-	};
-
 	void drawChart(int size) const;
 	void drawMinimap() const;
+	void drawKirimiPaletteShadow() const;
 	void drawKirimiPalette(double resources) const;
 	CanvasRects drawKimeraCanvas(Size size) const;
 	void drawKirimiGhost() const;
@@ -72,4 +82,6 @@ private:
 	mutable int m_selectedKirimiIdx = 0;
 	mutable double m_kirimiRotate = 0;
 	mutable double m_kirimiSize = 100;
+	mutable Array<CanvasKirimi> m_canvasKirimiArray;
+	std::function<void(Array<CanvasKirimi> fishProp)> m_onSpawned;
 };
