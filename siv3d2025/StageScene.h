@@ -34,6 +34,5 @@ namespace GameCore
 
 		Vec2 m_playerPos = {0, 0};
 		bool m_canvasOpen = false;
-		PerlinNoise m_noise{ RandomUint32() };
 	};
 }

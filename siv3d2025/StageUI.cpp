@@ -284,7 +284,7 @@ void StageUI::drawKirimiGhost() const
 {
 	const auto size = Size { (int32)m_kirimiSize, (int32)m_kirimiSize };
 	auto animation = m_context->getKirimiInventory()[m_selectedKirimiIdx].first;
-	animation.Draw(Cursor::Pos() - size / 2, size, m_kirimiRotate, ColorF{ Palette::White, 0.2 });
+	animation.Draw(Cursor::Pos() - size / 2, size, m_kirimiRotate, ColorF{ Palette::White, 0.8 });
 }
 
 void StageUI::drawDeepFish() const
