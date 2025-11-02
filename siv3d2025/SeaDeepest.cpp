@@ -28,7 +28,6 @@ void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)
 
 	if (m_health <= 0)
 	{
-		Print << U"Game over";
 		m_onGameOver();
 	}
 }
