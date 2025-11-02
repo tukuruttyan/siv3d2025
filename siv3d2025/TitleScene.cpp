@@ -22,7 +22,11 @@ void GameCore::TitleScene::Update()
 
 	if (SimpleGUI::Button(U"GameStart", Vec2{ 430, 600 }, 600, (m_checked == false)))
 	{
-		m_onChangeStageScene({ std::make_shared<TrashFactory>(std::vector<OnSpawnTrashEnemy>{OnSpawnTrashEnemy{SpawnCooldown{0.2f}, EnemyParams::TRASH_AKIKAN(), EnemyParams::TRASH_AKIKAN_ANIM()}}, 40), -2000.0f });
+		m_onChangeStageScene({ std::make_shared<TrashFactory>(std::vector<OnSpawnTrashEnemy>{
+			OnSpawnTrashEnemy{SpawnCooldown{0.2f}, EnemyParams::TRASH_AKIKAN(), EnemyParams::TRASH_AKIKAN_ANIM()},
+			OnSpawnTrashEnemy{SpawnCooldown{1.0f}, EnemyParams::TRASH_TAIYA(), EnemyParams::TRASH_TAIYA_ANIM()},
+			OnSpawnTrashEnemy{SpawnCooldown{10.0f}, EnemyParams::TRASH_BAG(), EnemyParams::TRASH_BAG_ANIM()}
+		}, 40), -2000.0f });
 	}
 }
 
