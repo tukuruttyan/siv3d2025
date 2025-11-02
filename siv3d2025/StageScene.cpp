@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "StageScene.h"
+#include "EffectManager.h"
 #include <ranges>
 
 namespace GameCore
@@ -89,6 +90,7 @@ namespace GameCore
 				trashEnemy.Update(trashEnemyAttackables);
 				trashEnemy.Draw();
 			}
+		EffectManager::Instance().Update();
 		}
 
 		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
@@ -120,6 +122,8 @@ namespace GameCore
 	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
 	{
 		Print << U"お魚さんうぇい";
+		if (fishProps.empty())
+			return;
 
 		std::vector<Kirimi> kirimis;
 		std::ranges::transform(fishProps, std::back_inserter(kirimis),

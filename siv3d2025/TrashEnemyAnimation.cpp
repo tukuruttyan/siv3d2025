@@ -8,12 +8,34 @@ GameCore::TrashEnemyAnimation::TrashEnemyAnimation(SpriteAnimation moveAnimation
 {
 }
 
+void GameCore::TrashEnemyAnimation::Update(double deltaTime)
+{
+	if (m_alphaTimer > 0.0)
+	{
+		m_alphaTimer -= deltaTime;
+		if (m_alphaTimer <= 0.0)
+		{
+			m_alphaTimer = 0.0;
+			m_alphaValue = 1.0;
+		}
+	}
+}
+
+void GameCore::TrashEnemyAnimation::StartTransparent(float duration, double alpha)
+{
+	m_alphaDuration = duration;
+	m_alphaTimer = duration;
+	m_alphaValue = alpha;
+}
+
 void GameCore::TrashEnemyAnimation::DrawMove(const Vec2& position)
 {
+	const ScopedColorMul2D alphaMul(ColorF(1.0, m_alphaValue));
 	m_moveAnimation.Draw(position, m_spriteSize);
 }
 
 void GameCore::TrashEnemyAnimation::DrawAttacking(const Vec2& position)
 {
+	const ScopedColorMul2D alphaMul(ColorF(1.0, m_alphaValue));
 	m_attackingAnimation.Draw(position, m_spriteSize);
 }
