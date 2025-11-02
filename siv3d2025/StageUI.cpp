@@ -442,10 +442,14 @@ void StageUI::drawMinimap() const
 
 const RoundRect& StageUI::drawGame() const
 {
+	const auto propShadowOffset = m_shadowOffset / 8;
+
 	const auto labelTxt = m_context->State() == GameCore::GameClear ? U"ゲームクリア‼" : U"ゲームオーバー...";
-	m_gameLabel(labelTxt).drawAt(Scene::Center());
-	const auto& result = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-m_shadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
-	const auto textPos = Vec2{ 820, 755 } - m_shadowOffset;
+	m_gameLabel.setBufferThickness(25);
+	m_gameLabel(labelTxt).drawAt(Scene::Center() + propShadowOffset, m_shadowColor);
+	m_gameLabel(labelTxt).drawAt(Scene::Center(), Palette::Lightyellow);
+	const auto& result = RoundRect{ {650, 700},{350, 125}, 20 }.movedBy(propShadowOffset).draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_accentColor).drawFrame(15, 0, m_subColor);
+	const auto textPos = Vec2{ 820, 755 };
 	m_spawnLabel(U"戻る").drawAt(textPos);
 
 	return result;

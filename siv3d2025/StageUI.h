@@ -69,7 +69,6 @@ private:
 	Font m_propLabel{ 32, Typeface::Icon_MaterialDesign };
 	Font m_spawnLabel{ 56 };
 	Font m_resourceLabel{ 18 };
-	Font m_gameLabel{ 50 };
 
 	// UI Colors
 	const ColorF m_baseColor { Palette::Dimgray };
@@ -90,4 +89,7 @@ private:
 	mutable double m_kirimiSize = 100;
 	mutable Array<CanvasKirimi> m_canvasKirimiArray;
 	std::function<void(Array<CanvasKirimi> fishProp)> m_onSpawned;
+
+
+	Font m_gameLabel{ 126, Typeface::Bold};
 };
