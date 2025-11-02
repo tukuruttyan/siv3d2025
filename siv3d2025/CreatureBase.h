@@ -158,6 +158,8 @@ namespace GameCore
 	template<typename IAttackableT>
 	inline void CreatureBase<IAttackableT>::DrawDebug() const
 	{
+		return;
+
 		HitBoxColliderRect().drawFrame(2.0, 2.0, Palette::Green);
 
 		const float attackRangeY = m_basicParam.GetAttackRange();
