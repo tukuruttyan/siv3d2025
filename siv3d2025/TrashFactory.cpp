@@ -5,7 +5,7 @@
 GameCore::TrashFactory::TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies, int health)
 	: onSummonCreatures(spawnEnemies),
 	  m_health(health),
-	  m_position(Scene::Width() / 2, 0)
+	  m_position(Scene::Width()/2, 0)
 {
 }
 
@@ -24,7 +24,7 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 
 void GameCore::TrashFactory::Draw()
 {
-	m_texture.resized(1100).draw(m_position + Vec2{ 0, -530 });
+	m_texture.resized(1100).draw(m_position + Vec2{ -530, -530 });
 }
 
 void GameCore::TrashFactory::TakeOnAttack(int attackPower)
