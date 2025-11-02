@@ -13,7 +13,7 @@ namespace GameCore
 	{
 		m_context = sceneContext;
 		m_stageUI.Init(&m_context.value(), [this](auto fishProps) { OnSpawn(fishProps); });
-		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 0, -sceneContext.getSceneHeight() });
 	}
 
 	void StageScene::OnEnter()
