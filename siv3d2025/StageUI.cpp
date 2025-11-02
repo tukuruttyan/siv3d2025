@@ -27,7 +27,7 @@ void StageUI::update(double deltaTime, double resources, bool& canvasOpen, std::
 	updateLeftSide(deltaTime, resources, canvasOpen);
 	updateRightSide();
 
-	Transformer2D gt {Mat3x2::Translate(0, -Scene::Height())};
+	Transformer2D gt {Mat3x2::Translate(0, -Scene::Height()), TransformCursor::Yes };
 	const auto backButton = drawGame();
 
 	if (backButton.leftClicked())
