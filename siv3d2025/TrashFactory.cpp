@@ -9,6 +9,11 @@ GameCore::TrashFactory::TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies
 {
 }
 
+void GameCore::TrashFactory::Init(std::function<void()> onGameClear)
+{
+	m_onGameClear = onGameClear;
+}
+
 void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy)
 {
 	for (auto& onSummonCreature : onSummonCreatures)
@@ -28,5 +33,6 @@ void GameCore::TrashFactory::TakeOnAttack(int attackPower)
 	if (m_health <= 0)
 	{
 		Print << U"stage clear";
+		m_onGameClear();
 	}
 }

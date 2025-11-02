@@ -7,6 +7,7 @@ namespace GameCore
 		: m_trashFactory(std::move(trashFactory))
 		, m_sceneHeight(sceneHeight)
 	{
+
 	}
 
 	void StageSceneContext::Update()
