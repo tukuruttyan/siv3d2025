@@ -34,6 +34,21 @@ namespace GameCore
 
 			UpdateScroll();
 
+
+			Rect{
+				Point{
+					0,
+					-Scene::Height() + Scene::Height()/2
+				},
+				Size{
+					Scene::Width(),
+					Scene::Height()
+				}
+			}.draw(
+				Arg::top = Palette::Darkgray,
+				Arg::bottom = Palette::White
+			);
+
 			Rect{
 				Point{
 					0,
@@ -48,6 +63,25 @@ namespace GameCore
 				Arg::bottom = Palette::Darkseagreen
 			);
 
+
+			double t = Scene::Time() * 5;
+
+			for (int y : step(Scene::Height() / 20))
+			{
+				for (int x : step(Scene::Width() / 20))
+				{
+					//FBMからアルファ値を取得
+					//最大0.5となるように0.5引いて、0を下回らないようにしておく
+					double alpha02 = Max(0.0, m_noise.octave2D0_1((x - t * 2) / 100.0, y / 100.0, 4) - 0.5);
+					//描画
+					RectF{ x * 5, y * 5 - Scene::Height() / 2, 20 }.draw(ColorF(Palette::Darkred, alpha02 * 1.5));
+					double alpha01 = Max(0.0, m_noise.octave2D0_1((x + t) / 100.0, y / 100.0, 4) - 0.8);
+					//描画
+					RectF{ x * 5, y * 5 - Scene::Height() / 2, 20 }.draw(ColorF(Palette::Black, alpha01 * 1.5));
+				}
+			}
+
+			RectF(Scene::Rect()).draw();
 			m_context.value().getTrashFactory().Update(
 			[this](const TrashEnemy& enemy) { m_trashEnemies.push_back(enemy); },
 			[this](TrashEnemy& trashEnemy) {
