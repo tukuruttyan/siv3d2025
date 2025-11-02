@@ -12,8 +12,9 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_context.value().getTrashFactory().Init([this]() { m_context->GameClear();  });
 		m_stageUI.Init(&m_context.value(), [this](auto fishProps) { OnSpawn(fishProps); });
-		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() });
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ Scene::Width() / 2, -sceneContext.getSceneHeight() }, [this]() { m_context->GameOver();  });
 	}
 
 	void StageScene::OnEnter()
@@ -90,7 +91,7 @@ namespace GameCore
 			}
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen);
+		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
 	}
 
 	void StageScene::OnExit()

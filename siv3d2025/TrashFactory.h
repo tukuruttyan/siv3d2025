@@ -9,6 +9,7 @@ namespace GameCore
 	public:
 		explicit TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies, int health);
 
+		void Init(std::function<void()> onGameClear);
 		void Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy);
 		void Draw();
 
@@ -20,5 +21,6 @@ namespace GameCore
 		const s3d::Vec2 m_position;
 		const s3d::Texture m_texture{ U"example/windmill.png" };
 		int m_health = 10;
+		std::function<void()> m_onGameClear;
 	};
 }
