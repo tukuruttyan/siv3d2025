@@ -10,11 +10,14 @@ namespace GameCore
 	public:
 		TitleScene(SceneBaseContext context, std::function<void(StageSceneContext)> onChangeStageScene);
 
+
+
 	private:
 		void OnEnter() override;
 		void Update () override;
 		void OnExit () override;
 
+		const MSRenderTexture renderTexture;
 		Texture texture = Texture(U"logo.png");
 		s3d::Font    m_font;
 		int32        m_count = 0;

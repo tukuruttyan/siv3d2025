@@ -13,14 +13,27 @@ GameCore::TitleScene::TitleScene(SceneBaseContext context, std::function<void(St
 
 void GameCore::TitleScene::OnEnter()
 {
-	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
+	Scene::SetBackground(Palette::Black);
 }
 
 void GameCore::TitleScene::Update()
 {
-	texture.resized(1200, 900).draw(Vec2{430, -100});
+	ScopedRenderStates2D blend{ BlendState::Additive};
+	texture.resized(1950).drawAt(Scene::Center());
+	{
+		renderTexture.clear(ColorF{ 0.3 });
+		Circle{ Scene::Width() * 0.3, Scene::Height(), Scene::Height() * 1}.drawPie(10_deg, 40_deg, ColorF{ 0.3 }, ColorF{ 0 });
+		Circle{ Scene::Width() * 0.7, Scene::Height(), Scene::Height() * 1 }.drawPie(-10_deg, -40_deg, ColorF{ 0.3 }, ColorF{0});
+		Circle{ Scene::Width() * 0.05, Scene::Height(), Scene::Height() * 1 }.drawPie(20_deg, 50_deg, ColorF{ 0.3 }, ColorF{ 0 });
+		Circle{ Scene::Width() * 0.95, Scene::Height(), Scene::Height() * 1 }.drawPie(-20_deg, -50_deg, ColorF{ 0.3 }, ColorF{ 0 });
+	}
 
-	if (SimpleGUI::Button(U"GameStart", Vec2{ 430, 600 }, 600, (m_checked == false)))
+	Graphics2D::Flush();
+	renderTexture.resolve();
+	renderTexture.draw();
+
+	ScopedRenderStates2D ui{ BlendState::Default2D };
+	if (SimpleGUI::Button(U"GameStart", Scene::Center() - Vec2{ 300, -450 }, 600, (m_checked == false)))
 	{
 		m_onChangeStageScene({ std::make_shared<TrashFactory>(std::vector<OnSpawnTrashEnemy>{
 			OnSpawnTrashEnemy{SpawnCooldown{0.2f}, EnemyParams::TRASH_AKIKAN(), EnemyParams::TRASH_AKIKAN_ANIM()},
