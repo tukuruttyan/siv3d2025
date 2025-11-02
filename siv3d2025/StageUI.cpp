@@ -1,5 +1,6 @@
 ﻿#include "StageUI.h"
 #include "KirimiButton.h"
+#include "TitleScene.h"
 
 StageUI::StageUI()
 {
@@ -17,9 +18,9 @@ void StageUI::Init(GameCore::StageSceneContext* context, std::function<void(Arra
 	generateKirimiButtons(m_context->getKirimiInventory());
 }
 
-void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
+void StageUI::update(double deltaTime, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const
 {
-	const auto ratio = m_context->State() == GameCore::Playing ? 1 : 0;
+	const auto ratio = m_context->State() == GameCore::Playing ? 0 : 1;
 	m_gameScroll = Math::Lerp(m_gameScroll, ratio, deltaTime * 8);
 
 	Transformer2D t {Mat3x2::Translate(0, m_gameScroll * Scene::Height()), TransformCursor::Yes};
@@ -32,6 +33,7 @@ void StageUI::update(double deltaTime, double resources, bool& canvasOpen) const
 	if (backButton.leftClicked())
 	{
 		// TODO: タイトルへ戻る
+		onChangeScene(typeid(GameCore::TitleScene));
 	}
 }
 

@@ -116,7 +116,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreatureBase.cpp" />
+    <ClCompile Include="DamageBubbleEffect.cpp" />
+    <ClCompile Include="DamageEffect.cpp" />
     <ClCompile Include="DeepSeaFish.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ITakableSeaFishAttack.cpp" />
     <ClCompile Include="ITakableTrashEnemyAttack.cpp" />
@@ -352,7 +355,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreatureBase.h" />
+    <ClInclude Include="DamageBubbleEffect.h" />
+    <ClInclude Include="DamageEffect.h" />
     <ClInclude Include="DeepSeaFish.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ITakableSeaFishAttack.h" />
     <ClInclude Include="ITakableTrashEnemyAttack.h" />

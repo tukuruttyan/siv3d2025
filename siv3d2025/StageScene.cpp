@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "StageScene.h"
+#include "EffectManager.h"
 #include <ranges>
 
 namespace GameCore
@@ -12,8 +13,9 @@ namespace GameCore
 	void StageScene::Init(StageSceneContext sceneContext)
 	{
 		m_context = sceneContext;
+		m_context.value().getTrashFactory().Init([this]() { m_context->GameClear();  });
 		m_stageUI.Init(&m_context.value(), [this](auto fishProps) { OnSpawn(fishProps); });
-		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 0, -sceneContext.getSceneHeight() });
+		m_seaDeepest = std::make_unique<SeaDeepest>(Vec2{ 0, -sceneContext.getSceneHeight() }, [this]() { m_context->GameOver();  });
 	}
 
 	void StageScene::OnEnter()
@@ -88,9 +90,10 @@ namespace GameCore
 				trashEnemy.Update(trashEnemyAttackables);
 				trashEnemy.Draw();
 			}
+		EffectManager::Instance().Update();
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen);
+		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
 	}
 
 	void StageScene::OnExit()
@@ -119,6 +122,8 @@ namespace GameCore
 	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
 	{
 		Print << U"お魚さんうぇい";
+		if (fishProps.empty())
+			return;
 
 		std::vector<Kirimi> kirimis;
 		std::ranges::transform(fishProps, std::back_inserter(kirimis),

@@ -2,8 +2,9 @@
 #include "SeaDeepest.h"
 #include "SpriteAnimation.h"
 
-GameCore::SeaDeepest::SeaDeepest(const Vec2 position)
-	: m_position(position)
+GameCore::SeaDeepest::SeaDeepest(const Vec2 position, std::function<void()> onGameOver)
+	: m_position(position),
+	  m_onGameOver(onGameOver)
 {
 }
 
@@ -27,5 +28,6 @@ void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)
 	if (m_health <= 0)
 	{
 		Print << U"Game over";
+		m_onGameOver();
 	}
 }

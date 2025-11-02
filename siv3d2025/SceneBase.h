@@ -17,7 +17,13 @@ namespace GameCore
 		template<typename T>
 		void OnChangeScene()
 		{
+
 			m_context.OnChangeScene(typeid(T));
+		}
+		void OnChangeScene(std::type_index index)
+		{
+
+			m_context.OnChangeScene(index);
 		}
 
 	private:
