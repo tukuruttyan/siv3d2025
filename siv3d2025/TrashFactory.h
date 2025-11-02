@@ -19,7 +19,7 @@ namespace GameCore
 
 		std::vector<OnSpawnTrashEnemy> onSummonCreatures;
 		const s3d::Vec2 m_position;
-		const s3d::Texture m_texture{ U"example/windmill.png" };
+		const s3d::Texture m_texture{ U"images/enemyBase.png" };
 		int m_health = 10;
 		std::function<void()> m_onGameClear;
 	};

@@ -18,7 +18,7 @@ void GameCore::SeaDeepest::Update(const std::function<void(DeepSeaFish)>& addSce
 
 void GameCore::SeaDeepest::Draw() const
 {
-	m_texture.resized(300, 300).draw(m_position);
+	m_texture.fitted(Scene::Size()).draw(m_position + Vec2{0, -420});
 }
 
 void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)

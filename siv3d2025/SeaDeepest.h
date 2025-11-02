@@ -17,8 +17,8 @@ namespace GameCore
 			return s3d::RectF(m_position, 100, 100);
 		}
 
-		s3d::Texture m_texture{ U"example/windmill.png" };
-		s3d::Vec2 m_position{ -100, 0 };
+		s3d::Texture m_texture{ U"images/playerBase.png" };
+		s3d::Vec2 m_position{ 0, 0 };
 		int m_health = 40;
 		std::function<void()> m_onGameOver;
 	};
