@@ -35,6 +35,21 @@ namespace GameCore
 
 			UpdateScroll();
 
+
+			Rect{
+				Point{
+					0,
+					-Scene::Height() / 2
+				},
+				Size{
+					Scene::Width(),
+					Scene::Height()
+				}
+			}.draw(
+				Arg::top = Palette::Darkgray,
+				Arg::bottom = Palette::White
+			);
+
 			Rect{
 				Point{
 					0,
@@ -45,8 +60,8 @@ namespace GameCore
 					-static_cast<int>(m_context->getSceneHeight())
 				}
 			}.draw(
-				Arg::top = Palette::Lightseagreen,
-				Arg::bottom = Palette::Darkseagreen
+				Arg::top = Palette::Indianred,
+				Arg::bottom = Palette::Darkred
 			);
 
 			m_context.value().getTrashFactory().Update(
