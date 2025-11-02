@@ -19,7 +19,7 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 
 void GameCore::TrashFactory::Draw()
 {
-	m_texture.draw(m_position);
+	m_texture.resized(1100).draw(m_position + Vec2{ 0, -530 });
 }
 
 void GameCore::TrashFactory::TakeOnAttack(int attackPower)
