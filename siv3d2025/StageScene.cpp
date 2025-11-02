@@ -108,7 +108,7 @@ namespace GameCore
 		EffectManager::Instance().Update();
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
+		m_stageUI.update(Scene::DeltaTime(), m_playerPos, m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
 	}
 
 	void StageScene::OnExit()

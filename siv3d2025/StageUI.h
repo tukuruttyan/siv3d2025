@@ -28,7 +28,7 @@ class StageUI
 public:
 	StageUI();
 	void Init(GameCore::StageSceneContext* context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
-	void update(double deltaTime, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const;
+	void update(double deltaTime, Vec2 scroll, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const;
 
 private:
 	// Precompute static geometry (polygons) once and reuse at draw time
@@ -36,15 +36,15 @@ private:
 	void generateKirimiButtons(const std::array<std::pair<const GameCore::SpriteAnimation, const GameCore::CreatureBasicParam>, 8>& kirimiInventory);
 
 	void updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const;
-	void updateRightSide() const;
+	void updateRightSide(Vec2 scroll) const;
 
 	void updateChart() const;
-	void updateMinimap() const;
+	void updateMinimap(Vec2 scroll) const;
 	void updateKirimiPalette(double resources) const;
 	void updateKimeraCanvas(double deltaTime, bool& canvasOpen) const;
 
 	void drawChart(int size) const;
-	void drawMinimap() const;
+	void drawMinimap(Vec2 scroll) const;
 	void drawKirimiPaletteShadow() const;
 	void drawKirimiPalette(double resources) const;
 	CanvasRects drawKimeraCanvas(Size size) const;
