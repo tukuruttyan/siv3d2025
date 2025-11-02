@@ -16,6 +16,6 @@ void GameCore::OnSpawnTrashEnemy::Tick(const Vec2& spawnPosition, std::function<
 
 	if (didCount)
 	{
-		addSceneTrashEnemy(TrashEnemy(m_basicParam, m_animation, Vec2{ static_cast<float>(Random(0, Scene::Width() - 90)), spawnPosition.y }, removeSceneTrashEnemy));
+		addSceneTrashEnemy(TrashEnemy(m_basicParam, m_animation, spawnPosition, removeSceneTrashEnemy));
 	}
 }

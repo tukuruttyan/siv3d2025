@@ -136,7 +136,6 @@ namespace GameCore
 
 	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
 	{
-		Print << U"お魚さんうぇい";
 		if (fishProps.empty())
 			return;
 
@@ -151,7 +150,7 @@ namespace GameCore
 		m_deepSeaFishes.push_back(
 			DeepSeaFish(
 				kirimis,
-				Vec2(static_cast<float>(s3d::Random(0, Scene::Width() - 90)), -m_context->getSceneHeight()),
+				Vec2 { Scene::Center().x + Scene::Width() * Random(-0.13, 0.13), -m_context->getSceneHeight() - 750},
 				[this](DeepSeaFish& fish)
 				{
 					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& erase)

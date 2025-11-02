@@ -18,7 +18,7 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 {
 	for (auto& onSummonCreature : onSummonCreatures)
 	{
-		onSummonCreature.Tick(Vec2{ static_cast<float>(Random(0, Scene::Width() - 90)), m_position.y }, addSceneTrashEnemy, removeSceneTrashEnemy);
+		onSummonCreature.Tick(Vec2{ Scene::Center().x + Scene::Width() * Random(-0.2, 0.2), m_position.y + 550}, addSceneTrashEnemy, removeSceneTrashEnemy);
 	}
 }
 
