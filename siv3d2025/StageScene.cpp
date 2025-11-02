@@ -91,7 +91,7 @@ namespace GameCore
 			}
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen);
+		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
 	}
 
 	void StageScene::OnExit()

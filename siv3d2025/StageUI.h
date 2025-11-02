@@ -28,7 +28,7 @@ class StageUI
 public:
 	StageUI();
 	void Init(GameCore::StageSceneContext* context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
-	void update(double deltaTime, double resources, bool& canvasOpen) const;
+	void update(double deltaTime, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const;
 
 private:
 	// Precompute static geometry (polygons) once and reuse at draw time
