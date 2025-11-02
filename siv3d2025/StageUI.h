@@ -29,6 +29,7 @@ public:
 	StageUI();
 	void Init(GameCore::StageSceneContext* context, std::function<void(Array<CanvasKirimi> fishProp)> onSpawned);
 	void update(double deltaTime, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const;
+	void Reset() const;
 
 private:
 	// Precompute static geometry (polygons) once and reuse at draw time
@@ -52,6 +53,8 @@ private:
 	void drawDeepFish() const;
 	void drawCanvasHandle(bool canvasOpen, int hegiht) const;
 	const RoundRect& drawGame() const;
+
+	void resetKirimiProp() const;
 
 	// Scene context
 	GameCore::StageSceneContext* m_context = nullptr;

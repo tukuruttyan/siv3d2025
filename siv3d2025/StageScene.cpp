@@ -21,6 +21,14 @@ namespace GameCore
 	void StageScene::OnEnter()
 	{
 		Scene::SetBackground(Palette::Gray);
+
+		// Reset scene state to avoid carry-over from previous runs
+		m_deepSeaFishes.clear();
+		m_trashEnemies.clear();
+
+		m_context->Reset();
+		m_stageUI.Reset();
+
 		m_playerPos = Scene::Center();
 		m_camera = Camera2D(m_playerPos, 1, CameraControl::None_);
 	}

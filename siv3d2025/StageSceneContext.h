@@ -19,6 +19,7 @@ namespace GameCore
 		void Update();
 		void GameOver();
 		void GameClear();
+		void Reset();
 
 		TrashFactory& getTrashFactory() const;
 		void MinusResource(double minus)
