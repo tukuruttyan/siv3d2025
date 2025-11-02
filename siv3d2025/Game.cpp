@@ -14,6 +14,11 @@ namespace GameCore
 		while (System::Update())
 		{
 			m_currentScene->Update();
+			if (SimpleGUI::Button(U"Licenses", Vec2{ 40, 40 }))
+			{
+				// Web ブラウザでライセンス情報を表示する
+				LicenseManager::ShowInBrowser();
+			}
 		}
 	}
 
