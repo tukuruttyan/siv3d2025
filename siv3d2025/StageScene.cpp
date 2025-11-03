@@ -26,6 +26,9 @@ namespace GameCore
 		m_deepSeaFishes.clear();
 		m_trashEnemies.clear();
 
+		m_context.value().getTrashFactory().Reset();
+		m_seaDeepest->Reset();
+
 		m_context->Reset();
 		m_stageUI.Reset();
 
@@ -81,14 +84,6 @@ namespace GameCore
 			}
 			);
 
-			m_seaDeepest->Update(
-				[this](const DeepSeaFish& fish) { m_deepSeaFishes.push_back(fish); },
-				[this](DeepSeaFish& fish) {
-					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
-						return &e == &fish;
-					});
-				}
-			);
 			m_context.value().getTrashFactory().Draw();
 			m_seaDeepest->Draw();
 			for (auto& fish : m_deepSeaFishes)
