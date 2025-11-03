@@ -8,18 +8,14 @@ GameCore::SeaDeepest::SeaDeepest(const Vec2 position, std::function<void()> onGa
 {
 }
 
-void GameCore::SeaDeepest::Update(const std::function<void(DeepSeaFish)>& addSceneDeepSeaFish, const std::function<void(DeepSeaFish&)>& removeSceneDeepSeaFish)
-{
-	if (KeySpace.down())
-	{
-		const auto spawnFishPosition = Vec2{ Scene::Center().x + Scene::Width() * Random(-0.2, 0.2), m_position.y };
-
-	}
-}
-
 void GameCore::SeaDeepest::Draw() const
 {
 	m_texture.fitted(Scene::Size()).draw(m_position + Vec2{0, -420});
+}
+
+void GameCore::SeaDeepest::Reset()
+{
+	m_health = m_initHealth;
 }
 
 void GameCore::SeaDeepest::TakeOnAttack(int takeAttackPower)

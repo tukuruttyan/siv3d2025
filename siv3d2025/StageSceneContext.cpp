@@ -25,6 +25,12 @@ namespace GameCore
 		m_gameState = GameCore::GameClear;
 	}
 
+	void StageSceneContext::Reset()
+	{
+		m_gameState = Playing;
+		getTrashFactory().Reset();
+	}
+
 	TrashFactory& StageSceneContext::getTrashFactory() const
 	{
 		return const_cast<TrashFactory&>(*m_trashFactory);

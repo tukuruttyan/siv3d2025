@@ -37,6 +37,21 @@ void StageUI::update(double deltaTime, Vec2 scroll, double resources, bool& canv
 	}
 }
 
+void StageUI::Reset() const
+{
+	m_selectedKirimiIdx = 0;
+	m_gameScroll = 0;
+	m_canvasWidth = 0;
+
+	resetKirimiProp();
+}
+
+void StageUI::resetKirimiProp() const
+{
+	m_kirimiRotate = 0;
+	m_kirimiSize = 100;
+}
+
 void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpen) const
 {
 	Transformer2D t(Mat3x2::Translate(80, 100), TransformCursor::Yes);

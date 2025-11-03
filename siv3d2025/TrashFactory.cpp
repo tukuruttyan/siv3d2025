@@ -5,13 +5,19 @@
 GameCore::TrashFactory::TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies, int health)
 	: onSummonCreatures(spawnEnemies),
 	  m_health(health),
-	  m_position(Scene::Width()/2, 0)
+	  m_initHealth(health),
+	  m_position(Scene::Width() / 2, 0)
 {
 }
 
 void GameCore::TrashFactory::Init(std::function<void()> onGameClear)
 {
 	m_onGameClear = onGameClear;
+}
+
+void GameCore::TrashFactory::Reset()
+{
+	m_health = m_initHealth;
 }
 
 void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTrashEnemy, const std::function<void(TrashEnemy&)>& removeSceneTrashEnemy)

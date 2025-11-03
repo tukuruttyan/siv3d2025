@@ -21,6 +21,16 @@ namespace GameCore
 	void StageScene::OnEnter()
 	{
 		Scene::SetBackground(Palette::Gray);
+
+		// Reset scene state to avoid carry-over from previous runs
+		m_deepSeaFishes.clear();
+		m_trashEnemies.clear();
+
+		m_seaDeepest->Reset();
+
+		m_context->Reset();
+		m_stageUI.Reset();
+
 		m_playerPos = Scene::Center();
 		m_camera = Camera2D(m_playerPos, 1, CameraControl::None_);
 	}
@@ -73,14 +83,6 @@ namespace GameCore
 			}
 			);
 
-			m_seaDeepest->Update(
-				[this](const DeepSeaFish& fish) { m_deepSeaFishes.push_back(fish); },
-				[this](DeepSeaFish& fish) {
-					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& e) {
-						return &e == &fish;
-					});
-				}
-			);
 			m_context.value().getTrashFactory().Draw();
 			m_seaDeepest->Draw();
 			for (auto& fish : m_deepSeaFishes)
