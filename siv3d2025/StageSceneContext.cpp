@@ -28,7 +28,7 @@ namespace GameCore
 	void StageSceneContext::Reset()
 	{
 		m_gameState = Playing;
-		m_trashFactory.reset();
+		getTrashFactory().Reset();
 	}
 
 	TrashFactory& StageSceneContext::getTrashFactory() const

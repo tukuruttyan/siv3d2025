@@ -26,7 +26,6 @@ namespace GameCore
 		m_deepSeaFishes.clear();
 		m_trashEnemies.clear();
 
-		m_context.value().getTrashFactory().Reset();
 		m_seaDeepest->Reset();
 
 		m_context->Reset();
