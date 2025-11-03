@@ -43,6 +43,21 @@ namespace GameCore
 
 			UpdateScroll();
 
+
+			Rect{
+				Point{
+					0,
+					-Scene::Height() / 2
+				},
+				Size{
+					Scene::Width(),
+					Scene::Height()
+				}
+			}.draw(
+				Arg::top = Palette::Darkgray,
+				Arg::bottom = Palette::White
+			);
+
 			Rect{
 				Point{
 					0,
@@ -53,8 +68,8 @@ namespace GameCore
 					-static_cast<int>(m_context->getSceneHeight())
 				}
 			}.draw(
-				Arg::top = Palette::Lightseagreen,
-				Arg::bottom = Palette::Darkseagreen
+				Arg::top = Palette::Indianred,
+				Arg::bottom = Palette::Darkred
 			);
 
 			m_context.value().getTrashFactory().Update(
@@ -101,7 +116,7 @@ namespace GameCore
 		EffectManager::Instance().Update();
 		}
 
-		m_stageUI.update(Scene::DeltaTime(), m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
+		m_stageUI.update(Scene::DeltaTime(), m_playerPos, m_context->Resource(), m_canvasOpen, [this](std::type_index type) {OnChangeScene(type); });
 	}
 
 	void StageScene::OnExit()
@@ -129,7 +144,6 @@ namespace GameCore
 
 	void StageScene::OnSpawn(Array<CanvasKirimi> fishProps)
 	{
-		Print << U"お魚さんうぇい";
 		if (fishProps.empty())
 			return;
 
@@ -144,7 +158,7 @@ namespace GameCore
 		m_deepSeaFishes.push_back(
 			DeepSeaFish(
 				kirimis,
-				Vec2(static_cast<float>(s3d::Random(0, Scene::Width() - 90)), -m_context->getSceneHeight()),
+				Vec2 { Scene::Center().x + Scene::Width() * Random(-0.13, 0.13), -m_context->getSceneHeight() - 750},
 				[this](DeepSeaFish& fish)
 				{
 					std::erase_if(m_deepSeaFishes, [&fish](const DeepSeaFish& erase)

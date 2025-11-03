@@ -17,9 +17,11 @@ namespace GameCore::EnemyParams
     }
 
 
-	DEFINE_TRASH_ENEMY_FUNC(TRASH_AKIKAN, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, s3d::Vec2{ 100, 100 });
+	DEFINE_TRASH_ENEMY_FUNC(TRASH_AKIKAN, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 40.0f, 0, s3d::Vec2{ 100, 100 });
 	DEFINE_TRASH_ENEMY_FUNC(TRASH_TAIYA, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, s3d::Vec2{ 100, 100 });
+	DEFINE_TRASH_ENEMY_FUNC(TRASH_BAG, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 100.0f, 0, s3d::Vec2{ 200, 200 });
 
 	DEFINE_ANIMATION(TRASH_AKIKAN_ANIM, SpriteAnimation{U"Akikan.png", 3, 1, 1.0f}, SpriteAnimation{U"Akikan.png", 3, 1, 1.0f}, Vec2{100, 100});
-	DEFINE_ANIMATION(TRASH_TAIYA_ANIM , SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 1.0f }, SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 1.0f }, Vec2{ 100, 100 });
+	DEFINE_ANIMATION(TRASH_TAIYA_ANIM , SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 3.0f }, SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 3.0f }, Vec2{ 100, 100 });
+	DEFINE_ANIMATION(TRASH_BAG_ANIM , SpriteAnimation{ U"TrashBag.png", 12, 1, 4.0f }, SpriteAnimation{ U"TrashBag.png", 12, 1, 4.0f }, Vec2{ 200, 200 });
 }

@@ -5,7 +5,7 @@
 GameCore::TrashFactory::TrashFactory(std::vector<OnSpawnTrashEnemy> spawnEnemies, int health)
 	: onSummonCreatures(spawnEnemies),
 	  m_health(health),
-	  m_position(Scene::Width() / 2, 0)
+	  m_position(Scene::Width()/2, 0)
 {
 }
 
@@ -18,13 +18,13 @@ void GameCore::TrashFactory::Update(std::function<void(TrashEnemy)> addSceneTras
 {
 	for (auto& onSummonCreature : onSummonCreatures)
 	{
-		onSummonCreature.Tick(Vec2{ static_cast<float>(Random(0, Scene::Width() - 90)), m_position.y }, addSceneTrashEnemy, removeSceneTrashEnemy);
+		onSummonCreature.Tick(Vec2{ Scene::Center().x + Scene::Width() * Random(-0.2, 0.2), m_position.y + 550}, addSceneTrashEnemy, removeSceneTrashEnemy);
 	}
 }
 
 void GameCore::TrashFactory::Draw()
 {
-	m_texture.resized(1100).draw(m_position + Vec2{ 0, -530 });
+	m_texture.resized(1100).draw(m_position + Vec2{ -530, -530 });
 }
 
 void GameCore::TrashFactory::TakeOnAttack(int attackPower)
@@ -32,7 +32,6 @@ void GameCore::TrashFactory::TakeOnAttack(int attackPower)
 	m_health -= attackPower;
 	if (m_health <= 0)
 	{
-		Print << U"stage clear";
 		m_onGameClear();
 	}
 }

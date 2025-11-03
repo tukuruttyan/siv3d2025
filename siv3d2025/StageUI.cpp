@@ -18,16 +18,16 @@ void StageUI::Init(GameCore::StageSceneContext* context, std::function<void(Arra
 	generateKirimiButtons(m_context->getKirimiInventory());
 }
 
-void StageUI::update(double deltaTime, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const
+void StageUI::update(double deltaTime, Vec2 scroll, double resources, bool& canvasOpen, std::function<void(std::type_index)> onChangeScene) const
 {
 	const auto ratio = m_context->State() == GameCore::Playing ? 0 : 1;
 	m_gameScroll = Math::Lerp(m_gameScroll, ratio, deltaTime * 8);
 
 	Transformer2D t {Mat3x2::Translate(0, m_gameScroll * Scene::Height()), TransformCursor::Yes};
 	updateLeftSide(deltaTime, resources, canvasOpen);
-	updateRightSide();
+	updateRightSide(scroll);
 
-	Transformer2D gt {Mat3x2::Translate(0, -Scene::Height())};
+	Transformer2D gt {Mat3x2::Translate(0, -Scene::Height()), TransformCursor::Yes };
 	const auto backButton = drawGame();
 
 	if (backButton.leftClicked())
@@ -137,11 +137,11 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	}
 }
 
-void StageUI::updateRightSide() const
+void StageUI::updateRightSide(Vec2 scroll) const
 {
 	Transformer2D t(Mat3x2::Translate(Scene::Width() - 480, 30), TransformCursor::Yes);
 	updateChart();
-	updateMinimap();
+	updateMinimap(scroll);
 }
 
 
@@ -153,10 +153,10 @@ void StageUI::updateChart() const
 	drawChart(size);
 }
 
-void StageUI::updateMinimap() const
+void StageUI::updateMinimap(Vec2 scroll) const
 {
 	Transformer2D baseT(Mat3x2::Translate({ 100, 430 }), TransformCursor::Yes);
-	drawMinimap();
+	drawMinimap(scroll);
 }
 
 
@@ -383,7 +383,7 @@ void StageUI::drawChart(int size) const
 	contentRect.drawFrame(30, 0, ColorF{ 0, 0.0 }, m_shadowColor);
 }
 
-void StageUI::drawMinimap() const
+void StageUI::drawMinimap(Vec2 scroll) const
 {
 	// Validate
 	const Size mainSize{ 180, 480 };
@@ -446,10 +446,12 @@ void StageUI::drawMinimap() const
 	Rect{ mainCenter.x, -mainCenter.y, mainCornerR, mainSize.y - mainCornerR * 2 }.draw(Arg::left(m_canvasFadeInColor), Arg::right(m_canvasFadeOutColor));
 
 	// scroll
-	const double ratio = 0.5;
+	const auto base = Scene::Height() * 0.05;
+	const double ratio = (-scroll.y + base) / (base + m_context->getSceneHeight());
+
 	const int margin = 15;
 	Point decoSize{ mainSize.x - margin, 120 };
-	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (0.5 - ratio)}), TransformCursor::Yes);
+	Transformer2D scrollT(Mat3x2::Translate({ 0, (mainSize.y - decoSize.y - margin) * (ratio - 0.5)}), TransformCursor::Yes);
 	RoundRect{ -decoSize / 2, decoSize, mainCornerR - 4 }.drawFrame(5, m_accentColor);
 	Line{ { -10, 0 }, { 10, 0 } }.draw(5, m_accentColor);
 	Line{ { 0, -10 }, { 0, 10 } }.draw(5, m_accentColor);
@@ -457,10 +459,14 @@ void StageUI::drawMinimap() const
 
 const RoundRect& StageUI::drawGame() const
 {
+	const auto propShadowOffset = m_shadowOffset / 8;
+
 	const auto labelTxt = m_context->State() == GameCore::GameClear ? U"ゲームクリア‼" : U"ゲームオーバー...";
-	m_gameLabel(labelTxt).drawAt(Scene::Center());
-	const auto& result = RoundRect{ {650, 700},{350, 125}, 20 }.draw(m_shadowColor).movedBy(-m_shadowOffset * 2).draw(m_accentColor).drawFrame(15, 0, m_subColor);
-	const auto textPos = Vec2{ 820, 755 } - m_shadowOffset;
+	m_gameLabel.setBufferThickness(25);
+	m_gameLabel(labelTxt).drawAt(Scene::Center() + propShadowOffset, m_shadowColor);
+	m_gameLabel(labelTxt).drawAt(Scene::Center(), Palette::Lightyellow);
+	const auto& result = RoundRect{ {650, 700},{350, 125}, 20 }.movedBy(propShadowOffset).draw(m_shadowColor).movedBy(-propShadowOffset).draw(m_accentColor).drawFrame(15, 0, m_subColor);
+	const auto textPos = Vec2{ 820, 755 };
 	m_spawnLabel(U"戻る").drawAt(textPos);
 
 	return result;

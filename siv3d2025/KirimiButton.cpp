@@ -24,11 +24,11 @@ void KirimiButton::setSelected(bool selected)
 // TODO: これ引数enable→selected
 void KirimiButton::draw(GameCore::SpriteAnimation animation, bool selected, double resource) const
 {
-	const bool disabled = !selected;
+	//const bool disabled = !selected;
 
 	ColorF fill = m_normalColor;
-	if (disabled) fill = m_disableColor;
-	else if (m_selected) fill = m_activeColor;
+	//if (disabled) fill = m_disableColor;
+	if (selected) fill = m_activeColor;
 	else if (m_mouseOver) fill = m_disableColor;
 
 	const RoundRect rr{ m_rect, 20 };
@@ -45,6 +45,10 @@ void KirimiButton::draw(GameCore::SpriteAnimation animation, bool selected, doub
 
 	rr.drawFrame(0, 10, m_borderColor);
 
+	const Vec2 center = rr.center();
+	const Vec2 size{ rr.w - 20, rr.h - 20 };
+	animation.Draw(center - size / 2, size);
+
 	m_fontValue(Format(m_param.GetSpawnCost()))
 		.draw(48, Arg::bottomCenter = Vec2{ rr.x + rr.w / 2, rr.y + rr.h }, m_borderColor);
 
@@ -52,11 +56,8 @@ void KirimiButton::draw(GameCore::SpriteAnimation animation, bool selected, doub
 	m_fontValue(U"x" + Format(instanceCounts))
 		.draw(32, Arg::topRight = Vec2{ rr.x + rr.w - 10, rr.y + 3 }, m_borderColor);
 
-	const Vec2 center = rr.center();
-	const Vec2 size{ rr.w - 20, rr.h - 20 };
-	animation.Draw(center - size / 2, size);
 
-	if (m_mouseOver && !disabled)
+	if (m_mouseOver)
 	{
 		rr.drawShadow(Vec2{ 0, 2 }, 8, 1.0, ColorF{ 0, 0, 0, 0.15 });
 	}
