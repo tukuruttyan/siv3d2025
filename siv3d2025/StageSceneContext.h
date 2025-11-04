@@ -44,7 +44,7 @@ namespace GameCore
 		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FlatFin)],      GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FlatFin)]),
 		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SquareBody)],   GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SquareBody)]),
 		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::TryangleBody)], GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::TryangleBody)]),
-		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::ThornMouth)],   GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::ThornMouth)]),
 		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
 		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
 		};
