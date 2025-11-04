@@ -63,7 +63,11 @@ void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpe
 		// TODO: hoverも同じように処理。今判定おかしい。
 		if (button.rect().leftClicked())
 		{
-			m_selectedKirimiIdx = i;
+			// Ignore clicks on disabled (negative cost) items
+			if (m_context->getKirimiInventory()[i].second.GetSpawnCost() >= 0)
+			{
+				m_selectedKirimiIdx = i;
+			}
 		}
 		button.draw(m_context->getKirimiInventory()[i].first, i == m_selectedKirimiIdx, resources);
 	}
