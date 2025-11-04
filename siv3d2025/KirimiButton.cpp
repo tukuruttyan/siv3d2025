@@ -26,6 +26,20 @@ void KirimiButton::draw(GameCore::SpriteAnimation animation, bool selected, doub
 {
 	//const bool disabled = !selected;
 
+	// When cost is negative, draw only the icon with disabled background and border
+	if (m_param.GetSpawnCost() < 0)
+	{
+		const RoundRect rr{ m_rect, 20 };
+		rr.draw(m_disableColor);
+		rr.drawFrame(0, 10, m_borderColor);
+
+		const Vec2 center = rr.center();
+		const Vec2 size{ rr.w - 20, rr.h - 20 };
+		animation.Draw(center - size / 2, size);
+
+		return;
+	}
+
 	ColorF fill = m_normalColor;
 	//if (disabled) fill = m_disableColor;
 	if (selected) fill = m_activeColor;

@@ -211,6 +211,9 @@
     <Filter Include="Source Files\Game\DeepseaFish\Kirimi">
       <UniqueIdentifier>{aad5beb0-cad0-46bc-b138-f0bc2e7002f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\DeepseaFish\Kirimi\Params">
+      <UniqueIdentifier>{0675915a-a24f-439b-97d2-aed6d4fbe941}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -376,9 +379,6 @@
     </Image>
     <Image Include="App\example\obj\siv3d-kun-eye.png">
       <Filter>Resource Files\example\obj</Filter>
-    </Image>
-    <Image Include="Akikan.png">
-      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -1054,6 +1054,9 @@
     </ClInclude>
     <ClInclude Include="DamageBubbleEffect.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KirimiParams.h">
+      <Filter>Source Files\Game\DeepseaFish\Kirimi\Params</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

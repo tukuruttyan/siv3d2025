@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "TitleScene.h"
 #include "StageSelect.h"
+#include "TrashEnemyParams.h"
 
 GameCore::TitleScene::TitleScene(SceneBaseContext context, std::function<void(StageSceneContext)> onChangeStageScene)
 	: SceneBase{ context }
@@ -36,9 +37,9 @@ void GameCore::TitleScene::Update()
 	if (SimpleGUI::Button(U"GameStart", Scene::Center() - Vec2{ 300, -450 }, 600, (m_checked == false)))
 	{
 		m_onChangeStageScene({ std::make_shared<TrashFactory>(std::vector<OnSpawnTrashEnemy>{
-			OnSpawnTrashEnemy{SpawnCooldown{0.2f}, EnemyParams::TRASH_AKIKAN(), EnemyParams::TRASH_AKIKAN_ANIM()},
-			OnSpawnTrashEnemy{SpawnCooldown{1.0f}, EnemyParams::TRASH_TAIYA(), EnemyParams::TRASH_TAIYA_ANIM()},
-			OnSpawnTrashEnemy{SpawnCooldown{10.0f}, EnemyParams::TRASH_BAG(), EnemyParams::TRASH_BAG_ANIM()}
+   OnSpawnTrashEnemy{SpawnCooldown{0.2f}, EnemyParams::TrashEnemyParams()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Akikan)], EnemyParams::TrashEnemyAnims()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Akikan)]},
+			OnSpawnTrashEnemy{SpawnCooldown{1.0f}, EnemyParams::TrashEnemyParams()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Taiya)], EnemyParams::TrashEnemyAnims()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Taiya)]},
+			OnSpawnTrashEnemy{SpawnCooldown{10.0f}, EnemyParams::TrashEnemyParams()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Bag)], EnemyParams::TrashEnemyAnims()[static_cast<std::size_t>(EnemyParams::TrashEnemyType::Bag)]}
 		}, 40), -2000.0f });
 	}
 }

@@ -1,27 +1,53 @@
 ﻿#pragma once
+#include <array>
 #include "CreatureBasicParam.h"
 #include "TrashEnemyAnimation.h"
 
 namespace GameCore::EnemyParams
 {
-#define DEFINE_TRASH_ENEMY_FUNC(NAME, ...) \
-    static CreatureBasicParam NAME() { \
-        static CreatureBasicParam param{ __VA_ARGS__ }; \
-        return param; \
-    }
+	enum class TrashEnemyType : std::size_t {
+		Akikan = 0,
+		Taiya,
+		Bag,
+		_Count
+	};
 
-#define DEFINE_ANIMATION(NAME, ...) \
-    static TrashEnemyAnimation NAME() { \
-        static TrashEnemyAnimation anim{ __VA_ARGS__ }; \
-        return anim; \
-    }
+	// --- Lazy getters ---
+	inline const std::array<CreatureBasicParam,
+		static_cast<std::size_t>(TrashEnemyType::_Count)>& TrashEnemyParams()
+	{
+		static const std::array<CreatureBasicParam,
+			static_cast<std::size_t>(TrashEnemyType::_Count)> kParams = {
+			/* Akikan */ CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0,  40.0f, 0, s3d::Vec2{100, 100}},
+			/* Taiya  */ CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0,  10.0f, 0, s3d::Vec2{100, 100}},
+			/* Bag    */ CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 100.0f, 0, s3d::Vec2{200, 200}},
+		};
+		return kParams;
+	}
 
-
-	DEFINE_TRASH_ENEMY_FUNC(TRASH_AKIKAN, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 40.0f, 0, s3d::Vec2{ 100, 100 });
-	DEFINE_TRASH_ENEMY_FUNC(TRASH_TAIYA, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 0, s3d::Vec2{ 100, 100 });
-	DEFINE_TRASH_ENEMY_FUNC(TRASH_BAG, 0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 100.0f, 0, s3d::Vec2{ 200, 200 });
-
-	DEFINE_ANIMATION(TRASH_AKIKAN_ANIM, SpriteAnimation{U"Akikan.png", 3, 1, 1.0f}, SpriteAnimation{U"Akikan.png", 3, 1, 1.0f}, Vec2{100, 100});
-	DEFINE_ANIMATION(TRASH_TAIYA_ANIM , SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 3.0f }, SpriteAnimation{ U"TaiyaAttack.png", 12, 1, 3.0f }, Vec2{ 100, 100 });
-	DEFINE_ANIMATION(TRASH_BAG_ANIM , SpriteAnimation{ U"TrashBag.png", 12, 1, 4.0f }, SpriteAnimation{ U"TrashBag.png", 12, 1, 4.0f }, Vec2{ 200, 200 });
+	inline const std::array<TrashEnemyAnimation,
+		static_cast<std::size_t>(TrashEnemyType::_Count)>& TrashEnemyAnims()
+	{
+		static const std::array<TrashEnemyAnimation,
+			static_cast<std::size_t>(TrashEnemyType::_Count)> kAnims = {
+			/* Akikan */
+			TrashEnemyAnimation{
+				SpriteAnimation{ U"images/Enemy/Akikan.png", 3, 1, 1.0f },
+				SpriteAnimation{ U"images/Enemy/Akikan.png", 3, 1, 1.0f },
+				s3d::Vec2{100, 100}
+			},
+			/* Taiya */
+			TrashEnemyAnimation{
+				SpriteAnimation{ U"images/Enemy/TaiyaAttack.png", 12, 1, 3.0f },
+				SpriteAnimation{ U"images/Enemy/TaiyaAttack.png", 12, 1, 3.0f },
+				s3d::Vec2{100, 100}
+			},
+			/* Bag */
+			TrashEnemyAnimation{
+				SpriteAnimation{ U"images/Enemy/TrashBag.png", 12, 1, 4.0f },
+				SpriteAnimation{ U"images/Enemy/TrashBag.png", 12, 1, 4.0f },
+				s3d::Vec2{200, 200}
+			}, };
+		return kAnims;
+	}
 }

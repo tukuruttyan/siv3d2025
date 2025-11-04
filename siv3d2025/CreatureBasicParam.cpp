@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CreatureBasicParam.h"
 
-GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange, float attackDelay_secs, float attackCooldown_secs, int attackPower, int attackTargetNumber, int health, int defensePower, float moveSpeed, int spawnCost, s3d::Vec2 colliderSize)
+GameCore::CreatureBasicParam::CreatureBasicParam(float weight, float attackRange, float attackDelay_secs, float attackCooldown_secs, int attackPower, float attackTargetNumber, int health, int defensePower, float moveSpeed, int spawnCost, s3d::Vec2 colliderSize)
 	: m_weight			   (weight				)
 	, m_attackRange		   (attackRange			)
 	, m_attackDelay_secs   (attackDelay_secs	)
