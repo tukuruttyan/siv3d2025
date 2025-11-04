@@ -2,6 +2,7 @@
 #include <Siv3D.hpp>
 #include <memory>
 #include "TrashFactory.h"
+#include "KirimiParams.h"
 
 namespace GameCore
 {
@@ -38,14 +39,14 @@ namespace GameCore
 		const double m_scrollSpeed = 300.0;
 		const
 		std::array<std::pair<const SpriteAnimation, const CreatureBasicParam>, 8> m_kirimiInventory{
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Eye.png", 3, 1, 1.0f}, CreatureBasicParam{0.1f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 100000, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Mouth.png", 3, 1, 1.0f}, CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 100000, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/SquareBody.png", 3, 1, 1.0f}, CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 100000, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/TryangleBody.png", 3, 1, 1.0f}, CreatureBasicParam{0.5f, 1.5f, 0.2f, 0.2f, 2, 1, 3, 0, 10.0f, 100000, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Empty.png", 3, 1, 1.0f}, CreatureBasicParam{0, 0, 0, 0, 0, 0, 0, 0, 0, -1, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Empty.png", 3, 1, 1.0f}, CreatureBasicParam{0, 0, 0, 0, 0, 0, 0, 0, 0, -1, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Empty.png", 3, 1, 1.0f}, CreatureBasicParam{0, 0, 0, 0, 0, 0, 0, 0, 0, -1, Vec2{100, 100}}),
-			std::make_pair(SpriteAnimation{U"images/Kirimi/Empty.png", 3, 1, 1.0f}, CreatureBasicParam{0, 0, 0, 0, 0, 0, 0, 0, 0, -1, Vec2{100, 100}}),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FishEye)],      GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FishEye)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SharpFin)],     GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SharpFin)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FlatFin)],      GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::FlatFin)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SquareBody)],   GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::SquareBody)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::TryangleBody)], GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::TryangleBody)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
+		std::make_pair(GameCore::EnemyParams::KirimiAnims()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)],        GameCore::EnemyParams::KirimiParams()[static_cast<std::size_t>(GameCore::EnemyParams::KirimiType::Empty)]),
 		};
 
 		double m_startResources = 1000.0f;
