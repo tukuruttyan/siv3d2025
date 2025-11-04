@@ -1,8 +1,9 @@
 ﻿#include "stdafx.h"
+#include <Siv3D.hpp>
 #include "SpriteAnimation.h"
 
 GameCore::SpriteAnimation::SpriteAnimation(const FilePath& path, int cols, int rows, double totalTime_secs)
-	: texture(path),
+	: texture(Resource(path)),
 	  columns(cols),
 	  rows(rows),
 	  totalFrames(cols* rows),
@@ -53,6 +54,7 @@ void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size)
 
 	texture.uv(u, v, uSize, vSize).resized(size).draw(pos);
 }
+
 
 void GameCore::SpriteAnimation::Draw(const Vec2& pos, const SizeF& size, double angle)
 {

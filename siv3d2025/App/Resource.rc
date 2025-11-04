@@ -146,3 +146,25 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 	MYIDENTIFIER_1 FILE "assets/a b c.txt"
 	MYIDENTIFIER_2 FILE "level 1/map.dat"
 */
+
+Resource(images/bgTmp.png)
+Resource(images/enemyBase.png)
+Resource(images/logo.png)
+Resource(images/playerBase.png)
+
+Resource(images/Kirimi/CircleBody.png)
+Resource(images/Kirimi/Empty.png)
+Resource(images/Kirimi/FishEye.png)
+Resource(images/Kirimi/FlatFin.png)
+Resource(images/Kirimi/PureEye.png)
+Resource(images/Kirimi/PurinBody.png)
+Resource(images/Kirimi/SharpFin.png)
+Resource(images/Kirimi/SmartEye.png)
+Resource(images/Kirimi/SquareBody.png)
+Resource(images/Kirimi/ThornMouth.png)
+Resource(images/Kirimi/TryangleBody.png)
+Resource(images/Kirimi/YasasiiEye.png)
+
+Resource(images/Enemy/Akikan.png)
+Resource(images/Enemy/TaiyaAttack.png)
+Resource(images/Enemy/TrashBag.png)

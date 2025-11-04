@@ -18,7 +18,7 @@ namespace GameCore
 		void OnExit () override;
 
 		const MSRenderTexture renderTexture;
-		Texture texture = Texture(U"images/logo.png");
+		Texture texture = Texture(Resource(U"images/logo.png"));
 		s3d::Font    m_font;
 		int32        m_count = 0;
 		bool         m_checked = false;

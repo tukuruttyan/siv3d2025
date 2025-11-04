@@ -70,7 +70,7 @@ void StageUI::updateLeftSide(double deltaTime, double resources, bool& canvasOpe
 			// Ignore clicks on disabled (negative cost) items
 			if (m_context->getKirimiInventory()[i].second.GetSpawnCost() >= 0)
 			{
-				m_selectedKirimiIdx = i;
+				m_selectedKirimiIdx = static_cast<int>(i);
 			}
 		}
 		button.draw(m_context->getKirimiInventory()[i].first, i == m_selectedKirimiIdx, resources);
