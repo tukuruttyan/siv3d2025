@@ -1,4 +1,7 @@
 ﻿#include "StageUI.h"
+
+#include <filesystem>
+
 #include "KirimiButton.h"
 #include "TitleScene.h"
 
@@ -42,6 +45,7 @@ void StageUI::Reset() const
 	m_selectedKirimiIdx = 0;
 	m_gameScroll = 0;
 	m_canvasWidth = 0;
+	m_drawingSummonResources = 0;
 
 	resetKirimiProp();
 }
@@ -89,6 +93,9 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 	auto anyInput = false;
 	if (rects.spawnButton.leftClicked())
 	{
+		m_context->MinusResource(static_cast<int>(m_drawingSummonResources));
+		m_drawingSummonResources = 0;
+
 		m_onSpawned(m_canvasKirimiArray);
 		m_canvasKirimiArray.clear();
 
@@ -117,19 +124,32 @@ void StageUI::updateKimeraCanvas(double deltaTime, bool& canvasOpen) const
 		m_kirimiRotate -= deltaTime;
 		anyInput = true;
 	}
-	double summonKirimiMultiplier = 1.0 + (m_canvasKirimiArray.size()) * 0.1;
-	int summonKirimiNeedResource = static_cast<int>(summonKirimiMultiplier); // 小数点以下切り捨て
 
-	if (!anyInput && rects.canvasRect.leftClicked() && m_context->Resource() >= summonKirimiNeedResource)
+	if (!anyInput && rects.canvasRect.leftClicked())
 	{
-		m_context->MinusResource(summonKirimiMultiplier);
-		m_canvasKirimiArray << CanvasKirimi{
-			m_context->getKirimiInventory()[m_selectedKirimiIdx].second,
-			m_kirimiRotate,
-			m_kirimiSize,
-			Cursor::Pos() - Size{(int32)m_kirimiSize, (int32)m_kirimiSize} / 2,
-			m_context->getKirimiInventory()[m_selectedKirimiIdx].first
-		};
+		const auto& params = m_context->getKirimiInventory()[m_selectedKirimiIdx];
+		const auto baseCost = params.second.GetSpawnCost();
+		if (baseCost <= 0)
+		{
+
+		}else
+		{
+			const auto multiplier = 1.0 + m_canvasKirimiArray.size() * 0.1;
+			const auto additional = baseCost * multiplier;
+			const auto total = m_drawingSummonResources + additional;
+			if (m_context->Resource() >= total)
+			{
+				m_drawingSummonResources += additional;
+
+				m_canvasKirimiArray << CanvasKirimi{
+					params.second,
+					m_kirimiRotate,
+					m_kirimiSize,
+					Cursor::Pos() - Size{(int32)m_kirimiSize, (int32)m_kirimiSize} / 2,
+					params.first
+				};
+			}
+		}
 	}
 
 

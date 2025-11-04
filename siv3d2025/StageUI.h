@@ -88,6 +88,7 @@ private:
 	mutable double m_gameScroll = 0;
 	mutable double m_canvasWidth = 0;
 	mutable int m_selectedKirimiIdx = 0;
+	mutable double m_drawingSummonResources = 0;
 	mutable double m_kirimiRotate = 0;
 	mutable double m_kirimiSize = 100;
 	mutable Array<CanvasKirimi> m_canvasKirimiArray;

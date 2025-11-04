@@ -23,7 +23,7 @@ namespace GameCore
 		void Reset();
 
 		TrashFactory& getTrashFactory() const;
-		void MinusResource(double minus)
+		void MinusResource(int minus)
 		{
 			m_resource -= minus;
 		}
